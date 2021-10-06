@@ -10,7 +10,15 @@ int main()
 	MySocket sock;
 	if (sock.Create() == Result::Success)
 	{
-		std::cout << "Created successfully? socket options were set" << std::endl;
+		std::cout << "Created successfully, socket options were set" << std::endl;
+		if (sock.Connect(IPEndPoint("127.0.0.1", 8080)) ==  Result::Success)
+		{
+			std::cout << "Connection established " << std::endl;
+		}
+		else
+		{
+			std::cout << "Failed to connect " << std::endl;
+		}
 	}
 	sock.Close();
 	Network::Shutdown();

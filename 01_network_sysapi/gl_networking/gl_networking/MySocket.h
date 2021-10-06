@@ -12,6 +12,10 @@ public:
 	Result Create();
 	Result Close();
 	SocketHandle GetSocketHandle();
+	Result Bind(IPEndPoint endpoint);
+	Result Listen(IPEndPoint endpoint, int backlog = 3);
+	Result Accept(MySocket & socketToAccept);
+	Result Connect(IPEndPoint endpoint);
 	IPVersion GetIPVersion();
 
 private:

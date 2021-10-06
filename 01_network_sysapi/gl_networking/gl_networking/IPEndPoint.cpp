@@ -1,5 +1,4 @@
 #include "IPEndPoint.h"
-#include <WS2tcpip.h>
 
 
 IPEndPoint::IPEndPoint(const char * ip, unsigned short port)
@@ -23,6 +22,19 @@ IPEndPoint::IPEndPoint(const char * ip, unsigned short port)
 	}
 
 	
+}
+
+sockaddr_in IPEndPoint::GetAddrIPv4()
+{
+	sockaddr_in addr = {};
+
+	memcpy(&addr.sin_addr, m_bytes.data(), sizeof(ULONG));
+
+	addr.sin_port = htons(m_port);
+	addr.sin_family = AF_INET;
+
+	return addr;
+
 }
 
 std::string IPEndPoint::GetHostName() const
