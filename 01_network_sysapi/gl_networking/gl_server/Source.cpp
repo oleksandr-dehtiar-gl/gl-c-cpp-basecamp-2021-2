@@ -1,6 +1,7 @@
 #include <gl_networking\Includes.h>
 
 #include <iostream>
+#include <string>
 
 int main()
 {
@@ -31,17 +32,24 @@ int main()
 			{
 				std::cout << "Failed to connect..." << std::endl;
 			}
+			Packet dataPacket;
+			
 			while (true)
 			{
-				char buff[256];
-				size_t bytesReceived = 0;
-				if (newConnection.Recv(buff, 256, bytesReceived) == Result::Error)
+				if (newConnection.Recv(dataPacket) == Result::Error)
 				{
-					std::cerr << "Failed to receive message..." << std::endl;
+					std::cout << "Failed to receive packet" << std::endl;
 					break;
 				}
-				std::cout << buff;
-				Sleep(500);
+				uint32_t a = 0;
+				uint32_t b = 0;
+				uint32_t c = 0;
+
+				dataPacket >> a >> b >> c;
+				std::cout << a << " " << b << " " << c << std::endl;
+
+				
+				Sleep(500); 
 			}
 		}
 		else

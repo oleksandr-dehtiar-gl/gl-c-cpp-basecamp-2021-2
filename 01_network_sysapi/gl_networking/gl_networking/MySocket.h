@@ -3,6 +3,7 @@
 #include "IPVersion.h"
 #include "Result.h"
 #include "SocketOption.h"
+#include "Packet.h"
 class MySocket
 {
 public:
@@ -16,8 +17,14 @@ public:
 	Result Listen(IPEndPoint endpoint, int backlog = 3);
 	Result Accept(MySocket & socketToAccept);
 	Result Connect(IPEndPoint endpoint);
+
+	Result Send(Packet & packet);
+	Result Recv(Packet & packet);
 	Result Send(const void * data, size_t numberOfBytes, size_t & bytesSent);
 	Result Recv(void * dest, size_t numberOfBytes, size_t & bytesReceived);
+	Result SendAll(const void * data, size_t numberOfBytes);
+	Result RecvAll(void * dest, size_t numberOfBytes);
+
 	IPVersion GetIPVersion();
 
 private:
