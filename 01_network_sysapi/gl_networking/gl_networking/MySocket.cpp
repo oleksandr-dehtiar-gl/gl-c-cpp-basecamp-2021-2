@@ -60,6 +60,41 @@ Result MySocket::Connect(IPEndPoint endpoint)
 	return Result::Success;
 }
 
+
+
+Result MySocket::Recv(void * data, size_t numberOfBytes, size_t & bytesReceived)
+{
+	bytesReceived = recv(m_handle, (char*)data, numberOfBytes, 0);
+
+	if (bytesReceived == 0)
+	{
+		std::cerr << "Connection closed " << std::endl;
+		return Result::Error;
+	}
+	if (bytesReceived == SOCKET_ERROR)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+		return Result::Error;
+	}
+	return Result::Success;
+}
+
+Result MySocket::Send(const void * data, size_t numberOfBytes, size_t & bytesSent)
+{
+	bytesSent = send(m_handle, (const char*)data, numberOfBytes, 0);
+
+	if (bytesSent == SOCKET_ERROR)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+
+		return Result::Error;
+	}
+	return Result::Success;
+
+}
+
 Result MySocket::Accept(MySocket & socketToAccept)
 {
 	SocketHandle newSocket;

@@ -14,6 +14,22 @@ int main()
 		if (sock.Connect(IPEndPoint("127.0.0.1", 8080)) ==  Result::Success)
 		{
 			std::cout << "Connection established " << std::endl;
+			char buff[256];
+			
+			strcpy_s(buff, "First message\n");
+			int bytesSent = 0;
+			while (true)
+			{
+				if (sock.Send(buff, 256, (size_t&)bytesSent) != Result::Success)
+				{
+					std::cout << "Failed to send message\n" << std::endl;
+					break;
+				}
+				std::cout << "Message sent" << std::endl;
+				Sleep(500);
+			}
+
+
 		}
 		else
 		{
