@@ -1,5 +1,6 @@
 #pragma once
 #include "IPVersion.h"
+#include <WS2tcpip.h>
 #include <string>
 #include <vector>
 class IPEndPoint
@@ -12,6 +13,7 @@ public:
 	std::vector<uint8_t> GetByteVector() const;
 	unsigned short GetPort() const;
 	IPVersion GetVersion() const;
+	sockaddr_in GetAddrIPv4();
 	
 private:
 	std::string m_host_name = "";

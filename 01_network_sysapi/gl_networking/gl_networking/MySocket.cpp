@@ -11,7 +11,7 @@ Result MySocket::SetSocketOpt(SocketOption opt, BOOL val)
 	switch (opt)
 	{
 	case SocketOption::TCP_NoDelay:
-		result = setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, reinterpret_cast<const char*>(&val), sizeof(val));
+		result = setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (const char*)(&val), sizeof(val));
 		break;
 
 	default:
@@ -46,6 +46,73 @@ Result MySocket::Create()
 	}
 	return Result::Success;
 }
+
+Result MySocket::Connect(IPEndPoint endpoint)
+{
+	int result = connect(m_handle, (sockaddr*)(&endpoint.GetAddrIPv4()), sizeof(sockaddr));
+
+	if (result != 0)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+		return Result::Error;
+	}
+	return Result::Success;
+}
+
+Result MySocket::Accept(MySocket & socketToAccept)
+{
+	SocketHandle newSocket;
+	newSocket = accept(m_handle, nullptr, nullptr);
+	if (newSocket == INVALID_SOCKET)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+		return Result::Error;
+	}
+	
+	socketToAccept = MySocket(IPVersion::IPv4, newSocket);
+	return Result::Success;
+
+
+}
+
+
+Result MySocket::Listen(IPEndPoint endpoint, int backlog)
+{
+	
+	if (Bind(endpoint) == Result::Error)
+	{
+		return Result::Error;
+	}
+	int result = listen(m_handle, backlog);
+
+	if (result != 0)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+		return Result::Error;
+	}
+	return Result::Success;
+
+}
+
+Result MySocket::Bind(IPEndPoint  endpoint)
+{
+	sockaddr_in addr = endpoint.GetAddrIPv4();
+	int result = bind(m_handle, (sockaddr*)&addr, sizeof(sockaddr_in));
+
+	if (result != 0)
+	{
+		int err = WSAGetLastError();
+		std::cerr << "Error code: " << err << std::endl;
+
+		return Result::Error;
+
+	}
+	return Result::Success;
+}
+
 Result MySocket::Close()
 {
 	if (m_handle == INVALID_SOCKET)
