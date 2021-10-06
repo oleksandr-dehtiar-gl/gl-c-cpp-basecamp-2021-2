@@ -61,6 +61,90 @@ Result MySocket::Connect(IPEndPoint endpoint)
 }
 
 
+Result MySocket::Send(Packet & packet)
+{
+	size_t packetSize = packet.GetPacketSize();
+	packetSize = htonl(packetSize);
+	Result res = SendAll(&packetSize, sizeof(size_t));
+	if (res != Result::Success)
+	{
+		std::cerr << "Failed to send Packet size" << std::endl;
+		return res;
+	}
+
+	res = SendAll(packet.GetPacketData(), packet.GetPacketSize());
+	if (res != Result::Success)
+	{
+		std::cerr << "Failed to send Packet" << std::endl;
+		return res;
+	}
+	return res;
+	
+}
+
+Result MySocket::Recv(Packet & packet)
+{
+	packet.Clear();
+
+	size_t packetSize = 0;
+
+	Result res = RecvAll(&packetSize, sizeof(size_t));
+	if (res != Result::Success)
+	{
+		std::cerr << "Failed to receive Packet size" << std::endl;
+		return res;
+	}
+
+	packetSize = ntohl(packetSize);
+	packet.Resize(packetSize);
+
+	res = RecvAll(packet.GetPacketData(), packetSize);
+	if (res != Result::Success)
+	{
+		std::cerr << "Failed to receive Packet" << std::endl;
+		return res;
+	}
+
+	return res;
+}
+
+
+Result MySocket::SendAll(const void * data, size_t numberOfBytes)
+{
+	size_t bytesSent = 0;
+	size_t totalBytesSent = 0;
+
+	while (totalBytesSent < numberOfBytes)
+	{
+		if (Send((char*)data + totalBytesSent, numberOfBytes - totalBytesSent, bytesSent) != Result::Success)
+		{
+			int err = WSAGetLastError();
+			std::cerr << "Error code: " << err << std::endl;
+			return Result::Error;
+		}
+		totalBytesSent += bytesSent;
+	}
+	return Result::Success;
+}
+
+Result MySocket::RecvAll(void * dest, size_t numberOfBytes)
+{
+	size_t bytesReceived = 0;
+	size_t totalBytesReceived = 0;
+
+	while (totalBytesReceived < numberOfBytes)
+	{
+		if (Recv((char*)dest + totalBytesReceived, numberOfBytes - totalBytesReceived, bytesReceived) != Result::Success)
+		{
+			int err = WSAGetLastError();
+			std::cerr << "Error code: " << err << std::endl;
+			return Result::Error;
+		}
+		totalBytesReceived += bytesReceived;
+	}
+	return Result::Success;
+}
+
 
 Result MySocket::Recv(void * data, size_t numberOfBytes, size_t & bytesReceived)
 {

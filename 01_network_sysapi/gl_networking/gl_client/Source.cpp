@@ -14,18 +14,20 @@ int main()
 		if (sock.Connect(IPEndPoint("127.0.0.1", 8080)) ==  Result::Success)
 		{
 			std::cout << "Connection established " << std::endl;
-			char buff[256];
-			
-			strcpy_s(buff, "First message\n");
-			int bytesSent = 0;
+			Packet dataPacket;
+			int a = 4;
+			int b = 6;
+			int c = 2;
+			dataPacket << a << b << c;
 			while (true)
 			{
-				if (sock.Send(buff, 256, (size_t&)bytesSent) != Result::Success)
+				if (sock.Send(dataPacket) == Result::Error)
 				{
-					std::cout << "Failed to send message\n" << std::endl;
+					std::cout << "Failed to send packet" << std::endl;
 					break;
 				}
-				std::cout << "Message sent" << std::endl;
+
+				std::cout << "Sending packet..." << std::endl;
 				Sleep(500);
 			}
 
