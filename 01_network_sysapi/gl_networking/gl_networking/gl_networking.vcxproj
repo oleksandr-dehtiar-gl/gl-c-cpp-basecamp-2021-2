@@ -116,6 +116,7 @@
     <ClInclude Include="MySocket.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="PacketType.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="SocketHandle.h" />
     <ClInclude Include="SocketOption.h" />

@@ -2,63 +2,188 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <map>
+#include <sstream>
 
-int main()
+bool requestProcessed = true;
+static MySocket newConnection = {};
+std::map<int, std::string> processList = {};
+
+void OutputList(std::map<int, std::string> processList)
+{
+	for (auto it = processList.begin(); it != processList.end(); it++)
+	{
+		std::cout << "PID: " << it->first << " " << "process name: " << it->second << std::endl;
+	}
+}
+
+bool SocketConnectionEstablishment(MySocket & socket, IPEndPoint ipPortData)
 {
 	
+	if (socket.Create() == Result::Success)
+	{
+		std::cout << "Created successfully, socket options were set" << std::endl;
+		
 
+		if (socket.Listen(ipPortData) == Result::Success)
+		{
+			std::cout << "Listening on port: " << ipPortData.GetPort() << std::endl;
 	
+			if (socket.Accept(newConnection) == Result::Error)
+			{
+				std::cout << "Failed to accept new connection: " << ipPortData.GetIPString() << std::endl;
+				return false;
+			}
+			else
+			{
+				std::cout << "Connected successfully to " << ipPortData.GetIPString() << " on port " << ipPortData.GetPort() << std::endl;
+			}
+		}
+		else
+		{
+			std::cout << "Failed to listen on port: " << ipPortData.GetPort() << std::endl;
+			return false;
+		}
+	}
+	return true;
+}
+
+void SocketClosing(MySocket & socket)
+{
+	socket.Close();
+}
+
+bool ProcessPacket(Packet & inputPacket)
+{
+	std::string response = " ";
+	uint32_t listSize = 0;
+	switch (inputPacket.GetPacketType())
+	{
+	case PacketType::InvalidPacket:
+		std::cout << "Error: Invalid Packet Type" << std::endl;
+		return false;
+
+	case PacketType::ProcessListResponsePacket:
+
+		listSize = 0;
+		inputPacket >> listSize;
+		for (int index = 1; index <= listSize; index++)
+		{
+			uint32_t pid = 0;
+			inputPacket >> pid;
+			inputPacket >> processList[pid];
+		}
+		inputPacket.Clear();
+		OutputList(processList);
+		break;
+	case PacketType::ProcessTerminatedResponsePacket:
+		
+		inputPacket >> response;
+		std::cout << response << std::endl;
+		break;
+	default:
+		return false;
+	}
+	return true;
+}
+int main()
+{	
 	if (Network::Initialize())
 	{
 		std::cout << "Initialized" << std::endl;
 	}
 
-	IPEndPoint endpoint("127.0.0.1", 8080);
+	IPEndPoint endpoint("127.0.0.1", 4790);
 	MySocket sock;
-	
-	if (sock.Create() == Result::Success)
+	if (!SocketConnectionEstablishment(sock, endpoint))
 	{
-		std::cout << "Created successfully, socket options were set" << std::endl;
-		
-		if (sock.Listen(endpoint) == Result::Success)
+		return 1;
+	}
+	Packet packet;
+	std::string command = "";
+	while (true)
+	{
+		if (requestProcessed)
 		{
-			std::cout << "Socket listens on port 8080 " << std::endl;
-			MySocket newConnection;
-			if (sock.Accept(newConnection) == Result::Success)
+			std::cout << "Type command: ";
+			std::getline(std::cin, command);
+
+			if (command == "break")
 			{
-				std::cout << "Connection established" << std::endl;
+				std::cout << "Exiting..." << std::endl;
+				break;
+			}
+
+			else if (command == "get list")
+			{
+				packet.Clear();
+				packet.AssignPacketType(PacketType::ProcessListRequestPacket);
+				if (newConnection.Send(packet) == Result::Error)
+				{
+					std::cout << "Failed to send request packet" << std::endl;
+					break;
+				}
+				requestProcessed = false;
+
+			}
+			else if (command == "terminate")
+			{
+				
+				if (!processList.empty())
+				{
+					std::cout << "Type PID to terminate: ";
+					std::getline(std::cin, command);
+					std::stringstream pid_str;
+					pid_str << command;
+					uint32_t pid = 0;
+					pid_str >> pid;
+					if (processList.find(pid) == processList.end())
+					{
+						std::cout << "No such process in the list" << std::endl;
+						continue;
+					}
+					packet.Clear();
+					packet.AssignPacketType(PacketType::ProcessPairRequestPacket);
+					packet << pid << processList[pid];
+					if (newConnection.Send(packet) == Result::Error)
+					{
+						std::cout << "Failed to send PID" << std::endl;
+						break;
+					}
+					requestProcessed = false;
+				}
+				else
+				{
+					std::cout << "Process list is empty" << std::endl;
+					continue;
+				}
 			}
 			else
 			{
-				std::cout << "Failed to connect..." << std::endl;
+				std::cout << "Unknown command" << std::endl;
+				continue;
 			}
-			Packet dataPacket;
-			
-			while (true)
-			{
-				if (newConnection.Recv(dataPacket) == Result::Error)
-				{
-					std::cout << "Failed to receive packet" << std::endl;
-					break;
-				}
-				uint32_t a = 0;
-				uint32_t b = 0;
-				uint32_t c = 0;
-
-				dataPacket >> a >> b >> c;
-				std::cout << a << " " << b << " " << c << std::endl;
-
-				
-				Sleep(500); 
-			}
-		}
-		else
-		{
-			std::cout << "Failed to listen on port 8080 " << std::endl;
 		}
 		
+		std::cout << "In progress..." << std::endl;
+		if (newConnection.Recv(packet) == Result::Error)
+		{
+			std::cout << "Failed to receive packet" << std::endl;
+			break;
+		}
+	
+		if (!ProcessPacket(packet))
+		{
+			std::cout << "Failed to process packet" << std::endl;
+			break;
+		}
+		requestProcessed = true;
+		Sleep(500);
+		
 	}
-	sock.Close();
+
+	SocketClosing(sock);
 	Network::Shutdown();
 	system("pause");
 }
