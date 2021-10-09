@@ -1,0 +1,712 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "MessengerNetworking",
+					"jsonFile" : "directory-MessengerNetworking-Debug-7eaf60718894db3f6cfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MessengerNetworking",
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"build" : "MessengerClient",
+					"jsonFile" : "directory-MessengerClient-Debug-3eb6e6ae4602bfac5b7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "MessengerServer",
+					"jsonFile" : "directory-MessengerServer-Debug-a3e120842e40d351a3f1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "MessengerServer",
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2
+					],
+					"name" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MessengerNetworking",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "MessengerServer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Debug-d35274027ac348cbcdc5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@00f5221581307bc6c93e",
+					"jsonFile" : "target-ALL_BUILD-Debug-7392fb383179c4440799.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-ALL_BUILD-Debug-6542f8143fff2e314dcd.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "MessengerClient::@4f41675e960bdb4fd3a7",
+					"jsonFile" : "target-MessengerClient-Debug-2a72aa11155709e58150.json",
+					"name" : "MessengerClient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MessengerNetworking::@00f5221581307bc6c93e",
+					"jsonFile" : "target-MessengerNetworking-Debug-be63a0965dfec7de8823.json",
+					"name" : "MessengerNetworking",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "MessengerServer::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-MessengerServer-Debug-fbdcf685c680cf95b509.json",
+					"name" : "MessengerServer",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Debug-4fc8e43933e7c0c4fc5a.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Release-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "MessengerNetworking",
+					"jsonFile" : "directory-MessengerNetworking-Release-7eaf60718894db3f6cfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MessengerNetworking",
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"build" : "MessengerClient",
+					"jsonFile" : "directory-MessengerClient-Release-3eb6e6ae4602bfac5b7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "MessengerServer",
+					"jsonFile" : "directory-MessengerServer-Release-a3e120842e40d351a3f1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "MessengerServer",
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2
+					],
+					"name" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MessengerNetworking",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "MessengerServer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-Release-d35274027ac348cbcdc5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@00f5221581307bc6c93e",
+					"jsonFile" : "target-ALL_BUILD-Release-7392fb383179c4440799.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-ALL_BUILD-Release-6542f8143fff2e314dcd.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "MessengerClient::@4f41675e960bdb4fd3a7",
+					"jsonFile" : "target-MessengerClient-Release-7e595f6ae91f0eaeeaaa.json",
+					"name" : "MessengerClient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MessengerNetworking::@00f5221581307bc6c93e",
+					"jsonFile" : "target-MessengerNetworking-Release-6a21d042f4f622da622a.json",
+					"name" : "MessengerNetworking",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "MessengerServer::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-MessengerServer-Release-ba4db6aad1bd894d1aa8.json",
+					"name" : "MessengerServer",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-Release-4fc8e43933e7c0c4fc5a.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-MinSizeRel-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "MessengerNetworking",
+					"jsonFile" : "directory-MessengerNetworking-MinSizeRel-7eaf60718894db3f6cfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MessengerNetworking",
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"build" : "MessengerClient",
+					"jsonFile" : "directory-MessengerClient-MinSizeRel-3eb6e6ae4602bfac5b7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "MessengerServer",
+					"jsonFile" : "directory-MessengerServer-MinSizeRel-a3e120842e40d351a3f1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "MessengerServer",
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"name" : "MinSizeRel",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2
+					],
+					"name" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MessengerNetworking",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "MessengerServer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-d35274027ac348cbcdc5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@00f5221581307bc6c93e",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-7392fb383179c4440799.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-ALL_BUILD-MinSizeRel-6542f8143fff2e314dcd.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "MessengerClient::@4f41675e960bdb4fd3a7",
+					"jsonFile" : "target-MessengerClient-MinSizeRel-80fafaff70358da187c2.json",
+					"name" : "MessengerClient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MessengerNetworking::@00f5221581307bc6c93e",
+					"jsonFile" : "target-MessengerNetworking-MinSizeRel-344c713eace1af620893.json",
+					"name" : "MessengerNetworking",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "MessengerServer::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-MessengerServer-MinSizeRel-cc374e9fead0f7a1fabc.json",
+					"name" : "MessengerServer",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-MinSizeRel-4fc8e43933e7c0c4fc5a.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		},
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-RelWithDebInfo-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						6
+					]
+				},
+				{
+					"build" : "MessengerNetworking",
+					"jsonFile" : "directory-MessengerNetworking-RelWithDebInfo-7eaf60718894db3f6cfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MessengerNetworking",
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"build" : "MessengerClient",
+					"jsonFile" : "directory-MessengerClient-RelWithDebInfo-3eb6e6ae4602bfac5b7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "MessengerServer",
+					"jsonFile" : "directory-MessengerServer-RelWithDebInfo-a3e120842e40d351a3f1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "MessengerServer",
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"name" : "RelWithDebInfo",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2
+					],
+					"name" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0,
+						3,
+						6
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MessengerNetworking",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1,
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "MessengerServer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ALL_BUILD::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-d35274027ac348cbcdc5.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "ALL_BUILD::@00f5221581307bc6c93e",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-7392fb383179c4440799.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "ALL_BUILD::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-ALL_BUILD-RelWithDebInfo-6542f8143fff2e314dcd.json",
+					"name" : "ALL_BUILD",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "MessengerClient::@4f41675e960bdb4fd3a7",
+					"jsonFile" : "target-MessengerClient-RelWithDebInfo-7cfb0ddb646fe2af0e29.json",
+					"name" : "MessengerClient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MessengerNetworking::@00f5221581307bc6c93e",
+					"jsonFile" : "target-MessengerNetworking-RelWithDebInfo-265261fcc870cc1783aa.json",
+					"name" : "MessengerNetworking",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "MessengerServer::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-MessengerServer-RelWithDebInfo-7212359e776641a12b33.json",
+					"name" : "MessengerServer",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ZERO_CHECK::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ZERO_CHECK-RelWithDebInfo-4fc8e43933e7c0c4fc5a.json",
+					"name" : "ZERO_CHECK",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "H:/GL BaseCamp/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build",
+		"source" : "H:/GL BaseCamp/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}
