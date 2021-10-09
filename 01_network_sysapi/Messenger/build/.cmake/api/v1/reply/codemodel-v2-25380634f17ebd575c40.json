@@ -1,0 +1,151 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "MessengerNetworking",
+					"jsonFile" : "directory-MessengerNetworking-Debug-7eaf60718894db3f6cfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "MessengerNetworking",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "MessengerClient",
+					"jsonFile" : "directory-MessengerClient-Debug-3eb6e6ae4602bfac5b7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "MessengerServer",
+					"jsonFile" : "directory-MessengerServer-Debug-a3e120842e40d351a3f1.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "MessengerServer",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"directoryIndexes" : 
+					[
+						0,
+						2
+					],
+					"name" : "MessengerClient",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "MessengerNetworking",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "MessengerServer",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "MessengerClient::@4f41675e960bdb4fd3a7",
+					"jsonFile" : "target-MessengerClient-Debug-0d1fe664fb15c01d998b.json",
+					"name" : "MessengerClient",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "MessengerNetworking::@00f5221581307bc6c93e",
+					"jsonFile" : "target-MessengerNetworking-Debug-8dd4b9350381a9c60924.json",
+					"name" : "MessengerNetworking",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "MessengerServer::@b81ebb88960bcb0addee",
+					"jsonFile" : "target-MessengerServer-Debug-24aa92b83bf5f3d1766b.json",
+					"name" : "MessengerServer",
+					"projectIndex" : 2
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build",
+		"source" : "H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -1,0 +1,11 @@
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/CMakeFiles/edit_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/CMakeFiles/rebuild_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerNetworking/CMakeFiles/MessengerNetworking.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerNetworking/CMakeFiles/edit_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerNetworking/CMakeFiles/rebuild_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerClient/CMakeFiles/MessengerClient.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerClient/CMakeFiles/edit_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerClient/CMakeFiles/rebuild_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerServer/CMakeFiles/MessengerServer.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerServer/CMakeFiles/edit_cache.dir
+H:/GLBC/tasks/gl-c-cpp-basecamp-2021-2/01_network_sysapi/Messenger/build/MessengerServer/CMakeFiles/rebuild_cache.dir

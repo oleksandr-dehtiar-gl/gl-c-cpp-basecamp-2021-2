@@ -1,0 +1,2 @@
+H:\msys2\mingw64\bin\ar.exe qc libMessengerNetworking.a CMakeFiles/MessengerNetworking.dir/src/test.cpp.obj
+H:\msys2\mingw64\bin\ranlib.exe libMessengerNetworking.a
