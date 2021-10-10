@@ -10,7 +10,7 @@ int main(int argc, char **argv) {
 
 	INIT();
 	
-	assert (8400 == network::tcp_server("127.0.0.1", "8400"));
+	std::cout << "SOCKET: " << network::tcp_server("127.0.0.1", "8400");
 	
 	std::cin.get();
 	return 0;

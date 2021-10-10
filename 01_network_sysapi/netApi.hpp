@@ -28,8 +28,7 @@
 // TYPEDEF FOR TYPES AND DATA STRUCTURE
 // ====================================
 #ifdef WIN32_API
-	//using SAaddr = sockaddr;
-	//using AInfo = addrinfo;
+
 #endif // WIN32_API
 
 #ifdef UNIX_API
@@ -47,6 +46,7 @@
 #endif // WIN32_API
 
 namespace network {
+	
 	SOCKET tcp_server(char *hostname, char *servname);
 }
 
