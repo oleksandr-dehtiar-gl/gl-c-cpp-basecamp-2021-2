@@ -16,3 +16,6 @@
   #include <unistd.h> /* Needed for close() */
 #endif
 
+enum class tes{
+    one=1, two, three,four
+};
