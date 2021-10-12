@@ -1,10 +1,14 @@
 # Project 1. Development plan.
+
+----
+
 **Project. Client/Server application to check system (disk) space on remote host.**
 
 ----
 
 The project is given 10 working days of 4 hours. Consequently, the entire project is given 40 hours.
-____
+
+----
 
 **Division of the project into tasks and subtasks.**
 - [X] 1. Familiarization with the technical task - _(completed)_
