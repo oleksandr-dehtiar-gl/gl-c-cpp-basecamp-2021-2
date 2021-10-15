@@ -7,7 +7,6 @@ target_sources(NetworkAPI
 )
 
 target_include_directories(NetworkAPI 
-	PUBLIC "${CMAKE_BINARY_DIR}"
 	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 

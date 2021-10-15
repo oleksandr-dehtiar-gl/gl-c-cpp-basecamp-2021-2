@@ -2,9 +2,6 @@
 
 #include <netApi.hpp>
 
-#include <cassert>
-
-
 int main(int argc, char **argv) {
 	std::cout << "Hello Server_TransferBigData!\n";
 

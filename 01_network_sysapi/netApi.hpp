@@ -1,14 +1,9 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
-/* Define platform dependent macros by cmake 
-	WIN32_API for Windows UNIX_API for Linux  
-*/
-#include <PlatformConfig.hpp>
-
 // INCLUDE PLATFORM DEPENDENT HEADER FILES
 // =======================================
-#ifdef WIN32_API
+#ifdef _WIN32
 	#ifndef WIN32_LEAN_AND_MEAN 
 		#define WIN32_LEAN_AND_MEAN
 	#endif // WIN32_LEAN_AND_MEAN
@@ -20,30 +15,30 @@
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
 	
-	#ifdef MSVC
+	#ifdef _MSC_VER
 		#pragma comment(lib, "Ws2_32.lib")
-	#endif // MSVC
-#endif // WIN32_API
+	#endif // _MSC_VER
+#endif // _WIN32
 
 // TYPEDEF FOR TYPES AND DATA STRUCTURE
 // ====================================
-#ifdef WIN32_API
+#ifdef _WIN32
 
-#endif // WIN32_API
+#endif // _WIN32
 
-#ifdef UNIX_API
+#ifdef __linux__
 	
-#endif // WIN32_API
+#endif // _WIN32
 
 // NETWORK FUNCTION WRAPPERS
 // =========================
-#ifdef WIN32_API
+#ifdef _WIN32
 	#define INIT() 	WSADATA wsdata; \
 					if (WSAStartup(MAKEWORD(2, 2), &wsdata) != 0) { \
 						printf("Error call WSAStartup!\n"); \
 						WSACleanup(); return 1;  \
 					}
-#endif // WIN32_API
+#endif // _WIN32
 
 namespace network {
 	
