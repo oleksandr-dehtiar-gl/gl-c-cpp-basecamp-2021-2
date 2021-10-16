@@ -1,3 +1,0 @@
-H:\CMake\bin\cmake.exe -E rm -f CMakeFiles\MessengerServer.dir/objects.a
-H:\msys2\mingw64\bin\ar.exe qc CMakeFiles\MessengerServer.dir/objects.a @CMakeFiles\MessengerServer.dir\objects1.rsp
-H:\MSYS2\mingw64\bin\x86_64-w64-mingw32-g++.exe -g -Wl,--whole-archive CMakeFiles\MessengerServer.dir/objects.a -Wl,--no-whole-archive -o MessengerServer.exe -Wl,--out-implib,libMessengerServer.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MessengerServer.dir\linklibs.rsp

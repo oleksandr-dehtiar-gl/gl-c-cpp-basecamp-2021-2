@@ -1,3 +1,0 @@
-H:\CMake\bin\cmake.exe -E rm -f CMakeFiles\MessengerClient.dir/objects.a
-H:\msys2\mingw64\bin\ar.exe qc CMakeFiles\MessengerClient.dir/objects.a @CMakeFiles\MessengerClient.dir\objects1.rsp
-H:\MSYS2\mingw64\bin\x86_64-w64-mingw32-g++.exe -g -Wl,--whole-archive CMakeFiles\MessengerClient.dir/objects.a -Wl,--no-whole-archive -o MessengerClient.exe -Wl,--out-implib,libMessengerClient.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\MessengerClient.dir\linklibs.rsp
