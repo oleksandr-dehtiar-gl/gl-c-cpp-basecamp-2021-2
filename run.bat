@@ -5,12 +5,20 @@ cd run
 echo -- Delete file copy
 del copy.mp4
 
-timeout /t 2
+rem ======================= SERVER =====================
 echo -- Start server 
-start cmd /k "..\build\transferBigData\server\server.exe"
-
 timeout /t 1
+REM ==> compiling whith minGW
+start cmd /k "..\build\transferBigData\server\server.exe"
+REM ==> compiling whith MSVC
+REM start cmd /k "..\build\transferBigData\server\Debug\server.exe"
+
+rem ======================= CLIENT =====================
 echo -- Start client
+timeout /t 1
+REM ==> compiling whith minGW
 start cmd /k "..\build\transferBigData\client\client.exe"
+REM ==> compiling whith MSVC
+REM start cmd /k "..\build\transferBigData\client\Debug\client.exe"
 
 cd ..

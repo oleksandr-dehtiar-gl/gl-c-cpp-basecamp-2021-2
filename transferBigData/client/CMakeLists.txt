@@ -11,8 +11,10 @@ add_executable(client
 
 target_include_directories(client 
 	PUBLIC NetworkAPI
+	PUBLIC Utility
 )
 
 target_link_libraries(client
 	PUBLIC NetworkAPI
+	PUBLIC Utility
 )

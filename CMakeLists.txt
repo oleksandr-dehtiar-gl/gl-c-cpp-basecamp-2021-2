@@ -5,6 +5,9 @@ project(TransferBigData VERSION 1.0.0
 	LANGUAGES CXX
 )
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 if(NOT WIN32 AND NOT LINUX)
 	message(FATAL_ERROR "APPS PORTABLE ONLY ON WINDOWS OR LINUX")
 endif(NOT WIN32 AND NOT LINUX)
@@ -12,6 +15,8 @@ endif(NOT WIN32 AND NOT LINUX)
 # Project build rulls
 # ===================
 add_subdirectory(01_network_sysapi)
+
+add_subdirectory(04_utility)
 
 add_subdirectory(transferBigData/server)
 add_subdirectory(transferBigData/client)

@@ -11,8 +11,10 @@ add_executable(server
 
 target_include_directories(server 
 	PUBLIC NetworkAPI
+	PUBLIC Utility
 )
 
 target_link_libraries(server
 	PUBLIC NetworkAPI
+	PUBLIC Utility
 )
