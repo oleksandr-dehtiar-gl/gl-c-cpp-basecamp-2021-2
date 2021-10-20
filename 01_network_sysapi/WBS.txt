@@ -1,0 +1,24 @@
+# №12 SEARCH DIRECTORY ON REMOTE HOST APPLICATION	~(est. 51 hours)~
+​
+1.	**Planning** 				    			~(21 hours)~
+    1.1 Requirements analysis/elaboration 	    			~(3 hours)~
+    1.2 Research (APIs, libraries, etc.)            		 	~(8 hours)~
+    1.3 Documentation prep	                   			~(10 hours)~
+        1.3.1  WBS                                     			~(2 hours)~
+        1.3.2  Use-case diagram                       			~(2 hours)~
+        1.3.3  Sequence diagram                        			~(2 hours)~
+        1.3.4  Class diagram                           			~(4 hours)~
+2.	**Developing**				 			~(22 hours)~
+    2.1 Base functionality			        		~(20 hours)~
+        2.1 Search directory by server request            		~(8 hours)~
+        2.2 Server will request search by "directory name"              ~(4 hours)~
+        2.3 Сlient replay with "processing" each 500ms of searching     ~(2 hours)~
+        2.4 Replay include full path to the directory                   ~(6 hours)~  
+    2.2 Cmake file                            				~(2 hours)~
+3.	**Testing**							~(6 hours)~
+    1.	Windows testing, bug fixing					~(3 hours)~
+    2.	Linux testing, bug fixing					~(3 hours)~
+4.  **Deployment**              					~(2 hours)~
+    1.  Readme file                             
+    2.  Commit and merge                       
+    
