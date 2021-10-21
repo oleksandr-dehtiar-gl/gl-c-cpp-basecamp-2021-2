@@ -1,7 +1,7 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 project ("MessengerNetworking")
 
-add_library(${PROJECT_NAME} src/test.cpp src/tcp_server.cpp)
+add_library(${PROJECT_NAME} src/tcp_server.cpp src/tcp_core.cpp src/tcp_client.cpp)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
