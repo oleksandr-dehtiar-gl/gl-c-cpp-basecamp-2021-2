@@ -3,6 +3,7 @@
 
 int main()
 {
-	std::cout << "Hello server"<< std::endl;
+	tcpServer *server = new tcpServer();
+	server->run();
 	return 0;
 }
