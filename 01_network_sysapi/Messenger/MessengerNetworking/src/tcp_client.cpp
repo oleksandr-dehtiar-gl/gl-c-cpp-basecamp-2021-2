@@ -40,6 +40,10 @@ void tcpClient::connect(){
 				int bytesReceived = recv(sock, buf, 4096, 0);
 					std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
 			}
+			else{
+				std::cerr << "Something went wrong"<< std::endl;
+				return;
+				}
 		}
 	
 	} while (userInput.size() > 0);

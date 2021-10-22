@@ -32,7 +32,7 @@ void tcpServer::connect(){
 	}
     closesocket(sock);
     char buf[4096];
-
+	std::string serverInput;	
 	while (true)
 	{
 		ZeroMemory(buf, 4096);
@@ -49,11 +49,12 @@ void tcpServer::connect(){
 			break;
 		}
 
-		std::cout << std::string(buf, 0, bytesReceived) << std::endl;
+		std::cout << host << "> "<< std::string(buf, 0, bytesReceived) << std::endl;
 
-
-		send(clientSocket, buf, bytesReceived + 1, 0);
-	
+		std::cout << "> ";
+		getline(std::cin, serverInput);
+		if (serverInput.size() > 0)		
+			int sendResult = send(clientSocket, serverInput.c_str(), serverInput.size() + 1, 0);
 	}
 
 	closesocket(clientSocket);
