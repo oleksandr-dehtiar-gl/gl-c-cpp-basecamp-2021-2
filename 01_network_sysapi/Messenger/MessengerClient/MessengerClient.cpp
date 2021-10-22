@@ -3,6 +3,11 @@
 
 int main()
 {
-	std::cout << "hello client" << std::endl;
+	std::cout << "Input ip: ";
+	std::string ipAdress;
+	getline(std::cin, ipAdress);
+	tcpClient * client = new tcpClient(ipAdress);
+	client->run();
+	delete client;
 	return 0;
 }

@@ -1,6 +1,5 @@
 #include "MessengerNetworking/tcp_server.h"
 void tcpServer::bind(){
-    hint;
 	hint.sin_family = AF_INET;
 	hint.sin_port = htons(conPort);
 	hint.sin_addr.S_un.S_addr = INADDR_ANY;
@@ -11,6 +10,7 @@ void tcpServer::run(){
     connect();
 }
 void tcpServer::connect(){
+	std::cout << "Hello server!" << std::endl;
     initializeWinsock();
     createSocket();
     bind();

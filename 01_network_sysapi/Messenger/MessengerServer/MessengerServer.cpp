@@ -5,5 +5,6 @@ int main()
 {
 	tcpServer *server = new tcpServer();
 	server->run();
+	delete server;
 	return 0;
 }
