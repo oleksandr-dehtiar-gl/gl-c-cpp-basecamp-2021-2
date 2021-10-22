@@ -1,10 +1,12 @@
 #pragma once
 #ifdef _WIN32 
+  #define WIN32_LEAN_AND_MEAN
   #ifndef _WIN32_WINNT
     #define _WIN32_WINNT 0x0501  /* Windows XP. */
   #endif
   #include <winsock2.h>
   #include <ws2tcpip.h>
+  #pragma comment (lib, "ws2_32.lib")
 #else
   /* Assume that any non-Windows platform uses POSIX-style sockets instead. */
   #include <sys/socket.h>
@@ -25,10 +27,12 @@ class tcpCore{
     int wsOk;
     SOCKET sock;
     sockaddr_in hint;
-
     virtual void bind() = 0;
     int initializeWinsock();
     decltype(INVALID_SOCKET) createSocket();
+    void disconnect();
     virtual void connect() = 0;
+  public:
+    void run();
 };
 }

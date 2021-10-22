@@ -7,5 +7,4 @@ class tcpClient:public TCPCORE::tcpCore{
         std::string ipAdress;
     public:
     tcpClient(std::string ipAdress_):ipAdress(ipAdress_){}
-    void run();
 };

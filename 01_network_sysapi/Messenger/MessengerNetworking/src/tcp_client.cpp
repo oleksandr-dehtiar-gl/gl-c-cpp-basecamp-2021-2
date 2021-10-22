@@ -3,15 +3,10 @@ void tcpClient::bind(){
 	hint.sin_family = AF_INET;
 	hint.sin_port = htons(conPort);
     auto validate = inet_addr(ipAdress.c_str());
+	
     if(validate == INADDR_NONE)
-        {
-            std::cerr << "Wrong ip" << std::endl;
-            return;
-        }
+            throw new std::exception("IP validation has failed.");
 	hint.sin_addr.S_un.S_addr = validate;
-}
-void tcpClient::run(){
-    connect();
 }
 void tcpClient::connect(){
     initializeWinsock();
@@ -19,12 +14,7 @@ void tcpClient::connect(){
     bind();
     int connResult = ::connect(sock, (sockaddr*)&hint, sizeof(hint));
 	if (connResult == SOCKET_ERROR)
-	{
-		std::cerr << "Can't connect to server, Err #" << WSAGetLastError() << std::endl;
-		closesocket(sock);
-		WSACleanup();
-		return;
-	}
+		throw new std::exception(("Can't connect to server, Err #" + std::to_string(WSAGetLastError())).c_str());
     char buf[4096];
 	std::string userInput;
     do
@@ -40,13 +30,10 @@ void tcpClient::connect(){
 				int bytesReceived = recv(sock, buf, 4096, 0);
 					std::cout << "SERVER> " << std::string(buf, 0, bytesReceived) << std::endl;
 			}
-			else{
-				std::cerr << "Something went wrong"<< std::endl;
-				return;
-				}
+			else
+				throw new std::exception("Can't send message to the server.");
 		}
 	
 	} while (userInput.size() > 0);
-	closesocket(sock);
-	WSACleanup();
+	disconnect();
 }

@@ -3,11 +3,7 @@ void tcpServer::bind(){
 	hint.sin_family = AF_INET;
 	hint.sin_port = htons(conPort);
 	hint.sin_addr.S_un.S_addr = INADDR_ANY;
-	
 	::bind(sock, (sockaddr*)&hint, sizeof(hint));
-}
-void tcpServer::run(){
-    connect();
 }
 void tcpServer::connect(){
 	std::cout << "Hello server!" << std::endl;
@@ -38,16 +34,9 @@ void tcpServer::connect(){
 		ZeroMemory(buf, 4096);
 		int bytesReceived = recv(clientSocket, buf, 4096, 0);
 		if (bytesReceived == SOCKET_ERROR)
-		{
-			std::cerr << "Error in recv(). Quitting" << std::endl;
-			break;
-		}
-
+			throw new std::exception("Error in recv(). Quitting.");
 		if (bytesReceived == 0)
-		{
-			std::cout << "Client disconnected " << std::endl;
-			break;
-		}
+			throw new std::exception("Client disconnected.");
 
 		std::cout << host << "> "<< std::string(buf, 0, bytesReceived) << std::endl;
 
@@ -56,9 +45,10 @@ void tcpServer::connect(){
 		if (serverInput.size() > 0)		
 			int sendResult = send(clientSocket, serverInput.c_str(), serverInput.size() + 1, 0);
 	}
-
-	closesocket(clientSocket);
-
-	WSACleanup();
+	disconnect(clientSocket);
 }
 
+void tcpServer::disconnect(SOCKET sock){
+	    closesocket(sock);
+		WSACleanup();
+}

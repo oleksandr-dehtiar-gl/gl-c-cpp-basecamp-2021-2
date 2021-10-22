@@ -4,8 +4,8 @@
 class tcpServer:public TCPCORE::tcpCore{
     private:
         void bind() override;
+        void disconnect(SOCKET sock);
         void connect() override;
     public:
     tcpServer(){}
-    void run();
 };
