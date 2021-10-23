@@ -1,8 +1,0 @@
-﻿  Server.cpp
-G:\Projects\Kharkiv\WinAPI\Server\Server.cpp(72,7): warning C4101: buffer: неиспользованная локальная переменная
-  Создание кода
-  13 of 13 functions (100.0%) were compiled.
-    12 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Создание кода завершено
-  Server.vcxproj -> G:\Projects\Kharkiv\WinAPI\Server\Release\Server.exe
