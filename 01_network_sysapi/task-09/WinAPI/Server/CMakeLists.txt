@@ -10,6 +10,6 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Srever "Srever.cpp" "Srever.h")
+add_executable (Srever "Serever.cpp" "Serever.h")
 
 # TODO: Добавьте тесты и целевые объекты, если это необходимо.
