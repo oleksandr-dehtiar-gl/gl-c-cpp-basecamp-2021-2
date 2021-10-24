@@ -1,41 +1,11 @@
-#define UNICODE
-#define _CRT_SECURE_NO_WARNINGS
-#include <gl_networking\Includes.h>
 
-#include <TlHelp32.h>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+
+#include <gl_networking/Includes.h>
+#include <gl_sysapi/ProcessManager.h>
+#include <thread>
+#include <chrono>
 #include <sstream>
-
-
-std::map<int, std::string> GetProcessList()
-{
-	HANDLE hndl = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPMODULE, 0);
-	if (hndl)
-	{
-		PROCESSENTRY32  process = { sizeof(PROCESSENTRY32) };
-		Process32First(hndl, &process);
-		std::map<int, std::string> processList;
-		do
-		{
-			char ch[260];
-			char DefChar = ' ';
-			WideCharToMultiByte(CP_ACP, 0, process.szExeFile, -1, ch, 260, &DefChar, NULL);
-			std::string processName(ch);
-			processList[process.th32ProcessID] = processName;
-
-
-
-		} while (Process32Next(hndl, &process));
-
-		CloseHandle(hndl);
-		return processList;
-	}
-	return std::map<int, std::string>();
-}
-
+std::map<int, std::string>  processList;
 
 bool SocketConnectionEstablishment(MySocket & socket, IPEndPoint ipPortData)
 {
@@ -64,56 +34,58 @@ void SocketClosing(MySocket & socket)
 
 bool ProcessPacket(Packet & inputPacket)
 {
-	std::map<int, std::string> processList = {};
+
 	uint32_t processId = 0;
 	std::string processName = " ";
 	size_t processListSize = 0;
-	
-	HANDLE Process;
+
+
+
 	switch (inputPacket.GetPacketType())
 	{
 	case PacketType::InvalidPacket:
 		std::cout << "Invalid Packet Type" << std::endl;
 		return false;
 	case PacketType::ProcessListRequestPacket:
-		processList.clear();
-		processList = GetProcessList();
-		if (processList.empty())
+
+		inputPacket.Clear();
+		inputPacket.AssignPacketType(PacketType::ProcessListResponsePacket);
+
+		if (ProcessManager::GetProcessList().empty())
 		{
 			inputPacket.Clear();
 			inputPacket.AssignPacketType(PacketType::ProcessTerminatedResponsePacket);
 			inputPacket << "Error Occured: unable to get process list\n";
 			break;
 		}
-		processListSize = processList.size();
-		inputPacket.Clear();
-		inputPacket.AssignPacketType(PacketType::ProcessListResponsePacket);
-		inputPacket << processListSize;
-		for (auto entry = processList.begin(); entry != processList.end(); entry++)
+		processList = ProcessManager::GetProcessList(false);
+
+		inputPacket << processList.size();
+		for(auto it = processList.begin(); it != processList.end(); it++)
 		{
-			inputPacket << entry->first << entry->second;
+			std::cout << "PID: " << it->first << " " << "Process name: " << it->second << std::endl;
+			inputPacket << it->first << it->second;
 		}
 		break;
-	case PacketType::ProcessPairRequestPacket:
+	case PacketType::ProcessToTerminateRequestPacket:
 
-		inputPacket >> processId >> processName;
+		inputPacket >> processName;
 
-		Process = OpenProcess(PROCESS_ALL_ACCESS, FALSE, processId);
+
 		inputPacket.Clear();
 		inputPacket.AssignPacketType(PacketType::ProcessTerminatedResponsePacket);
-		if (!TerminateProcess(Process, 0))
+
+		if (!ProcessManager::TerminateProcess(processName))
 		{
 			inputPacket << "Failed to terminate process\n";
 		}
 		else
 		{
-			std::stringstream ss;
-			ss << processId;
-			inputPacket << "Process " + processName + "(pid: " + ss.str() + ")" + " was successfully terminated\n";
-			inputPacket >> processName;
-			std::cout << processName;
+	
+			inputPacket << processName + " terminated\n";
+
 		}
-		CloseHandle(Process);
+
 		break;
 	default:
 		return false;
@@ -141,7 +113,7 @@ int main()
 
 	while (true)
 	{
-		
+
 		std::cout << "Waiting for request" << std::endl;
 		if (sock.Recv(packet) != Result::Success)
 		{
@@ -161,7 +133,7 @@ int main()
 				break;
 			}
 		}
-		Sleep(500);
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
 

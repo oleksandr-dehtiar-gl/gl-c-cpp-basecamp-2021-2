@@ -1,20 +1,23 @@
-#include <gl_networking\Includes.h>
+#include <gl_networking/Includes.h>
 
 #include <iostream>
 #include <string>
 #include <vector>
+#include <thread>
+#include <chrono>
 #include <map>
 #include <sstream>
+
 
 bool requestProcessed = true;
 static MySocket newConnection = {};
 std::map<int, std::string> processList = {};
 
-void OutputList(std::map<int, std::string> processList)
+void OutputList(const std::map<int, std::string> & processList)
 {
-	for (auto it = processList.begin(); it != processList.end(); it++)
+	for(auto it = processList.begin(); it != processList.end(); it++)
 	{
-		std::cout << "PID: " << it->first << " " << "process name: " << it->second << std::endl;
+		std::cout << "PID: " << it->first << " " << "Process name: " << it->second << std::endl;
 	}
 }
 
@@ -46,6 +49,10 @@ bool SocketConnectionEstablishment(MySocket & socket, IPEndPoint ipPortData)
 			return false;
 		}
 	}
+	else
+	{
+		return false;
+	}
 	return true;
 }
 
@@ -57,7 +64,10 @@ void SocketClosing(MySocket & socket)
 bool ProcessPacket(Packet & inputPacket)
 {
 	std::string response = " ";
+	std::string processName = " ";
 	uint32_t listSize = 0;
+	uint32_t subListSize = 0;
+	uint32_t PID = 0;
 	switch (inputPacket.GetPacketType())
 	{
 	case PacketType::InvalidPacket:
@@ -66,15 +76,17 @@ bool ProcessPacket(Packet & inputPacket)
 
 	case PacketType::ProcessListResponsePacket:
 
-		listSize = 0;
+		
+		processList.clear();
 		inputPacket >> listSize;
-		for (int index = 1; index <= listSize; index++)
+		for(int i = 0; i < listSize; i++)
 		{
-			uint32_t pid = 0;
-			inputPacket >> pid;
-			inputPacket >> processList[pid];
+			int processID;
+			std::string processName;
+			inputPacket >> (uint32_t&)processID;
+			inputPacket >> processName;
+			processList[processID] = processName;
 		}
-		inputPacket.Clear();
 		OutputList(processList);
 		break;
 	case PacketType::ProcessTerminatedResponsePacket:
@@ -132,20 +144,12 @@ int main()
 				
 				if (!processList.empty())
 				{
-					std::cout << "Type PID to terminate: ";
-					std::getline(std::cin, command);
-					std::stringstream pid_str;
-					pid_str << command;
-					uint32_t pid = 0;
-					pid_str >> pid;
-					if (processList.find(pid) == processList.end())
-					{
-						std::cout << "No such process in the list" << std::endl;
-						continue;
-					}
+					std::string processName;
+					std::cout << "Type Process Name to terminate: ";
+					std::getline(std::cin, processName);
 					packet.Clear();
-					packet.AssignPacketType(PacketType::ProcessPairRequestPacket);
-					packet << pid << processList[pid];
+					packet.AssignPacketType(PacketType::ProcessToTerminateRequestPacket);
+					packet << processName;
 					if (newConnection.Send(packet) == Result::Error)
 					{
 						std::cout << "Failed to send PID" << std::endl;
@@ -179,7 +183,7 @@ int main()
 			break;
 		}
 		requestProcessed = true;
-		Sleep(500);
+		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		
 	}
 

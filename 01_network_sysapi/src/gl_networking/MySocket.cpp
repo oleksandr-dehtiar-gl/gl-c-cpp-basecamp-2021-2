@@ -13,7 +13,13 @@ Result MySocket::SetSocketOpt(SocketOption opt, BOOL val)
 	case SocketOption::TCP_NoDelay:
 		result = setsockopt(m_handle, IPPROTO_TCP, TCP_NODELAY, (const char*)(&val), sizeof(val));
 		break;
-
+	case SocketOption::SO_ReuseAddr:
+		result = setsockopt(m_handle, SOL_SOCKET, SO_REUSEADDR , (const char*)&val, sizeof(val));
+		break;
+	case SocketOption::SO_ReusePort:
+		result = setsockopt(m_handle, SOL_SOCKET, SO_REUSEPORT , (const char*)&val, sizeof(val));
+		break;
+	
 	default:
 		return Result::Error;
 	}
@@ -40,7 +46,9 @@ Result MySocket::Create()
 		std::cerr << "Error code: " << err << std::endl;
 		return Result::Error;
 	}
-	if (SetSocketOpt(SocketOption::TCP_NoDelay, TRUE) == Result::Error)
+	if (SetSocketOpt(SocketOption::TCP_NoDelay, TRUE) == Result::Error || 
+		SetSocketOpt(SocketOption::SO_ReuseAddr, TRUE) == Result::Error ||
+		SetSocketOpt(SocketOption::SO_ReusePort, TRUE) == Result::Error)
 	{
 		return Result::Error;
 	}
@@ -49,7 +57,8 @@ Result MySocket::Create()
 
 Result MySocket::Connect(IPEndPoint endpoint)
 {
-	int result = connect(m_handle, (sockaddr*)(&endpoint.GetAddrIPv4()), sizeof(sockaddr));
+	sockaddr_in endpoint_addr = endpoint.GetAddrIPv4();
+	int result = connect(m_handle, (sockaddr*)(&endpoint_addr), sizeof(sockaddr));
 
 	if (result != 0)
 	{

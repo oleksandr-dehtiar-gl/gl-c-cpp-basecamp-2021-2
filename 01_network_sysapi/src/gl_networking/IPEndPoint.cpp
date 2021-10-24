@@ -1,6 +1,6 @@
 #include "IPEndPoint.h"
-
-
+#include <cstring>
+#include "WinToUNIXtypedefs.h"
 IPEndPoint::IPEndPoint(const char * ip, unsigned short port)
 {
 	m_port = port;
@@ -9,14 +9,14 @@ IPEndPoint::IPEndPoint(const char * ip, unsigned short port)
 
 	if (result == 1)
 	{
-		if (addr.S_un.S_addr != INADDR_NONE)
+		if (addr.s_addr != INADDR_NONE)
 		{
 			m_ip_string = ip;
 			m_host_name = ip;
 			m_version = IPVersion::IPv4;
 
 			m_bytes.resize(sizeof(ULONG));
-			memcpy(m_bytes.data(), &addr.S_un.S_addr, sizeof(ULONG));
+			memcpy(m_bytes.data(), &addr.s_addr, sizeof(ULONG));
 
 		}
 	}

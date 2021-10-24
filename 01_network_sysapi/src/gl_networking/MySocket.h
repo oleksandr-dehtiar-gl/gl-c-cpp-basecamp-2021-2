@@ -1,9 +1,12 @@
 #pragma once
+#include "WinToUNIXtypedefs.h"
 #include "SocketHandle.h"
 #include "IPVersion.h"
 #include "Result.h"
 #include "SocketOption.h"
 #include "Packet.h"
+
+
 class MySocket
 {
 public:

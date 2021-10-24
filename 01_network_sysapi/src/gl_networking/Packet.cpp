@@ -29,7 +29,7 @@ Packet & Packet::operator >> (uint32_t & data)
 {
 	if ((m_extractionOffset + sizeof(uint32_t)) > m_bytes.size())
 	{
-		throw std::exception("[Packet::operator >> (uint32_t&)] : Extraction offset exceeded buffer size\n");
+		throw std::exception();
 	}
 	data = *reinterpret_cast<uint32_t*>(m_bytes.data() + m_extractionOffset);
 	data = ntohl(data);
@@ -50,14 +50,13 @@ Packet & Packet::operator >> (std::string & str)
 {
 
 	
-
 	str.clear();
 	size_t strSize = 0;
-	*this >> (uint32_t)strSize;
+	*this >> (uint32_t&)strSize;
 	str.resize(strSize);
 	if ((m_extractionOffset + strSize) > m_bytes.size())
 	{
-		throw std::exception("[Packet::operator >> (std::string &)] : Extraction offset exceeded buffer size\n");
+		throw std::exception();
 	}
 
 	str.assign(m_bytes.data() + m_extractionOffset, strSize);

@@ -3,6 +3,7 @@
 
 bool Network::Initialize()
 {
+	#ifdef _WIN32
 	WSADATA wsdata;
 	int result = WSAStartup(MAKEWORD(2, 2), &wsdata);
 	if (result != 0)
@@ -16,15 +17,15 @@ bool Network::Initialize()
 		return false;
 
 	}
+	#endif
 	return true;
+	
 }
 
 void Network::Shutdown()
 {
+	#ifdef _WIN32
 	WSACleanup();
+	#endif
 }
 
-int Network::returnFive()
-{
-	return 5;
-}

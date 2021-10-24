@@ -5,7 +5,7 @@ enum PacketType : uint32_t
 {
 	InvalidPacket,
 	ProcessListRequestPacket,
-	ProcessPairRequestPacket,
+	ProcessToTerminateRequestPacket,
 	ProcessListResponsePacket,
 	ProcessTerminatedResponsePacket
 };
