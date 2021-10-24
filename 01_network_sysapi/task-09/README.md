@@ -27,7 +27,7 @@ Application logic must be divided from Network and System API.
 
 ## The folder "Server"
 
-* **[WinAPI/Srver/Server.cpp](WinAPI/Srver/Server.cpp)** Multi-threaded server socket prototype. WinSock. (Windows only)
+* **[WinAPI/Srver/Server.cpp](WinAPI/Server/Server.cpp)** Multi-threaded server socket prototype. WinSock. (Windows only)
 The catalog contains the source code and the assembly file.
 
 ## The folder "Client"

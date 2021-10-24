@@ -41,7 +41,7 @@ The project is given 10 working days of 4 hours. Consequently, the entire projec
      - [X] 6.2. Development of the interface of interaction with the client, _(2 hours)_
      - [X] 6.3. Development of the interface of interaction with several clients, _(2 hours)_
      - [X] 6.4. Development of the interface of interaction with several clients (multithreading), _(2 hours)_
- - [ ] 7. Black box testing (POSIXWinAPI) _(4 hours)_
-     - [ ] 7.1. Testing _(2 hours)_
-     - [ ] 7.2. Debugging, bug fixing, _(2 hours)_
- - [ ] 8. Paperwork, _(2 hours)_
+ - [X] 7. Black box testing (POSIXWinAPI) _(4 hours)_
+     - [X] 7.1. Testing _(2 hours)_
+     - [X] 7.2. Debugging, bug fixing, _(2 hours)_
+ - [X] 8. Paperwork, _(2 hours)_
