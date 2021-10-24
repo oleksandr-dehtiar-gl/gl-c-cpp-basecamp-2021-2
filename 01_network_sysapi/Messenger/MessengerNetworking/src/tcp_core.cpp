@@ -25,3 +25,13 @@ void TCPCORE::tcpCore::run(){
             disconnect();
         }
 }
+
+bool TCPCORE::tcpCore::IsCommandRight(std::string command){
+    /*    NewPort-123       */
+    return command.substr(0,8)=="NewPort-" && command.size()>8 && std::find_if(command.begin()+8, 
+        command.end(), [](unsigned char c) { return !std::isdigit(c); }) == command.end();
+}
+bool TCPCORE::tcpCore::changePort(){
+    /*TODO: make mathod to change port without recursion*/
+    return true;
+}

@@ -5,8 +5,13 @@ void tcpServer::bind(){
 	hint.sin_addr.S_un.S_addr = INADDR_ANY;
 	::bind(sock, (sockaddr*)&hint, sizeof(hint));
 }
+void tcpServer::bind(SOCKET sock){
+	hint.sin_family = AF_INET;
+	hint.sin_port = htons(conPort);
+	hint.sin_addr.S_un.S_addr = INADDR_ANY;
+	::bind(sock, (sockaddr*)&hint, sizeof(hint));
+}
 void tcpServer::connect(){
-	std::cout << "Hello server!" << std::endl;
     initializeWinsock();
     createSocket();
     bind();
@@ -28,7 +33,8 @@ void tcpServer::connect(){
 	}
     closesocket(sock);
     char buf[4096];
-	std::string serverInput;	
+	std::string serverInput="";	
+	std::string msgRecv = "";
 	while (true)
 	{
 		ZeroMemory(buf, 4096);
@@ -37,13 +43,26 @@ void tcpServer::connect(){
 			throw new std::exception("Error in recv(). Quitting.");
 		if (bytesReceived == 0)
 			throw new std::exception("Client disconnected.");
-
-		std::cout << host << "> "<< std::string(buf, 0, bytesReceived) << std::endl;
-
+		msgRecv = std::string(buf, 0, bytesReceived);
+		std::cout << host << "> "<< msgRecv << std::endl;
+		if(IsCommandRight(serverInput) && msgRecv == "success"){
+			conPort = std::stoi(serverInput.substr(8, serverInput.size()-1));
+			bind(clientSocket);
+		}
 		std::cout << "> ";
+		if(IsCommandRight(msgRecv)){
+			conPort = std::stoi(msgRecv.substr(8, msgRecv.size()-1));
+			bind(clientSocket);
+			serverInput = "success";
+			std::cout << serverInput << std::endl;
+			int sendResult = send(clientSocket, serverInput.c_str(), serverInput.size() + 1, 0);
+		}
+		else
+		{
 		getline(std::cin, serverInput);
 		if (serverInput.size() > 0)		
 			int sendResult = send(clientSocket, serverInput.c_str(), serverInput.size() + 1, 0);
+		}
 	}
 	disconnect(clientSocket);
 }

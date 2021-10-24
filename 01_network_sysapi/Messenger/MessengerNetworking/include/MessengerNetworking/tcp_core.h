@@ -18,6 +18,7 @@
 #include <string>
 #include <iostream>
 #include <exception>
+#include <ctype.h>
 namespace TCPCORE{
 class tcpCore{
   protected:
@@ -32,6 +33,8 @@ class tcpCore{
     decltype(INVALID_SOCKET) createSocket();
     void disconnect();
     virtual void connect() = 0;
+    bool IsCommandRight(std::string);
+    bool changePort();
   public:
     void run();
 };
