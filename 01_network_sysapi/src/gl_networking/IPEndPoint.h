@@ -1,6 +1,16 @@
 #pragma once
 #include "IPVersion.h"
+
+#ifdef _WIN32
 #include <WS2tcpip.h>
+#else 
+#include <arpa/inet.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#endif
+
 #include <string>
 #include <vector>
 class IPEndPoint

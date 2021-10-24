@@ -1,8 +1,14 @@
 #pragma once
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
-#include <vector>
 #include <winsock.h>
+#else 
+#include <cstdint>
+#include <arpa/inet.h>
+#endif
 #include "PacketType.h"
+#include <vector>
+#include <string>
 
 class Packet
 {
