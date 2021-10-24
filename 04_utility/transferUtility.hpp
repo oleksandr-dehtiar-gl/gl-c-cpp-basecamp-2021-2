@@ -6,12 +6,13 @@
 #include <vector>
 #include <utility>
 
-namespace transferUtil {
-	
-	typedef std::pair<std::string, uintmax_t> fileNameSize_p;
-	
-	std::vector<fileNameSize_p> getFilesFromDir(const std::string &path);
+namespace transferApp {
 
+	typedef std::pair<std::string, size_t> NameSize_p;
+	std::vector<NameSize_p> getFilesFromDir(const std::string &path);
+
+	void readCommandLineArg(int argc, char ** argv, const char *defaultHost, const char *defaultServ);
+	
 }
 
 #endif // UTILITY_HPP

@@ -1,40 +1,26 @@
 #ifndef NETWORK_HPP
 #define NETWORK_HPP
 
-#define MAX_CONNECTION 5
-#define MSS_DEFAULT_SIZE 1200
-
 #include <cstdint>
 
-// INCLUDE PLATFORM DEPENDENT HEADER FILES
-// =======================================
 #ifdef _WIN32
 	#ifndef WIN32_LEAN_AND_MEAN 
 		#define WIN32_LEAN_AND_MEAN
 	#endif // WIN32_LEAN_AND_MEAN
 	
-	#define _WIN32_WINNT 0x501
+	#define _WIN32_WINNT_WIN10  0x0A00
 	
-	#include <windows.h>
-
 	#include <winsock2.h>
-	#include <ws2tcpip.h>
-	
-	#ifdef __MINGW32__
-		#include <basetsd.h>
-	#else
-		#include <BaseTsd.h>
-	#endif // __MINGW32__
-	
-	#ifdef _MSC_VER
-		#pragma comment(lib, "Ws2_32.lib")
-	#endif // _MSC_VER
+	#include <WS2tcpip.h>
+
+	#pragma comment(lib, "Ws2_32.lib")
+
 #endif // _WIN32
 
 namespace network {
 	
-// TYPEDEF FOR TYPES AND DATA STRUCTURE
-// ====================================
+#define MAX_CONNECTION 5
+
 #ifdef _WIN32
 	typedef SOCKET socket_t;
 	typedef sockaddr SA;
@@ -43,52 +29,70 @@ namespace network {
 	
 	typedef SSIZE_T error_t;
 	
-	enum SHDWN : uint8_t {
+	enum SHUTDOWN : uint8_t {
 		RECEIVE = SD_RECEIVE,
 		SEND = SD_SEND,
 		BOTH = SD_BOTH
 	};
 	
+	enum ERROR_SOCK : socket_t {
+		FAIL_SOCKET = INVALID_SOCKET
+	};
+	
 #endif // _WIN32
 
 #ifdef __linux__
-	typedef int socket_t;
+
 #endif // _WIN32
 
-// MACROS FUNCTIONS 
-// ================
 #ifdef _WIN32
 	#define INIT() 	WSADATA wsdata; \
 					if (WSAStartup(MAKEWORD(2, 2), &wsdata) != 0) { \
 						printf("Error call WSAStartup!\n"); \
-						WSACleanup(); return 1;  \
+						WSACleanup();\
 					}
+	#define FREE_INIT()	WSACleanup();
 #endif // _WIN32
-	
-// NETWORK FUNCTION WRAPPERS
-// =========================
-	
-	/* This function get sockaddr structure name of remote host 
+
+	class INITNETWORK {
+	public:
+		INITNETWORK() { INIT(); }
+		~INITNETWORK() { FREE_INIT(); }
+	};
+
+	/* This function return socket that connection to host whith hostname and servname
 	*
-	* @param[in] s
-	*		this is a socket that having successfull connection whith
-	*		remote host
+	* @param[in] hosname
+	*		the address of the machine to which we are connecting
 	*
-	* @param[out] name
-	*		in this argument function saves socket address structure from remote host
-	*
-	* @param[in, out] namelen
-	*		On call, the namelen parameter contains the size, in bytes, of the name buffer. 
-	* 		On return, the namelen parameter contains the actual size, in bytes, of the name parameter returned.
+	* @param[in] servname
+	*		the port of the machine to which we are connecting
 	*
 	* @return 
-	*		0 if function called successfully. Otherwise error socket code
-	error_t getPeerName(socket_t s, SA *name, int *namelen);
+	*		FAIL_SOCKET if not connection. If success valid sock ID
 	*/
+	socket_t tcpConnect(const char *hosname, const char *servname);
 	
-	// SOCKET FUNCTIONS
-	socket_t tcpConnect(char *hosname, char *servname);
-	socket_t tcpListen(char *hostname, char *servname);
+	/* This function return listen socket that can accept connections
+	* @param[in] hosname
+	*		the interface address of the machine that will accept connection(local address)
+	*
+	* @param[in] servname
+	*		the port to which connections will come
+	*
+	* @return 
+	*		FAIL_SOCKET if not connection. If success valid sock ID
+	*/
+	socket_t tcpListen(const char *hostname, const char *servname);
+	
+	/* This function return socket that can be used for read/write whith other machine
+	*
+	* @param[in] s
+	*		the interface address of the machine that will accept connection(local address)
+	*
+	* @return 
+	*		FAIL_SOCKET if not connection is established other valid socket_t 
+	*/
 	socket_t Accept(socket_t s);
 	
 	/* This function read n data as much as possible
@@ -165,14 +169,14 @@ namespace network {
 	*
 	* @param[in] how
 	*		flag that describes what types of operation will no longer be allowed.
-	*		- SHDWN::RECIVE		Shutdown receive operations.
-	*		- SHDWN::SEND 		Shutdown send operations.
-	*		- SHDWN::BOTH 		Shutdown both send and receive operations.
+	*		- SHUTDOWN::RECIVE		Shutdown receive operations.
+	*		- SHUTDOWN::SEND 		Shutdown send operations.
+	*		- SHUTDOWN::BOTH 		Shutdown both send and receive operations.
 	*
 	* @return 
 	*		0 if function called successfully. Otherwise error socket code
 	*/
-	error_t Shutdown(socket_t s, SHDWN how);
+	error_t Shutdown(socket_t s, SHUTDOWN how);
 	
 	
 	// FUNCTIONS FOR CHECK ERROR 
@@ -181,7 +185,10 @@ namespace network {
 	void printErrorMessage(error_t codeID);
 	
 	// Close socket
-	error_t closesocket(socket_t s);
+	error_t socketClose(socket_t s);
+	
+	uint64_t hostToNet_u64(uint64_t val);
+	uint64_t netToHost_u64(uint64_t val);
 	
 }
 
