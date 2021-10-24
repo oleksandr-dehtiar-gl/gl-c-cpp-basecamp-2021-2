@@ -1,12 +1,12 @@
-# CLIENT/SERVER APPLICATION FOR MOUSE TRACKING	_(est. 27 hours)_
+# CLIENT/SERVER APPLICATION FOR MOUSE TRACKING	_(est. 30 hours)_
 ​
-1.	**Planning** 				 _(9 hours)_
+1.	**Planning** 				 _(12 hours)_
     1. Requirements analysis/elaboration 	_(3 hours)_
     2. Research (APIs, etc.)                _(7 hours)_
         1.  Build system - CMake learning                                _(3 hours)_
         2.  Networking - platform dependent APIs (Linux and Windows)     _(4 hours)_
     3. Documentation prep	                _(2 hours)_
-        1.  WBS                             _(2 hours)_
+        1.  WBS                                                          _(2 hours)_
 2.	**Developing**				 _(13 hours)_
     1. Networking functionality             _(7 hours)_
         1. Platform independent interface for Client/Server connection.  _(5 hours)_
