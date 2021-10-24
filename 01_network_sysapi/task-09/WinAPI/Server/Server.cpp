@@ -1,7 +1,7 @@
 ﻿// Srever.cpp
 //
 
-#include "Srever.h"
+#include "Server.h"
 
 using namespace std;
 
