@@ -1,13 +1,16 @@
-# C++, Networking, System API
+# GlobalLogic C/C++ BaseCamp 2021 [№2]
 
-The following approaches are required:
-- Console application.
-- CMake to build application.
-- Language/libraries: C++, usage of additional libraries or 3rd party code is prohibited. For threading, networking should be used platform-dependent API. (details can be discussed individually with the assigned mentor).
-- Application should be cross-compile, e.g. should be compilable on Linux OS (Ubuntu 20.04) and Windows OS (Windows 10) without any code modifications.
-It's allowed to use standards from C++11 to C++17.
+This repository is aimed for sharing our exercises and your solutions in scope of the course.
 
- 
-Application logic must be divided from Network and System API.
-- Platform dependent code must be in a separate module.
-- Network dependent code must be in a separate module.
+Rull for use this client/server application!
+the application works if the folder contains files written in ASCII symbols :(
+Client and server dosn't work in the same directory.
+
+- Place the client to the folder from which you will download files
+- Place the client to the folder where you will download files
+
+- Run server
+- Run client 
+- Select file from list in server and write it name
+- that's all. File will copy to server directory
+- Server keep working and whait new connection from client
