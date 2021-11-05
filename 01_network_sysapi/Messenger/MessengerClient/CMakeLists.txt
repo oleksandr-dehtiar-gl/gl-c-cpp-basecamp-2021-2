@@ -1,8 +1,6 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 project ("MessengerClient")
 
-set(CMAKE_CXX_STANDARD 14)
-
 add_executable (${PROJECT_NAME} MessengerClient.cpp)
 
 target_include_directories(${PROJECT_NAME}
@@ -13,4 +11,5 @@ target_include_directories(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
         PUBLIC
             MessengerNetworking
+            ws2_32
 )

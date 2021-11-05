@@ -1,10 +1,13 @@
 ﻿#include <iostream>
-#include "MessengerNetworking/test.h"
-#include "MessengerNetworking/tcp_server.h"
-using namespace std;
+#include "MessengerNetworking/tcp_client.h"
 
 int main()
 {
-	cout << (int)tes::four << endl;
+	std::cout << "Input ip: ";
+	std::string ipAdress;
+	getline(std::cin, ipAdress);
+	tcpClient * client = new tcpClient(ipAdress);
+	client->run();
+	delete client;
 	return 0;
 }

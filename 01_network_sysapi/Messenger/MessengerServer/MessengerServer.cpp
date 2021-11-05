@@ -1,9 +1,10 @@
 ﻿#include <iostream>
-#include "MessengerNetworking/test.h"
-using namespace std;
+#include "MessengerNetworking/tcp_server.h"
 
 int main()
 {
-	cout << (int)tests::two << endl;
+	tcpServer *server = new tcpServer();
+	server->run();
+	delete server;
 	return 0;
 }

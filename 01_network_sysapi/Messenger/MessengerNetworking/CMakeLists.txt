@@ -1,10 +1,7 @@
 ﻿cmake_minimum_required (VERSION 3.8)
 project ("MessengerNetworking")
 
-set(CMAKE_CXX_STANDARD 14)
-
-file(GLOB SOURCES src/* src/*/* src/*/*/*)
-add_library(${PROJECT_NAME} ${SOURCES})
+add_library(${PROJECT_NAME} src/tcp_core.cpp src/tcp_server.cpp src/tcp_client.cpp)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
