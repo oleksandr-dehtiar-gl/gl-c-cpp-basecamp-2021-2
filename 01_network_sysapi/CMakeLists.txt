@@ -1,28 +1,23 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_library(NetworkAPI STATIC)
+cmake_minimum_required(VERSION 3.15)
 
-target_sources(NetworkAPI
-	PUBLIC
-		netApi.hpp
+project(TransferBigData VERSION 1.0.0
+	DESCRIPTION "client/server application for send data > 100 MB"
+	LANGUAGES CXX
 )
 
-target_include_directories(NetworkAPI 
-	PUBLIC "${CMAKE_BINARY_DIR}"
-	PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"
-)
+if(NOT WIN32 AND NOT LINUX)
+	message(FATAL_ERROR "APPS PORTABLE ONLY ON WINDOWS OR LINUX")
+endif(NOT WIN32 AND NOT LINUX)
 
-if(WIN32)
+# Project build rulls
+# ===================
+add_subdirectory(network)
+add_subdirectory(utility)
+add_subdirectory(headers)
+add_subdirectory(multithread)
 
-	target_sources(NetworkAPI
-		PRIVATE
-			netApiWin.cpp
-	)
-	
-	if(MINGW)
-		target_link_libraries(NetworkAPI
-			PRIVATE 
-				ws2_32
-		)
-	endif(MINGW)
-	
-endif(WIN32)
+add_subdirectory(server)
+add_subdirectory(client)
