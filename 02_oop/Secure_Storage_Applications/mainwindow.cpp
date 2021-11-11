@@ -23,3 +23,8 @@ void MainWindow::on_pushButton_2_clicked()
     oFile.open(QIODevice::ReadWrite);
     oFile.close();
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Open Storage", "C://", "XML (*.xml)");
+}
