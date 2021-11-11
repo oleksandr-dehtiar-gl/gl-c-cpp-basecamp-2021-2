@@ -18,7 +18,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "test", "C://");
+    QString fileName = QFileDialog::getSaveFileName(this, "Create Storage", "C://", "XML (*.xml)");
     QFile oFile(fileName);
     oFile.open(QIODevice::ReadWrite);
     oFile.close();
