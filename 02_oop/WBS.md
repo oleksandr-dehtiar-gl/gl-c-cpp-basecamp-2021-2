@@ -1,10 +1,12 @@
-# Chat with security	_(est. 52 hours)_
+# Chat with security	_(est. 58 hours)_
 ​
-1.	**Planning** 				 _(19 hours)_
+1.	**Planning** 				 _(25 hours)_
     1. Requirements analysis/elaboration 	                _(3 hours)_
-    2. Research (APIs, etc.)                                _(9 hours)_
+    2. Research (APIs, etc.)                                _(15 hours)_
         1.  Build system - CMake learning                                _(3 hours)_
         2.  Encryption algorithms                                        _(6 hours)_
+        3.  STL threading                                                _(3 hours)_
+        4.  Data storing variants using bare C++                         _(3 hours)_
     3. Documentation prep	                                _(7 hours)_
         1.  WBS                                                          _(2 hours)_
         2.  Use Case diagram                                             _(1 hour)_
