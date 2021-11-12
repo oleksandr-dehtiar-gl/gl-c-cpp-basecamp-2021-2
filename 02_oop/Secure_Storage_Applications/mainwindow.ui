@@ -39,7 +39,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="pushButton_GetObject">
         <property name="text">
          <string>Get Object</string>
         </property>
