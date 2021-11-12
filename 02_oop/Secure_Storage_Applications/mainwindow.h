@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include <vector>
+#include <QtXml>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,9 +20,13 @@ public:
 
 private slots:
     void on_pushButton_2_clicked();
+    void on_pushButton_clicked();
+    void on_pushButton_3_clicked();
+
+    void on_pushButton_GetObject_clicked();
 
 private:
     Ui::MainWindow *ui;
-    std::vector<QFile> storages;
+    QString storagePath;
 };
 #endif // MAINWINDOW_H
