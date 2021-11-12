@@ -1,0 +1,33 @@
+# Media Player for play format mp3 and mp4 _(est. 122 hours)_
+
+1.	**Planning** 				 _(51 hours)_
+    1. Requirements analysis/elaboration 	_(6 hours)_
+    2. Research (APIs, libraries, etc.)     _(32 hours)_
+        1.  UI - Qt learning                        	_(12 hours)_
+        2.  Qt Multimedia lerning				    	_(10 hours)_
+        3.  Qt Event and signal slot lerning  			_(10 hours)_
+    3. Documentation prep	                _(13 hours)_
+        1.  WBS                                     	_(1 hours)_
+        2.  Use-case diagram                        	_(4 hours)_
+        3.  Sequence diagram                        	_(4 hours)_
+        4.  Class diagram                           	_(4 hours)_
+2.	**Developing**				 _(70 hours)_
+    1. Base functionality			        _(64 hours)_
+        1. GUI player, playlist, lybrary				_(10 hours)_ 
+        2. Programming signal/slot and GUI event 		_(6 hours)_
+		3. Implement file load module(read metadata)	_(5 hours)_
+		4. Implement playlist module					_(14 hours)_
+        5. Implement library module                    	_(16 hours)_
+		6. Save/load playlist 							_(5 hours)_
+		7. File Meneger for playlist/library(select, add, rmv, del, ..) _(8 hours)_
+    2. Multithreading functionality        	_(14 hours)_
+        1. Nonblocking GUI              				_(10 hours)_
+        2. Indexing files from home directory 			_(4 hours)_
+    3. CMake file                           _(2 hours)_
+3.	**Testing**					 _(8 hours)_
+    1.	Windows testing, bug fixing			_(4 hours)_
+    2.	Linux testing, bug fixing			_(4 hours)_
+4.  **Deployment**             	 _(3 hours)_
+    1.  Readme file                             
+    2.  Commit and merge
+    
