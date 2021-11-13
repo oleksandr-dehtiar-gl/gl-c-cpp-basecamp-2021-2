@@ -5,6 +5,7 @@
 #include <QFile>
 #include <vector>
 #include <QtXml>
+#include <map>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,5 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QString storagePath;
+    std::map<QString, QString> readStorage();
+    QString fileName(QString filePath);
 };
 #endif // MAINWINDOW_H
