@@ -6,6 +6,9 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 #include <algorithm>
+#include "passwordwindow.h"
+#include "encdec.h"
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -37,17 +40,27 @@ QString MainWindow::fileName(QString filePath)
     return fileName;
 }
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked() //New Storage
 {
+    PasswordWindow pw;
+    pw.setModal(true);
+    pw.exec();
+    password = pw.getPassword();
     QString fileName = QFileDialog::getSaveFileName(this, "Create Storage", "C://", "XML (*.xml)");
     QFile oFile(fileName);
     oFile.open(QIODevice::ReadWrite);
     oFile.close();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::on_pushButton_clicked() // Open Storage
 {
+    PasswordWindow pw;
+    pw.setModal(true);
+    pw.exec();
+    int pass = pw.getPassword();
+
     this->storagePath = QFileDialog::getOpenFileName(this, "Open Storage", "C://", "XML (*.xml)");
+
 }
 
 std::map<QString, QString> MainWindow::readStorage()
@@ -89,7 +102,7 @@ std::map<QString, QString> MainWindow::readStorage()
     return xmlContent;
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_3_clicked() //Add new object
 {
     std::map<QString, QString> xmlContent;
     xmlContent = readStorage();
@@ -134,10 +147,15 @@ void MainWindow::on_pushButton_3_clicked()
     xmlWriter.writeEndDocument();
     newFile.close();
     xmlFile.close();   // Закрываем файл
+    encdec enc(storagePath);
+    enc.encrypt(1234);
+
+    enc.decrypt(1234);
+
 }
 
 
-void MainWindow::on_pushButton_GetObject_clicked()
+void MainWindow::on_pushButton_GetObject_clicked() //Get Object
 {
     QFile xmlFile(storagePath);
     if (!xmlFile.open(QFile::ReadOnly | QFile::Text ))

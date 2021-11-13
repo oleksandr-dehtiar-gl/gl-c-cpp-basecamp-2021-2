@@ -28,8 +28,9 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QString storagePath;
+    QString storagePath = "";
     std::map<QString, QString> readStorage();
     QString fileName(QString filePath);
+    int password;
 };
 #endif // MAINWINDOW_H
