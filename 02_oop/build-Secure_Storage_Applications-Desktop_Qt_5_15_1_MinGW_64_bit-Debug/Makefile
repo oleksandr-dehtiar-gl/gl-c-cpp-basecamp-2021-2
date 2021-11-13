@@ -223,6 +223,7 @@ Makefile: ../Secure_Storage_Applications/Secure_Storage_Applications.pro D:/Qt5/
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/qt_config.prf \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/win32-g++/qmake.conf \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/exclusive_builds.prf \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/toolchain.prf \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/default_pre.prf \
@@ -252,7 +253,6 @@ Makefile: ../Secure_Storage_Applications/Secure_Storage_Applications.pro D:/Qt5/
 		D:/Qt5/5.15.1/mingw81_64/lib/Qt5Xml.prl \
 		D:/Qt5/5.15.1/mingw81_64/lib/Qt5Core.prl \
 		D:/Qt5/5.15.1/mingw81_64/lib/qtmain.prl \
-		.qmake.stash \
 		D:/Qt5/5.15.1/mingw81_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile ..\Secure_Storage_Applications\Secure_Storage_Applications.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/spec_pre.prf:
@@ -408,6 +408,7 @@ D:/Qt5/5.15.1/mingw81_64/mkspecs/features/qt_functions.prf:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/qt_config.prf:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/win32-g++/qmake.conf:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/exclusive_builds.prf:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/toolchain.prf:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/default_pre.prf:
@@ -437,7 +438,6 @@ D:/Qt5/5.15.1/mingw81_64/lib/Qt5Gui.prl:
 D:/Qt5/5.15.1/mingw81_64/lib/Qt5Xml.prl:
 D:/Qt5/5.15.1/mingw81_64/lib/Qt5Core.prl:
 D:/Qt5/5.15.1/mingw81_64/lib/qtmain.prl:
-.qmake.stash:
 D:/Qt5/5.15.1/mingw81_64/mkspecs/features/build_pass.prf:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\Secure_Storage_Applications\Secure_Storage_Applications.pro -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug"
