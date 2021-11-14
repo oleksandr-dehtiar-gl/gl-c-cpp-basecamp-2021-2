@@ -46,7 +46,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="DeleteObject">
         <property name="text">
          <string>Delete Object</string>
         </property>

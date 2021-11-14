@@ -38,6 +38,10 @@ private slots:
 
     void on_pushButton_GetObject_clicked();
 
+    void on_pushButton_4_clicked();
+
+    void on_DeleteObject_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString storagePath = "";

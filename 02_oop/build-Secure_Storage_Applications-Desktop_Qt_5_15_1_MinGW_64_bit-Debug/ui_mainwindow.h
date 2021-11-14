@@ -33,7 +33,7 @@ public:
     QPushButton *pushButton;
     QPushButton *pushButton_3;
     QPushButton *pushButton_GetObject;
-    QPushButton *pushButton_4;
+    QPushButton *DeleteObject;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_2;
     QListWidget *listWidget;
@@ -73,10 +73,10 @@ public:
 
         verticalLayout->addWidget(pushButton_GetObject);
 
-        pushButton_4 = new QPushButton(centralwidget);
-        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        DeleteObject = new QPushButton(centralwidget);
+        DeleteObject->setObjectName(QString::fromUtf8("DeleteObject"));
 
-        verticalLayout->addWidget(pushButton_4);
+        verticalLayout->addWidget(DeleteObject);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -124,7 +124,7 @@ public:
         pushButton->setText(QCoreApplication::translate("MainWindow", "Open storage", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add new object", nullptr));
         pushButton_GetObject->setText(QCoreApplication::translate("MainWindow", "Get Object", nullptr));
-        pushButton_4->setText(QCoreApplication::translate("MainWindow", "Delete Object", nullptr));
+        DeleteObject->setText(QCoreApplication::translate("MainWindow", "Delete Object", nullptr));
     } // retranslateUi
 
 };

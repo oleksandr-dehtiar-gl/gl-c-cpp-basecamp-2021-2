@@ -336,3 +336,35 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
      event->accept();
  }
+
+void MainWindow::on_DeleteObject_clicked()
+{
+    std::map<QString, QString> xmlContent;
+    xmlContent = readStorage();
+
+    QFile xmlFile(storagePath);
+    xmlFile.open(QIODevice::WriteOnly);
+
+    QXmlStreamWriter xmlWriter(&xmlFile);
+    xmlWriter.setAutoFormatting(true);  // Устанавливаем автоформатирование текста
+    xmlWriter.writeStartDocument();     // Запускаем запись в документ
+    xmlWriter.writeStartElement("Files");   // Записываем первый элемент с его именем
+    for (const auto& i : xmlContent)
+    {
+        if(ui->listWidget->currentItem()->text() == i.first) continue;
+        xmlWriter.writeStartElement("File");
+        xmlWriter.writeAttribute("name",i.first);
+        xmlWriter.writeCharacters(i.second);
+        xmlWriter.writeEndElement();
+    }
+
+    /* Закрываем тег "Files"
+     * */
+    xmlWriter.writeEndElement();
+    /* Завершаем запись в документ
+     * */
+    xmlWriter.writeEndDocument();
+    xmlFile.close();   // Закрываем файл
+    ui->listWidget->clear();
+    printFiles();
+}
