@@ -4,14 +4,14 @@
 #include <QMainWindow>
 #include <QFile>
 #include <vector>
-#include <QtXml>
 #include <map>
 
 struct Password;
+//Operators used to read/write passwords from/in file
 std::ifstream& operator>>(std::ifstream& is, Password& st);
 std::ofstream& operator<<(std::ofstream& os, Password& st);
 
-struct Password
+struct Password //struct to store information about the file and password to it
 {
     Password() = default;
     Password(std::string name, int password) : name(name), password(password){}
@@ -32,25 +32,21 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_2_clicked();
-    void on_pushButton_clicked();
-    void on_pushButton_3_clicked();
-
-    void on_pushButton_GetObject_clicked();
-
-    void on_pushButton_4_clicked();
-
-    void on_DeleteObject_clicked();
+    void on_pushButton_2_clicked(); //Create new Storage
+    void on_pushButton_clicked(); //Open storage
+    void on_pushButton_3_clicked(); //Add file to storage
+    void on_pushButton_GetObject_clicked(); //Get file from storage
+    void on_DeleteObject_clicked(); //Delete file from storage
 
 private:
     Ui::MainWindow *ui;
     QString storagePath = "";
-    std::map<QString, QString> readStorage();
+
     QString fileName(QString filePath);
     void addPassword(Password);
-    std::vector<Password> getPasswords();
     void printFiles();
     void closeEvent(QCloseEvent *event);
-
+    std::map<QString, QString> readStorage();
+    std::vector<Password> getPasswords();
 };
 #endif // MAINWINDOW_H

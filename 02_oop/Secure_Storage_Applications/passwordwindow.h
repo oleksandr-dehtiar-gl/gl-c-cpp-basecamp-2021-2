@@ -3,6 +3,7 @@
 
 #include <QDialog>
 
+//Password entry window
 namespace Ui {
 class PasswordWindow;
 }
