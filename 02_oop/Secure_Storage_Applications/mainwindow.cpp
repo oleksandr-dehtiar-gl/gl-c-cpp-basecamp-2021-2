@@ -143,6 +143,8 @@ void MainWindow::on_pushButton_clicked() // Open Storage
         }
     }
 
+    printFiles();
+
 
 
 
@@ -238,6 +240,38 @@ void MainWindow::on_pushButton_3_clicked() //Add new object
 
 }
 
+void MainWindow::printFiles()
+{
+    QFile xmlFile(storagePath);
+    if (!xmlFile.open(QFile::ReadOnly | QFile::Text ))
+    {
+        // Error while loading file
+    }
+
+    QXmlStreamReader xmlReader;
+    xmlReader.setDevice(&xmlFile);
+    xmlReader.readNext();   // Переходит к первому элементу в файле
+
+    QString tempString;
+    while(!xmlReader.atEnd())
+    {
+        if(xmlReader.isStartElement())
+        {
+            if(xmlReader.name() == "File")
+            {
+                foreach(const QXmlStreamAttribute &attr, xmlReader.attributes())
+                {
+                    ui->listWidget->addItem(attr.value().toString());
+                }
+            }
+
+        }
+
+
+        xmlReader.readNext();
+    }
+    xmlFile.close();
+}
 
 void MainWindow::on_pushButton_GetObject_clicked() //Get Object
 {
@@ -260,7 +294,7 @@ void MainWindow::on_pushButton_GetObject_clicked() //Get Object
             {
                 foreach(const QXmlStreamAttribute &attr, xmlReader.attributes())
                 {
-                    if(ui->FileName->text() == attr.value().toString())
+                    if(ui->listWidget->currentItem()->text() == attr.value().toString())
                     {
                         tempString = xmlReader.readElementText();
                         break;
