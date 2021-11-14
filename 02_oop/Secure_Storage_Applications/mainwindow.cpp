@@ -7,6 +7,7 @@
 #include <QXmlStreamWriter>
 #include <QMessageBox>
 #include <algorithm>
+#include <QCloseEvent>
 #include "passwordwindow.h"
 #include "encdec.h"
 #include <fstream>
@@ -142,14 +143,10 @@ void MainWindow::on_pushButton_clicked() // Open Storage
             QMessageBox::critical(this, "Error", "Wrong password");
         }
     }
-
+    ui->listWidget->clear();
     printFiles();
 
-
-
-
     enc.encrypt(1234);
-
 }
 
 std::map<QString, QString> MainWindow::readStorage()
@@ -236,6 +233,8 @@ void MainWindow::on_pushButton_3_clicked() //Add new object
     xmlWriter.writeEndDocument();
     newFile.close();
     xmlFile.close();   // Закрываем файл
+    ui->listWidget->clear();
+    printFiles();
 
 
 }
@@ -317,3 +316,23 @@ void MainWindow::on_pushButton_GetObject_clicked() //Get Object
 
     oFile.close();
 }
+
+void MainWindow::closeEvent(QCloseEvent *event)
+ {
+    if(storagePath != "")
+    {
+        encdec oldFile(storagePath);
+        encdec passFile("passwords.txt");
+        passFile.decrypt(1234);
+        for (auto i : getPasswords())
+        {
+            if(i.name == fileName(storagePath).toStdString())
+            {
+                oldFile.encrypt(i.password);
+                passFile.encrypt(1234);
+            }
+        }
+    }
+
+     event->accept();
+ }
