@@ -5,9 +5,43 @@
 #include <QTextStream>
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QMessageBox>
 #include <algorithm>
 #include "passwordwindow.h"
 #include "encdec.h"
+#include <fstream>
+
+struct Password;
+std::ifstream& operator>>(std::ifstream& is, Password& st)
+{
+    is >> st.name  >> st.password;
+    return is;
+}
+std::ofstream& operator<<(std::ofstream& os, Password& st)
+{
+    os << st.name << " " << st.password << std::endl;
+    return os;
+}
+
+void MainWindow::addPassword(Password ps)
+{
+    std::ofstream oFile("passwords.txt", std::ios::app);
+
+    oFile << ps;
+    oFile.close();
+}
+
+std::vector<Password> MainWindow::getPasswords()
+    {
+        std::ifstream iFile("passwords.txt");
+        Password pass;
+        std::vector<Password> passwords;
+        while (iFile >> pass)
+        {
+            passwords.push_back(pass);
+        }
+        return passwords;
+    }
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,21 +79,74 @@ void MainWindow::on_pushButton_2_clicked() //New Storage
     PasswordWindow pw;
     pw.setModal(true);
     pw.exec();
-    password = pw.getPassword();
-    QString fileName = QFileDialog::getSaveFileName(this, "Create Storage", "C://", "XML (*.xml)");
-    QFile oFile(fileName);
+    int password = pw.getPassword();
+
+    QString newXmlFile = QFileDialog::getSaveFileName(this, "Create Storage", "C://", "XML (*.xml)");
+    QFile oFile(newXmlFile);
     oFile.open(QIODevice::ReadWrite);
     oFile.close();
+
+    Password passwordInfo(fileName(newXmlFile).toStdString(), password);
+    if(std::ifstream("passwords.txt").is_open() == false)
+    {
+        encdec enc("passwords.txt");
+        addPassword(passwordInfo);
+        enc.encrypt(1234);
+    }
+    else
+    {
+        encdec enc("passwords.txt");
+        enc.decrypt(1234);
+        addPassword(passwordInfo);
+        enc.encrypt(1234);
+    }
 }
 
 void MainWindow::on_pushButton_clicked() // Open Storage
 {
-    PasswordWindow pw;
-    pw.setModal(true);
-    pw.exec();
-    int pass = pw.getPassword();
+    encdec enc("passwords.txt");
+    enc.decrypt(1234);
+    if(storagePath != "")
+    {
+        encdec oldFile(storagePath);
+        for (auto i : getPasswords())
+        {
+            if(i.name == fileName(storagePath).toStdString())
+            {
+                oldFile.encrypt(i.password);
+            }
+        }
+    }
 
-    this->storagePath = QFileDialog::getOpenFileName(this, "Open Storage", "C://", "XML (*.xml)");
+    bool correctPassword = false;
+    while(correctPassword == false)
+    {
+        PasswordWindow pw;
+        pw.setModal(true);
+        pw.exec();
+        int pass = pw.getPassword();
+        QString tempStoragePath = QFileDialog::getOpenFileName(this, "Open Storage", "C://", "XML (*.xml)");
+        for (auto i: getPasswords())
+        {
+            if(i.name == fileName(tempStoragePath).toStdString() && i.password == pass)
+            {
+                correctPassword = true;
+                storagePath = tempStoragePath;
+                encdec xmlEnc(storagePath);
+                xmlEnc.decrypt(pass);
+            }
+        }
+
+        if (correctPassword == false)
+        {
+            QMessageBox::critical(this, "Error", "Wrong password");
+        }
+    }
+
+
+
+
+    enc.encrypt(1234);
 
 }
 
@@ -147,10 +234,7 @@ void MainWindow::on_pushButton_3_clicked() //Add new object
     xmlWriter.writeEndDocument();
     newFile.close();
     xmlFile.close();   // Закрываем файл
-    encdec enc(storagePath);
-    enc.encrypt(1234);
 
-    enc.decrypt(1234);
 
 }
 

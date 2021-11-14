@@ -7,6 +7,18 @@
 #include <QtXml>
 #include <map>
 
+struct Password;
+std::ifstream& operator>>(std::ifstream& is, Password& st);
+std::ofstream& operator<<(std::ofstream& os, Password& st);
+
+struct Password
+{
+    Password() = default;
+    Password(std::string name, int password) : name(name), password(password){}
+    std::string name;
+    int password;
+};
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -31,6 +43,8 @@ private:
     QString storagePath = "";
     std::map<QString, QString> readStorage();
     QString fileName(QString filePath);
-    int password;
+    void addPassword(Password);
+    std::vector<Password> getPasswords();
+
 };
 #endif // MAINWINDOW_H

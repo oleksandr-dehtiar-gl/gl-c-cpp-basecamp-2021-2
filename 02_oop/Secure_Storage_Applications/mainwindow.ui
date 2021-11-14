@@ -68,6 +68,13 @@
      </layout>
     </item>
     <item>
+     <widget class="QLabel" name="testLabel">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QLineEdit" name="FileName"/>
     </item>
     <item>

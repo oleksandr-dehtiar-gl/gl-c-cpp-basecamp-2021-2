@@ -16,4 +16,5 @@ PasswordWindow::~PasswordWindow()
 void PasswordWindow::on_Enter_clicked()
 {
     this->password = ui->passwordLabel->text().toInt();
+    close();
 }
