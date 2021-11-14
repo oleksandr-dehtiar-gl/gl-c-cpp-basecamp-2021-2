@@ -46,6 +46,7 @@ private:
     void addPassword(Password);
     std::vector<Password> getPasswords();
     void printFiles();
+    void closeEvent(QCloseEvent *event);
 
 };
 #endif // MAINWINDOW_H
