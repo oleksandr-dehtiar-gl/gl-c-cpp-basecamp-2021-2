@@ -45,6 +45,7 @@ private:
     QString fileName(QString filePath);
     void addPassword(Password);
     std::vector<Password> getPasswords();
+    void printFiles();
 
 };
 #endif // MAINWINDOW_H

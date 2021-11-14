@@ -12,8 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QLabel>
-#include <QtWidgets/QLineEdit>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -36,8 +35,9 @@ public:
     QPushButton *pushButton_GetObject;
     QPushButton *pushButton_4;
     QSpacerItem *verticalSpacer;
-    QLabel *testLabel;
-    QLineEdit *FileName;
+    QVBoxLayout *verticalLayout_2;
+    QListWidget *listWidget;
+    QSpacerItem *verticalSpacer_2;
     QSpacerItem *horizontalSpacer;
     QMenuBar *menubar;
     QStatusBar *statusbar;
@@ -85,15 +85,19 @@ public:
 
         horizontalLayout->addLayout(verticalLayout);
 
-        testLabel = new QLabel(centralwidget);
-        testLabel->setObjectName(QString::fromUtf8("testLabel"));
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        listWidget = new QListWidget(centralwidget);
+        listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
-        horizontalLayout->addWidget(testLabel);
+        verticalLayout_2->addWidget(listWidget);
 
-        FileName = new QLineEdit(centralwidget);
-        FileName->setObjectName(QString::fromUtf8("FileName"));
+        verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        horizontalLayout->addWidget(FileName);
+        verticalLayout_2->addItem(verticalSpacer_2);
+
+
+        horizontalLayout->addLayout(verticalLayout_2);
 
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -121,7 +125,6 @@ public:
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add new object", nullptr));
         pushButton_GetObject->setText(QCoreApplication::translate("MainWindow", "Get Object", nullptr));
         pushButton_4->setText(QCoreApplication::translate("MainWindow", "Delete Object", nullptr));
-        testLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
     } // retranslateUi
 
 };
