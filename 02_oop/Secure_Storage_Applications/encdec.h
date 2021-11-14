@@ -2,6 +2,7 @@
 #define ENCDEC_H
 #include <QString>
 
+//The class is used to encrypt and decrypt files
 class encdec
 {
 private:

@@ -2,7 +2,7 @@
 #include "passwordwindow.h"
 #include <fstream>
 #include <vector>
-#include <bits/stdc++.h>
+
 void encdec::encrypt(int password)
 {
     key = password;
@@ -16,27 +16,23 @@ void encdec::encrypt(int password)
     // character by character
     iFile.open(filePath.toStdString(), std::fstream::in);
 
-
-
-    // Reading original file till
+    // Reading file till
     // end of file
     std::vector<char> test;
-    while (iFile >> std::noskipws >> c) {
-        int temp = (c + key);
-
-        // Write temp as char in
-        // output file
+    while (iFile >> std::noskipws >> c)
+    {
+        int temp = (c + key); //Encrypt char
+        // Add temp as char in vector
         test.push_back(char(temp));
     }
     iFile.close();
+
+    //Write characters from vector in file
     oFile.open(filePath.toStdString(), std::fstream::out);
     for(char i : test)
     {
         oFile << i;
     }
-
-    // Closing both files
-
     oFile.close();
 }
 
@@ -53,26 +49,21 @@ void encdec::decrypt(int password)
     // character by character
     iFile.open(filePath.toStdString(), std::fstream::in);
 
-
-
-    // Reading original file till
-    // end of file
+    // Reading file till end of file
     std::vector<char> test;
-    while (iFile >> std::noskipws >> c) {
-        int temp = (c - key);
+    while (iFile >> std::noskipws >> c)
+    {
+        int temp = (c - key);//Decrypt char
 
-        // Write temp as char in
-        // output file
+        // Add temp as char in vector
         test.push_back(char(temp));
     }
     iFile.close();
+
     oFile.open(filePath.toStdString(), std::fstream::out);
     for(char i : test)
     {
         oFile << i;
     }
-
-    // Closing both files
-
     oFile.close();
 }
