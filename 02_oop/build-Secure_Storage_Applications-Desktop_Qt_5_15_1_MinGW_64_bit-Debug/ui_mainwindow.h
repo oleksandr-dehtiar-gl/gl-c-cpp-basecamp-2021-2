@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -35,6 +36,7 @@ public:
     QPushButton *pushButton_GetObject;
     QPushButton *pushButton_4;
     QSpacerItem *verticalSpacer;
+    QLabel *testLabel;
     QLineEdit *FileName;
     QSpacerItem *horizontalSpacer;
     QMenuBar *menubar;
@@ -83,6 +85,11 @@ public:
 
         horizontalLayout->addLayout(verticalLayout);
 
+        testLabel = new QLabel(centralwidget);
+        testLabel->setObjectName(QString::fromUtf8("testLabel"));
+
+        horizontalLayout->addWidget(testLabel);
+
         FileName = new QLineEdit(centralwidget);
         FileName->setObjectName(QString::fromUtf8("FileName"));
 
@@ -114,6 +121,7 @@ public:
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Add new object", nullptr));
         pushButton_GetObject->setText(QCoreApplication::translate("MainWindow", "Get Object", nullptr));
         pushButton_4->setText(QCoreApplication::translate("MainWindow", "Delete Object", nullptr));
+        testLabel->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
     } // retranslateUi
 
 };
