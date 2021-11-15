@@ -29,7 +29,12 @@ void MainWindow::on_actionNew_triggered()
 
 void MainWindow::on_actionAbout_triggered()
 {
-    aboutDialog about;
-    about.exec();
+
+}
+
+
+void MainWindow::on_actionSave_triggered()
+{
+
 }
 

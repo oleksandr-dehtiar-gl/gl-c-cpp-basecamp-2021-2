@@ -22,6 +22,13 @@ set(PROJECT_SOURCES
         aboutdialog.h
         aboutdialog.cpp
         aboutdialog.ui
+        command.h
+        invoker.h
+        invoker.cpp
+        cquit.h
+        cquit.cpp
+        cabout.h
+        cabout.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
