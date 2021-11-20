@@ -71,11 +71,11 @@
     </property>
     <addaction name="separator"/>
     <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
     <addaction name="separator"/>
     <addaction name="actionCut"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
-    <addaction name="actionDelete"/>
     <addaction name="separator"/>
     <addaction name="actionFind"/>
     <addaction name="separator"/>
@@ -201,6 +201,14 @@
    </property>
    <property name="text">
     <string>Show line numbers</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Y</string>
    </property>
   </action>
  </widget>

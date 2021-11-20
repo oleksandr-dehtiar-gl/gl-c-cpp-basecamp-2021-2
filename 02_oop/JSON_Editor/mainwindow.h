@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "invoker.h"
+#include <QTextEdit>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +19,18 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_actionSelect_All_triggered();
+
+    void on_actionFind_triggered();
+
+    void on_actionRedo_triggered();
+
+    void on_actionUndo_triggered();
+
+    void on_actionCut_triggered();
+
+    void on_actionPaste_triggered();
+
     void on_actionQuit_triggered();
 
     void on_actionNew_triggered();
@@ -31,6 +44,8 @@ private slots:
     void on_actionClose_triggered();
 
     void on_actionOpen_triggered();
+
+    void on_actionCopy_triggered();
 private:
     Ui::MainWindow *ui;
 };

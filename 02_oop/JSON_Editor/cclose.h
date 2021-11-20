@@ -15,7 +15,6 @@ public:
     cClose(bool &edited_, Ui::MainWindow* ui_, MainWindow* th);
     void exec()const override;
     ~cClose();
-
 };
 
 #endif // CCLOSE_H

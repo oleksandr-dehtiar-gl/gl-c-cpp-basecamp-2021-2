@@ -24,11 +24,3 @@ cClose::~cClose(){
 //    delete form;
 //    delete edited;
 }
-
-
-
-
-
-
-
-
