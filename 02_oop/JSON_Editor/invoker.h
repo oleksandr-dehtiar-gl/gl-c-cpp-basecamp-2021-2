@@ -7,6 +7,7 @@ class Invoker
     Command *command = nullptr;
 public:
     void exec(Command *command_);
+    ~Invoker();
 };
 
 #endif // INVOKER_H

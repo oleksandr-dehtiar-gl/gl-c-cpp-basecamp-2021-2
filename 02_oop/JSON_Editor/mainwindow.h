@@ -12,6 +12,7 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
     Invoker *invoker;
+    bool edited = false;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -25,6 +26,11 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void on_textEdit_textChanged();
+
+    void on_actionClose_triggered();
+
+    void on_actionOpen_triggered();
 private:
     Ui::MainWindow *ui;
 };

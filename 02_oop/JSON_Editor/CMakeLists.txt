@@ -31,6 +31,14 @@ set(PROJECT_SOURCES
         cabout.cpp
         csave.h
         csave.cpp
+        cnew.h
+        cnew.cpp
+        savechanges.h
+        savechanges.cpp
+        cclose.h
+        cclose.cpp
+        copen.h
+        copen.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

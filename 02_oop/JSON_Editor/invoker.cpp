@@ -9,3 +9,6 @@ void Invoker::exec(Command *command_){
 
     }
 }
+Invoker::~Invoker(){
+    delete command;
+}
