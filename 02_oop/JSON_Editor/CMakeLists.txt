@@ -29,6 +29,8 @@ set(PROJECT_SOURCES
         cquit.cpp
         cabout.h
         cabout.cpp
+        csave.h
+        csave.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

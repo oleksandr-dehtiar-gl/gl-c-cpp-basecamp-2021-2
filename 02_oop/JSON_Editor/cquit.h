@@ -6,7 +6,7 @@
 class cQuit : public Command
 {
 public:
-    cQuit();
+    void exec()const override;
 };
 
 #endif // CQUIT_H

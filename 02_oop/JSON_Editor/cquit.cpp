@@ -1,6 +1,6 @@
 #include "cquit.h"
-
-cQuit::cQuit()
+#include "QApplication"
+void cQuit::exec() const
 {
-
+    QApplication::quit();
 }

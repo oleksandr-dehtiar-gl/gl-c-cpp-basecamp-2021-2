@@ -6,7 +6,6 @@
 class cAbout : public Command
 {
 public:
-    cAbout();
     void exec()const override;
 };
 
