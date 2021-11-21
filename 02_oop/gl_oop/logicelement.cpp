@@ -27,12 +27,12 @@ void LogicElement::updateLogicHelper(bool inp, ElementType type, int offset)
     switch (type)
     {
     case ElementType::AND:
+        m_output = inp && m_inputs[offset];
 
         if(!m_output)
         {
             return;
         }
-        m_output = inp && m_inputs[offset];
         updateLogicHelper(m_output, ElementType::AND, offset + 1);
         break;
 
@@ -52,11 +52,13 @@ void LogicElement::updateLogicHelper(bool inp, ElementType type, int offset)
         break;
     case ElementType::OR:
 
+
+        m_output = inp || m_inputs[offset];
+
         if(m_output)
         {
             return;
         }
-        m_output = inp || m_inputs[offset];
         updateLogicHelper(m_output, ElementType::OR, offset + 1);
         break;
 
