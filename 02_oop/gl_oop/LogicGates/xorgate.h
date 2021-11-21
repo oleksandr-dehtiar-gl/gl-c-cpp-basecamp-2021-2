@@ -2,10 +2,11 @@
 #define XORGATE_H
 
 #include "../logicelement.h"
-class XorGate
+class XorGate : public LogicElement
 {
 public:
-    XorGate();
+    XorGate(int input_amount);
+    void updateLogic() override;
 };
 
 #endif // XORGATE_H

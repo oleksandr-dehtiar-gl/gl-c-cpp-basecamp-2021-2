@@ -1,22 +1,10 @@
 #include "andgate.h"
 
-AndGate::AndGate(int inputAmount) : LogicElement(inputAmount)
-{
-    assert(inputAmount > 0 && inputAmount <= sizeof(char));
-}
+AndGate::AndGate(int input_amount) : LogicElement(input_amount)
+{}
 
 void AndGate::updateLogic()
 {
-
-    int accumulation = 0;
-    for(int i = 0; i < m_input_amount; i++)
-    {
-        accumulation += (m_inputs >> i) & 1;
-    }
-    m_output = accumulation == m_input_amount;
+    updateLogicHelper(m_inputs[0], ElementType::AND);
 }
 
-bool AndGate::getOutput() const
-{
-    return true;
-}

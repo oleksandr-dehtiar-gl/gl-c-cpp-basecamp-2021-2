@@ -18,7 +18,7 @@ const QVariant &value)
     if (change == ItemPositionChange && scene()) {
         QPointF newPos = value.toPointF();
         if(QApplication::mouseButtons() == Qt::LeftButton &&
-                qobject_cast<Scene*> (scene()) && isSelected()){
+                qobject_cast<Scene*> (scene())){
             Scene* customScene = qobject_cast<Scene*> (scene());
             int gridSize = customScene->getGridSize();
             qreal xV = round(newPos.x()/gridSize)*gridSize;
@@ -53,11 +53,13 @@ void GraphicsElement::setType(ElementType type)
 void GraphicsElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
-
-    painter->begin(m_pixmap.get());
-    painter->setPen(QPen(Qt::black, 2));
-    painter->setBrush(Qt::darkRed);
-    painter->drawRect(0, 0, 64,64);
-    painter->drawText(QRect(0, 0, 64, 64), Qt::AlignCenter, QString(m_type_strs[static_cast<int>(m_type)].c_str()));
+    QPainter tempPainter;
+    tempPainter.begin(m_pixmap.get());
+    tempPainter.setPen(QPen(Qt::black, 2));
+    tempPainter.setBrush(Qt::darkRed);
+    tempPainter.drawRect(0, 0, 64,64);
+    tempPainter.drawText(QRect(0, 0, 64, 64), Qt::AlignCenter, QString(m_type_strs[static_cast<int>(m_type)].c_str()));
+    tempPainter.end();
+    painter->drawPixmap(QPoint(0,0), *m_pixmap.get());
 
 }
