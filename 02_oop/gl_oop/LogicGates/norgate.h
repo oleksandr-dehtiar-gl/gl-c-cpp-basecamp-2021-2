@@ -1,11 +1,12 @@
 #ifndef NORGATE_H
 #define NORGATE_H
+#include "logicelement.h"
 
-
-class NorGate
+class NorGate : public LogicElement
 {
 public:
-    NorGate();
+    NorGate(int input_amount);
+    void updateLogic() override;
 };
 
 #endif // NORGATE_H

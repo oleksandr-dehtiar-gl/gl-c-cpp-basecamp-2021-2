@@ -3,11 +3,11 @@
 
 #include "logicelement.h"
 
-class OrGate
+class OrGate : public LogicElement
 {
 public:
-    OrGate();
-
+    OrGate(int input_amount);
+    void updateLogic() override;
 };
 
 #endif // ORGATE_H
