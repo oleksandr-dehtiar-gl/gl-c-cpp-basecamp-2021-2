@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "invoker.h"
 #include <QTextEdit>
-
+#include "finddialog.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -12,8 +12,6 @@ QT_END_NAMESPACE
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    Invoker *invoker;
-    bool edited = false;
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -48,5 +46,8 @@ private slots:
     void on_actionCopy_triggered();
 private:
     Ui::MainWindow *ui;
+    Invoker *invoker;
+    bool edited = false;
+//    findDialog *finder;
 };
 #endif // MAINWINDOW_H

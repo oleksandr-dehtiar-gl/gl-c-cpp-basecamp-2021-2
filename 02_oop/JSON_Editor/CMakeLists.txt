@@ -39,6 +39,9 @@ set(PROJECT_SOURCES
         cclose.cpp
         copen.h
         copen.cpp
+        finddialog.h
+        finddialog.cpp
+        finddialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

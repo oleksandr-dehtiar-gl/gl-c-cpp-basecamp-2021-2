@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QObject>
 #include "./ui_mainwindow.h"
-cSave::cSave(Ui::MainWindow *ui_, MainWindow *th):ui(ui_), form(th){}
+cSave::cSave(Ui::MainWindow *ui_, MainWindow *th, bool &edited_):ui(ui_), form(th), edited(&edited_){}
 cSave::~cSave(){
 //    delete ui;
 //    delete form;
@@ -23,6 +23,7 @@ void cSave::exec() const
             return;
         }
         QTextStream out(&file);
-                out << ui->textEdit->toPlainText();
+        out << ui->textEdit->toPlainText();
+        *edited = false;
     }
 }

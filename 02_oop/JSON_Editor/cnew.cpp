@@ -10,7 +10,7 @@ void cNew::exec()const{
         temp = saveChanges();
         if(temp == QMessageBox::Save){
             Invoker invoker;
-            invoker.exec(new cSave(ui, form));
+            invoker.exec(new cSave(ui, form, *edited));
         }
     }
     if(!(temp == QMessageBox::Cancel)){

@@ -8,8 +8,9 @@ class cSave : public Command
 private:
     Ui::MainWindow *ui;
     MainWindow *form;
+    bool *edited;
 public:
-    cSave(Ui::MainWindow *ui_, MainWindow *th);
+    cSave(Ui::MainWindow *ui_, MainWindow *th, bool &edited_);
     ~cSave();
     void exec()const override;
 };

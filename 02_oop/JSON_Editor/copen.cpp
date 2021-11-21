@@ -17,11 +17,11 @@ void cOpen::exec() const
         temp = saveChanges();
         if(temp == QMessageBox::Save){
             Invoker invoker;
-            invoker.exec(new cSave(ui, form));
+            invoker.exec(new cSave(ui, form, *edited));
         }
     }
     if(!(temp == QMessageBox::Cancel)){
-        QString fileName = QFileDialog::getOpenFileName(form, QString::fromUtf8("Save the File"), "",
+        QString fileName = QFileDialog::getOpenFileName(form, QString::fromUtf8("Open the File"), "",
                                                         QString::fromUtf8("Text file (*.txt);;JSON file (*.json)"));
         if (fileName.isEmpty())
                 return;
@@ -36,9 +36,14 @@ void cOpen::exec() const
             QTextStream in(&file);
             ui->textEdit->clear();
             ui->textEdit->setEnabled(true);
-            QString temp;
-            in >> temp;
-            ui->textEdit->setPlainText(temp);
+            QString temp, text = "";
+            do
+            {
+                temp = in.readLine();
+                text.append(temp==""?"\n":temp.append("\n"));
+            }
+            while (!temp.isNull());
+            ui->textEdit->setText(text);
     }
     }
 }

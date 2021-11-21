@@ -44,7 +44,8 @@ void MainWindow::on_actionSelect_All_triggered()
 
 void MainWindow::on_actionFind_triggered()
 {
-//    ui->textEdit->find();
+    findDialog *finder = new findDialog(ui, this);
+    finder->show();
 }
 
 void MainWindow::on_actionUndo_triggered()
@@ -86,6 +87,6 @@ void MainWindow::on_actionClose_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
-    invoker->exec(new cSave(ui, this));
+    invoker->exec(new cSave(ui, this, edited));
 }
 

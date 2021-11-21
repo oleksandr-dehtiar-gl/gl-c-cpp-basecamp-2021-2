@@ -10,8 +10,9 @@ void cClose::exec()const{
         temp = saveChanges();
         if(temp == QMessageBox::Save){
             Invoker invoker;
-            invoker.exec(new cSave(ui, form));
+            invoker.exec(new cSave(ui, form, *edited));
         }
+        *edited = false;
     }
     if(!(temp == QMessageBox::Cancel)){
         ui->textEdit->setEnabled(false);
