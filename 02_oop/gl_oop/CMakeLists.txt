@@ -15,12 +15,47 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        grid.h
-        grid.cpp
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    logicelement.h
+    logicelement.cpp
+    scene.h
+    scene.cpp
+    graphicselement.h
+    graphicselement.cpp
+    elementtype.h
+
+
+    LogicGates/andgate.h
+    LogicGates/andgate.cpp
+    LogicGates/nandgate.h
+    LogicGates/nandgate.cpp
+    LogicGates/xorgate.h
+    LogicGates/xorgate.cpp
+    LogicGates/notgate.h
+    LogicGates/notgate.cpp
+    LogicGates/norgate.h
+    LogicGates/norgate.cpp
+    LogicGates/orgate.h
+    LogicGates/orgate.cpp
+
+    LogicGatesGraphics/andgategraphicselement.h
+    LogicGatesGraphics/andgategraphicselement.cpp
+    LogicGatesGraphics/nandgategraphicselement.h
+    LogicGatesGraphics/nandgategraphicselement.cpp
+    LogicGatesGraphics/norgategraphicselement.h
+    LogicGatesGraphics/norgategraphicselement.cpp
+    LogicGatesGraphics/notgategraphicselement.h
+    LogicGatesGraphics/notgategraphicselement.cpp
+    LogicGatesGraphics/orgategraphicselement.h
+    LogicGatesGraphics/orgategraphicselement.cpp
+    LogicGatesGraphics/xorgategraphicselement.h
+    LogicGatesGraphics/xorgategraphicselement.cpp
+
+
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
