@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
     graphicselement.h
     graphicselement.cpp
     elementtype.h
+    workspace.h
+    workspace.cpp
 
 
 
@@ -54,6 +56,8 @@ set(PROJECT_SOURCES
     LogicGatesGraphics/orgategraphicselement.cpp
     LogicGatesGraphics/xorgategraphicselement.h
     LogicGatesGraphics/xorgategraphicselement.cpp
+    LogicGatesGraphics/port.h
+    LogicGatesGraphics/port.cpp
 
 
 
