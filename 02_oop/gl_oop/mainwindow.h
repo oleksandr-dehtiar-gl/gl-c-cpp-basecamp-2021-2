@@ -2,11 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsView>
-#include <memory>
-#include "scene.h"
-#include "graphicselement.h"
-#include "LogicGatesGraphics/xorgategraphicselement.h"
+#include "workspace.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -35,13 +31,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    std::unique_ptr<QGraphicsView> m_view;
-    std::unique_ptr<Scene> m_scene;
-    std::unique_ptr<GraphicsElement> elemXOR;
-    std::unique_ptr<GraphicsElement> elem;
-
-
-
-
+    std::unique_ptr<WorkSpace> m_workspace;
 };
 #endif // MAINWINDOW_H

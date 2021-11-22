@@ -9,14 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 
     ui->setupUi(this);
-    elemXOR.reset(new XorGateGraphicsElement(nullptr));
-    elem.reset(new GraphicsElement(nullptr));
-    m_view.reset(new QGraphicsView(ui->workingSpaceTab));
-    m_scene.reset(new Scene(QPen(Qt::black, 2), 16, ui->workingSpaceTab));
-    m_scene->addItem(elemXOR.get());
-    m_view->setScene(m_scene.get());
-    m_view->setSceneRect(0, 0, ui->workingSpaceTab->width(), ui->workingSpaceTab->height());
-
+    m_workspace.reset(new WorkSpace(ui->workingSpaceTab));
 
 
 }
@@ -29,36 +22,35 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_notButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::NOT);
 }
 
 
 void MainWindow::on_andButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::AND);
 }
-
 
 void MainWindow::on_nandButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::NAND);
 }
 
 
 void MainWindow::on_orButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::OR);
 }
 
 
 void MainWindow::on_xorButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::XOR);
 }
 
 
 void MainWindow::on_norButton_clicked()
 {
-
+    m_workspace->AddElement(ElementType::NOR);
 }
 
