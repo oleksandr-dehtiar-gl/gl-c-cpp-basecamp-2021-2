@@ -1,38 +1,23 @@
 #include <QtWidgets>
 #include <QTextStream>
 #include <QStyle>
+#include <QTextStream>
+#include <QMediaMetaData>
+#include <QAudioDecoder>
 
 #include <iostream>
+#include <fstream>
 
 #include "filesysapi/fileSysApi.hpp"
+#include "id3reader.hpp"
 
-void printFile(const std::string &name, int depth) {
-	while (depth--)
-		std::cout << " ";
-	std::cout << name << std::endl;
-}
+#include "player/playlist/playlistgui.hpp"
 
-void printAllFiles(std::string path, int depth = 0) {
-	filesysapi::DirContainer d(path);
-	if(!d) {
-		std::cout << "Something wrong\n";
-		return;
-	}
-	filesysapi::nameType_pr file;
-	while (std::get<1>(file = d.nextFile()) != filesysapi::FileType::NO_MORE_FILES) {
-		if (std::get<1>(file) == filesysapi::FileType::DIRECTORY) {
-			if ((std::get<0>(file) != ".") && (std::get<0>(file) != "..")) {
-				std::string namePath(path + "\\" + std::get<0>(file));
-				printFile(namePath, depth + 1);
-				printAllFiles(namePath, depth + 1);
-			}
-		} else 
-			printFile(std::get<0>(file), depth + 3);
-	}
-}
+std::ofstream fout("metadatalist.txt");
+mediaplayer::ID3v1Reader id3;
 
 int main(int argc, char** argv) {
-	// QApplication app(argc, argv);
+
 	/*// Test table show list
 	QWidget window;
 	
@@ -148,12 +133,34 @@ int main(int argc, char** argv) {
 	QTextStream out(stdout);
 	out << QFileDialog::getExistingDirectory(0, "Directory Dialog", "");
 	*/
-	
-	printAllFiles("E:");
+	/*// Test file system 
+	std::list<std::string> flist;
+	filesysapi::getFileList(flist, ".");
+	std::ofstream fout("listfile.txt");
+	for (auto &a : flist)
+		fout << filesysapi::getPathnamePart(filesysapi::getAbsolutePath(a)) << " ==> " 
+				<< filesysapi::getFilenamePart(a) << " ==> " 
+				<< filesysapi::getFileExtension(filesysapi::getFilenamePart(a)) << std::endl;
+	*/
+	/*// Write all mp3 files in file 
+	mediaplayer::ID3v1Reader id3;
+	std::ofstream fout("metadatalist.txt");
+	std::list<std::string> filelist;
 
-	// Main programm
-	// mediaplayer::Player pl;
-	// pl.show();
-	std::cin.get();
-	return 0/*app.exec()*/;
+	filesysapi::getFileList(filelist, "e:");
+	for (auto &filename : filelist) {
+		if (id3.setnewfile(filename)) {
+			fout << filename << std::endl;
+			fout << "- title: " << id3.getTitle()
+				 << "\n- genre: " << id3.getGenre() 
+				 << "\n- year : " << id3.getYear() << "\n";
+		}
+	}*/
+	
+	QApplication app(argc, argv);
+	
+	mediaplayer::PlaylistGui pl;
+	pl.show();
+	
+	return app.exec();
 }

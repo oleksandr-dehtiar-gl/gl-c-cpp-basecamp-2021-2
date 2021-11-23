@@ -18,16 +18,28 @@ find_package(Qt5 COMPONENTS REQUIRED
 
 set(SRC_DIR "src")
 set(GUI_DIR "${SRC_DIR}/gui")
-set(FILE_SYS_API "${SRC_DIR}/filesysapi")
+set(FILE_SYS_DIR "${SRC_DIR}/filesysapi")
+set(PLAYER_DIR "${SRC_DIR}/player")
+set(PLAYLIST_DIR "${PLAYER_DIR}/playlist")
+
 
 add_executable(player)
 
 target_sources(player
 PRIVATE
 	${SRC_DIR}/main.cpp
-	${FILE_SYS_API}/fileSysApi.hpp
-	${FILE_SYS_API}/fileSysApi.cpp
-	${FILE_SYS_API}/fileWinSysApi.hpp
+	${SRC_DIR}/id3reader.cpp
+	${FILE_SYS_DIR}/fileSysApi.hpp
+	${FILE_SYS_DIR}/fileSysApi.cpp
+	${FILE_SYS_DIR}/fileWinSysApi.hpp
+	
+	${PLAYLIST_DIR}/playlistmodel.hpp
+	${PLAYLIST_DIR}/playlistmodel.cpp
+	${PLAYLIST_DIR}/playlistgui.hpp
+	${PLAYLIST_DIR}/playlistgui.cpp
+	# ${PLAYER_DIR}/librarymodel.cpp
+	
+	# Testing model/view
 	# ${GUI_DIR}/player.hpp
 	# ${GUI_DIR}/player.cpp
 	# ${GUI_DIR}/intListModel.hpp
