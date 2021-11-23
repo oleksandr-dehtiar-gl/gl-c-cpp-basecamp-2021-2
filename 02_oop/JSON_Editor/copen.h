@@ -10,8 +10,9 @@ private:
     bool *edited;
     Ui::MainWindow *ui;
     MainWindow *form;
+    QString *mainFileName;
 public:
-    cOpen(bool &edited,Ui::MainWindow *ui_, MainWindow *th);
+    cOpen(bool &edited,Ui::MainWindow *ui_, MainWindow *th, QString &);
     void exec()const override;
 };
 

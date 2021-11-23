@@ -11,8 +11,9 @@ private:
     Ui::MainWindow *ui;
     MainWindow *form;
     bool *edited;
+    QString *mainFileName;
 public:
-    cClose(bool &edited_, Ui::MainWindow* ui_, MainWindow* th);
+    cClose(bool &edited_, Ui::MainWindow* ui_, MainWindow* th, QString &);
     void exec()const override;
     ~cClose();
 };
