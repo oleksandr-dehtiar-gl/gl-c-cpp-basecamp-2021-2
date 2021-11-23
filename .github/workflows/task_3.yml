@@ -24,7 +24,6 @@ jobs:
       with:
         version: 5.15.2
         set-env: true
-          set-env: true
     - name: Configure CMake
       run: cmake -B ${{env.PROJECT_DIR}}/build -S ${{env.PROJECT_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     - name: Build
