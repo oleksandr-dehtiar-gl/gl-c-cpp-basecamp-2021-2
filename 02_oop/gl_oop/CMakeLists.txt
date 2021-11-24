@@ -58,6 +58,8 @@ set(PROJECT_SOURCES
     LogicGatesGraphics/xorgategraphicselement.cpp
     LogicGatesGraphics/port.h
     LogicGatesGraphics/port.cpp
+    LogicGatesGraphics/connection.h
+    LogicGatesGraphics/connection.cpp
 
 
 

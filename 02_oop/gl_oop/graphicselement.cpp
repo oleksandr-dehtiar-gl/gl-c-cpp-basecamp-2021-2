@@ -28,37 +28,44 @@ void GraphicsElement::addInputs(Port * input)
         {
             m_inputs[ind]->setPos(0, yPos);
             yPos += step;
-
+            input->update();
         }
     }
+
 }
 
 void GraphicsElement::addOutputs(Port * output)
 {
     if(m_outputs.empty())
     {
+        output->setPos(72, 28);
         m_outputs.push_back(output);
+        output->update();
     }
 }
 
 QVariant GraphicsElement::itemChange(GraphicsItemChange change, const QVariant &value)
 {
 
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && scene())
+    {
         QPointF newPos = value.toPointF();
-        if(QApplication::mouseButtons() == Qt::LeftButton &&
-                qobject_cast<Scene*> (scene())){
+        if (qobject_cast<Scene*> (scene()))
+        {
 
             int gridSize = qobject_cast<Scene*> (scene())->getGridSize();
             qreal xV = round(newPos.x()/gridSize)*gridSize;
             qreal yV = round(newPos.y()/gridSize)*gridSize;
+
             return QPointF(xV, yV);
         }
         else
+        {
             return newPos;
+        }
     }
-    else
-        return QGraphicsItem::itemChange(change, value);
+
+    return QGraphicsItem::itemChange(change, value);
 }
 
 QRectF GraphicsElement::boundingRect() const
