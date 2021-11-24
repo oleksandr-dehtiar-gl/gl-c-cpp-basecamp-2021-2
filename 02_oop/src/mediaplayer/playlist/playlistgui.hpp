@@ -2,7 +2,6 @@
 #define PLAYILISTGUI_HPP
 
 #include <QtWidgets>
-
 #include "playlistmodel.hpp"
 
 namespace mediaplayer {
@@ -12,7 +11,7 @@ namespace mediaplayer {
 	public:
 		PlaylistGui(QWidget *pwgt = nullptr);
 	private:
-		Playlistmodel mPlListModel;
+		Playlistmodel *mpPlListModel = nullptr;
 		QListView *mpListView = nullptr;
 		QItemSelectionModel *mpSelectModel = nullptr;
 	private:
@@ -22,20 +21,16 @@ namespace mediaplayer {
 	private:
 		QMenuBar *mpAddMenuBar = nullptr;
 		QMenu *mpAddMenu = nullptr;
-		
 		QMenuBar *mpDelMenuBar = nullptr;
 		QMenu *mpDelMenu = nullptr;
-		
 		QMenuBar *mpPllistMenuBar = nullptr;
 		QMenu *mpPllistMenu = nullptr;
 	private:
 		QAction *mpAddFile = nullptr;
 		QAction *mpAddDirectoy = nullptr;
 		QAction *mpAddPlaylist = nullptr;
-		
 		QAction *mpDeleteFiles = nullptr;
 		QAction *mpClearPlaylist = nullptr;
-		
 		QAction *mpLoadPlaylist = nullptr;
 		QAction *mpSavePlaylist = nullptr;
 	private:
@@ -52,15 +47,22 @@ namespace mediaplayer {
 		void savePlaylist();
 		void loadPlaylist();
 	signals:
-		void deleteSelectFiles(QModelIndexList &indexList);
+		void deleteSelectFiles(QModelIndexList&);
 		void deleteAllFiles();
-		void addFilesToList(QStringList &files);
-		void addDirToList(QString &dirName);
+		void addFilesToList(QStringList&);
+		void addDirToList(QString&);
 		
-		void savePlaylistToFile(QString &filename);
-		void openPlaylistFromFile(QString &filename);
-		void loadPlaylistFromFile(QString &filename);
+		void savePlaylistToFile(QString&);
+		void openPlaylistFromFile(QString&);
+		void loadPlaylistFromFile(QString&);
 		
+		void currentMediaFile();
+		void nextMediFile();
+		void previosMediFile();
+		void getMediaFileForPlay(std::shared_ptr<MediaFile>);
+		void getMediaFile(std::shared_ptr<MediaFile>);
+		
+		void setRepeatAll(bool);
 	};
 	
 }

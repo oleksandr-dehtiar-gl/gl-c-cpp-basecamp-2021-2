@@ -33,15 +33,25 @@ namespace filesysapi {
 		return std::move(getPathnamePart(std::get<0>(path)));
 	}
 	
-	std::string getFileExtension(const std::string fileName) {
-		if (fileName.empty())
+	std::string getFileExtension(const std::string path) {
+		if (path.empty())
 			return std::string();
-		std::size_t found = fileName.find_last_of(".");
-		return (found == std::string::npos) ? std::string() : std::move(fileName.substr(found + 1));
+		std::size_t found = path.find_last_of(".");
+		return (found == std::string::npos) ? std::string() : std::move(path.substr(found + 1));
 	}
 	
 	std::string getFileExtension(const pairPath& path) {
 		return std::move(getFileExtension(getFilenamePart(std::get<0>(path))));
+	}
+	
+	std::string getFileNameWihtoutExtens(const std::string& path) {
+		if (path.empty())
+			return std::string();
+		std::string name(getFilenamePart(path));
+		if (name.empty())
+			return std::string();
+		std::size_t found = name.find_last_of(".");
+		return (found == std::string::npos) ? name : std::move(name.substr(0, found)) ;
 	}
 	
 	size_t getFileList(std::list<std::string> &fileList, const std::string &path) {

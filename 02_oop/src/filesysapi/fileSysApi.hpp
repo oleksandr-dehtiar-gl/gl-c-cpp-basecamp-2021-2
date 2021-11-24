@@ -27,7 +27,9 @@ namespace filesysapi {
 	std::string getPathnamePart(const std::string& path);
 	
 	std::string getFileExtension(const pairPath& path);
-	std::string getFileExtension(const std::string fileName);
+	std::string getFileExtension(const std::string path);
+	
+	std::string getFileNameWihtoutExtens(const std::string& path);
 	
 	size_t getFileList(std::list<std::string> &fileList, const std::string &path);
 	

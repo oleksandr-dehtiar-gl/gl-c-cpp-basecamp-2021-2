@@ -1,17 +1,14 @@
 #include "playlistgui.hpp"
 #include <iostream>
 
-constexpr char filterformat[] = "*.mp3 *.mp4";
-constexpr char filterplaylist[] = "*.mplist";
-constexpr char startSearchDir[] = "E:/BACKUP_FROM_OLD_DISC/MUSIC";
-
 namespace mediaplayer {
 	
 	PlaylistGui::PlaylistGui(QWidget *pwgt) 
 		: QDialog(pwgt)
 	{
+		mpPlListModel = new Playlistmodel;
 		mpListView = new QListView;
-		mpListView->setModel(&mPlListModel);
+		mpListView->setModel(mpPlListModel);
 		mpListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 		
 		mpHBox_1 = new QHBoxLayout;
@@ -30,17 +27,26 @@ namespace mediaplayer {
 		mpVBox->addLayout(mpHBox_1);
 		mpVBox->addLayout(mpHBox_2);
 
-		connect(this, &PlaylistGui::deleteSelectFiles, &mPlListModel, &Playlistmodel::deleteSelectFiles);
-		connect(this, &PlaylistGui::deleteAllFiles, &mPlListModel, &Playlistmodel::deleteAllFiles);
-		connect(this, &PlaylistGui::addFilesToList, &mPlListModel, &Playlistmodel::addFiles);
-		connect(this, &PlaylistGui::addDirToList, &mPlListModel, &Playlistmodel::addDir);
+		connect(this, &PlaylistGui::deleteSelectFiles, mpPlListModel, &Playlistmodel::deleteSelectFiles);
+		connect(this, &PlaylistGui::deleteAllFiles, mpPlListModel, &Playlistmodel::deleteAllFiles);
+		connect(this, &PlaylistGui::addFilesToList, mpPlListModel, &Playlistmodel::addFiles);
+		connect(this, &PlaylistGui::addDirToList, mpPlListModel, &Playlistmodel::addDir);
 		
-		connect(this, &PlaylistGui::savePlaylistToFile, &mPlListModel, &Playlistmodel::savePlaylist);
-		connect(this, &PlaylistGui::openPlaylistFromFile, &mPlListModel, &Playlistmodel::openPlaylist);
-		connect(this, &PlaylistGui::loadPlaylistFromFile, &mPlListModel, &Playlistmodel::loadPlaylist);
+		connect(this, &PlaylistGui::savePlaylistToFile, mpPlListModel, &Playlistmodel::savePlaylist);
+		connect(this, &PlaylistGui::openPlaylistFromFile, mpPlListModel, &Playlistmodel::openPlaylist);
+		connect(this, &PlaylistGui::loadPlaylistFromFile, mpPlListModel, &Playlistmodel::loadPlaylist);
+		
+		connect(mpListView, &QListView::doubleClicked, mpPlListModel, &Playlistmodel::getIndexFileForPlay);
+		connect(mpPlListModel, SIGNAL(sendFileForPlay(std::shared_ptr<MediaFile>)), SIGNAL(getMediaFileForPlay(std::shared_ptr<MediaFile>)));
+		connect(mpPlListModel, SIGNAL(sendFile(std::shared_ptr<MediaFile>)), SIGNAL(getMediaFile(std::shared_ptr<MediaFile>)));
+		
+		connect(this, &PlaylistGui::nextMediFile, mpPlListModel, &Playlistmodel::nextFile);
+		connect(this, &PlaylistGui::previosMediFile, mpPlListModel, &Playlistmodel::previousFile);
+		connect(this, &PlaylistGui::currentMediaFile, mpPlListModel, &Playlistmodel::getCurrentFile);
+		
+		connect(this, &PlaylistGui::setRepeatAll, mpPlListModel, &Playlistmodel::repeatPlaylist);
 		
 		setLayout(mpVBox);
-		resize(600, 800);
 	}
 
 	void PlaylistGui::addActions() {
@@ -100,14 +106,14 @@ namespace mediaplayer {
 	}
 
 	void PlaylistGui::addFiles() {
-		QStringList listFiles(QFileDialog::getOpenFileNames(0, "Select Files", startSearchDir, filterformat));
+		QStringList listFiles(QFileDialog::getOpenFileNames(0, "Select Files", getHomeDirectory(), getFiltersFormat()));
 		if (listFiles.empty())
 			return;
 		emit addFilesToList(listFiles);
 	}
 	
 	void PlaylistGui::addDirectory() {
-		QString path = QFileDialog::getExistingDirectory(0, "Select Directory", startSearchDir);
+		QString path = QFileDialog::getExistingDirectory(0, "Select Directory", getHomeDirectory());
 		if (path.isNull())
 			return;
 		emit addDirToList(path);
@@ -123,7 +129,7 @@ namespace mediaplayer {
 	
 
 	void PlaylistGui::addPlaylist() {
-		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", startSearchDir, filterplaylist));
+		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
 		if (path.isNull())
 			return;
 		emit openPlaylistFromFile(path);
@@ -131,19 +137,18 @@ namespace mediaplayer {
 
 	void PlaylistGui::savePlaylist() {
 		QString strFilter;
-		QString saveFile = QFileDialog::getSaveFileName(0, "Save File", "playlist", filterplaylist, &strFilter);
+		QString saveFile = QFileDialog::getSaveFileName(0, "Save File", "playlist", getFiltersFormatLibs(), &strFilter);
+		if (saveFile.isNull())
+			return;
 		emit savePlaylistToFile(saveFile);
-
 	}
 	
 	void PlaylistGui::loadPlaylist() {
-		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", startSearchDir, filterplaylist));
+		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
 		if (path.isNull())
 			return;
 		emit loadPlaylistFromFile(path);
 	}
-	// QTextStream out(stdout);
-	// out << saveFile << endl;
-	
+
 }
 
