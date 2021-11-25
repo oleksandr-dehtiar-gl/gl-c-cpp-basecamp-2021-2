@@ -23,14 +23,14 @@ namespace mediaplayer {
 	private:
 		void readFromDirRecursive(const std::string &path);
 	public slots:
-		void deleteSelectFiles(QModelIndexList &indexList);
+		void deleteSelectFiles(QModelIndexList indexList);
 		void deleteAllFiles();
-		void addFiles(QStringList &files);
-		void addDir(QString &dirName);
+		void addFiles(const QStringList &files);
+		void addDir(const QString &dirName);
 
-		void savePlaylist(QString &filename);
-		void openPlaylist(QString &filename);
-		void loadPlaylist(QString &filename);
+		void savePlaylist(const QString &filename);
+		void openPlaylist(const QString &filename);
+		void loadPlaylist(const QString &filename);
 		
 		void getIndexFileForPlay(const QModelIndex &index);
 		void nextFile();

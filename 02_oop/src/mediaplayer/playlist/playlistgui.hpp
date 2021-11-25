@@ -47,14 +47,14 @@ namespace mediaplayer {
 		void savePlaylist();
 		void loadPlaylist();
 	signals:
-		void deleteSelectFiles(QModelIndexList&);
+		void deleteSelectFiles(QModelIndexList);
 		void deleteAllFiles();
-		void addFilesToList(QStringList&);
-		void addDirToList(QString&);
+		void addFilesToList(const QStringList&);
+		void addDirToList(const QString&);
 		
-		void savePlaylistToFile(QString&);
-		void openPlaylistFromFile(QString&);
-		void loadPlaylistFromFile(QString&);
+		void savePlaylistToFile(const QString&);
+		void openPlaylistFromFile(const QString&);
+		void loadPlaylistFromFile(const QString&);
 		
 		void currentMediaFile();
 		void nextMediFile();

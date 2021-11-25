@@ -1,5 +1,4 @@
 #include "playlistgui.hpp"
-#include <iostream>
 
 namespace mediaplayer {
 	
@@ -129,7 +128,8 @@ namespace mediaplayer {
 	
 
 	void PlaylistGui::addPlaylist() {
-		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
+		// this whith filters QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
+		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory()));
 		if (path.isNull())
 			return;
 		emit openPlaylistFromFile(path);
@@ -144,7 +144,8 @@ namespace mediaplayer {
 	}
 	
 	void PlaylistGui::loadPlaylist() {
-		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
+		// this whith filters QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory(), getFiltersFormatLibs()));
+		QString path(QFileDialog::getOpenFileName(0, "Open Playlist", getHomeDirectory()));
 		if (path.isNull())
 			return;
 		emit loadPlaylistFromFile(path);

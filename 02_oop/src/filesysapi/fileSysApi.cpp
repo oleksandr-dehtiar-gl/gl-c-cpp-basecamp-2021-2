@@ -1,5 +1,11 @@
 #include "fileSysApi.hpp"
-#include "fileWinSysApi.hpp"
+#ifdef _WIN32
+	#include "fileWinSysApi.hpp"
+#endif // _WIN32
+
+#ifdef __linux__
+	#include "fileUnixSysApi.hpp"
+#endif // __linux__
 
 #include <cstdio>
 
@@ -79,7 +85,7 @@ namespace filesysapi {
 	
 
 	PathManager::PathManager(const std::string &path)
-		: mHandler(new FileHandler(path + "\\*"))
+		: mHandler(new FileHandler(path + "/"))
 	{
 	}
 	
@@ -92,7 +98,7 @@ namespace filesysapi {
 	}
 	
 	void PathManager::newPath(const std::string &path) {
-		mHandler->setNewPath(path + "\\*");
+		mHandler->setNewPath(path + "/*");
 	}
 	
 	PathManager::operator bool() const {

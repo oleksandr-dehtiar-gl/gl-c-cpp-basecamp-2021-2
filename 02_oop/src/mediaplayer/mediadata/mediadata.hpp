@@ -8,9 +8,13 @@ namespace mediaplayer {
 	
 	constexpr char* MEDIA_FILE_FORMATS_NAME[] {"mp3", "mp4"}; 
 	constexpr char FILTER_FILE_FORMAT[] {"*.mp3 *.mp4"};
-	constexpr char FILTER_LIB_FORMAT[] {"*.mplist"};
-	constexpr char SEARCH_DIRECTORY[] {"e:/BACKUP_FROM_OLD_DISC/MUSIC/CLUB"};
-	constexpr char HOME_DIRECTORY[] {"..."};
+	constexpr char FILTER_LIB_FORMAT[] {"*.mpllist"};
+	#ifdef WIN32
+		constexpr char SEARCH_DIRECTORY[] {"C:/Users/User"};
+	#endif //WIN32
+	#ifdef __linux__
+		constexpr char SEARCH_DIRECTORY[] {"/home/student"};
+	#endif // __linux__
 	
 	static const char* getFiltersFormat() { return FILTER_FILE_FORMAT; }
 	static const char* getFiltersFormatLibs() { return FILTER_LIB_FORMAT; }

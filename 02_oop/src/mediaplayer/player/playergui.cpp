@@ -1,6 +1,5 @@
 #include "playergui.hpp"
 #include <QVideoWidget>
-#include <iostream>
 
 #include "../mediadata/mediadata.hpp"
 #include "../playlist/playlistgui.hpp"

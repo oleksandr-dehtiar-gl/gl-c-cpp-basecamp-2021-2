@@ -1,7 +1,6 @@
 #include "playlistmodel.hpp"
-#include "../../filesysapi/filesysapi.hpp"
+#include "../../filesysapi/fileSysApi.hpp"
 
-#include <iostream>
 #include <iterator>
 
 namespace mediaplayer {
@@ -52,12 +51,12 @@ namespace mediaplayer {
 			}
 		}
 		catch(std::invalid_argument &exc) {
-			printf("Non correct Path :%s\n", path.c_str());
+			printf("PlaylistModel exception path :%s\n", exc.what());
 		}
 		#undef pathname
 	}
 
-	void Playlistmodel::deleteSelectFiles(QModelIndexList &indexList) {
+	void Playlistmodel::deleteSelectFiles(QModelIndexList indexList) {
 		if (indexList.empty())
 			return;
 
@@ -85,7 +84,7 @@ namespace mediaplayer {
 		emit dataChanged(this->index(0,0), this->index(0,mList.size()));
 	}
 	
-	void Playlistmodel::savePlaylist(QString &filename) {
+	void Playlistmodel::savePlaylist(const QString &filename) {
 		QFile file(filename);
 		if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
 			return;
@@ -95,7 +94,7 @@ namespace mediaplayer {
 		file.close();
 	}
 	
-	void Playlistmodel::openPlaylist(QString &filename) {
+	void Playlistmodel::openPlaylist(const QString &filename) {
 		QFile file(filename);
 		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 			return;
@@ -111,7 +110,7 @@ namespace mediaplayer {
 		emit dataChanged(this->index(0,0), this->index(0,mList.size()));
 	}
 
-	void Playlistmodel::addFiles(QStringList &files) {
+	void Playlistmodel::addFiles(const QStringList &files) {
 		for (auto &file : files) {
 			auto filemedia(facoryMediaFile(file.toStdString()));
 			if (filemedia)
@@ -120,13 +119,13 @@ namespace mediaplayer {
 		emit dataChanged(this->index(0,0), this->index(0,mList.size()));
 	}
 	
-	void Playlistmodel::addDir(QString &dirName) {
+	void Playlistmodel::addDir(const QString &dirName) {
 		std::string path = dirName.toStdString();
 		readFromDirRecursive(path);
 		emit dataChanged(this->index(0,0), this->index(0,mList.size()));
 	}
 	
-	void Playlistmodel::loadPlaylist(QString &filename) {
+	void Playlistmodel::loadPlaylist(const QString &filename) {
 		std::list<std::shared_ptr<MediaFile>>().swap(mList);
 		openPlaylist(filename);
 	}
