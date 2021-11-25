@@ -6,6 +6,7 @@
 #include "cnew.h"
 #include "cclose.h"
 #include "copen.h"
+#include "validator.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -100,15 +101,12 @@ void MainWindow::on_textEdit_textChanged()
 {
     edited = true;
     status_AmountOfCharacters->setText("Amount of characters: " + QString::number(ui->textEdit->toPlainText().size()));
-    if(fileName.right(5)==".json")
-        on_actionValidate_json_file_triggered();
-    else
-        status_JSON_Validated->setText("");
+    status_JSON_Validated->setText("JSON validator says the file is not validated");
 }
 
 void MainWindow::on_actionValidate_json_file_triggered()
 {
-    bool temp=false;
-
+    Validator validator;
+    bool temp=validator.exec(ui->textEdit->toPlainText());
     status_JSON_Validated->setText("JSON validator says the file is " + QString(temp?"right":"wrong"));
 }

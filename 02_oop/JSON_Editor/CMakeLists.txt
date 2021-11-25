@@ -42,6 +42,8 @@ set(PROJECT_SOURCES
         finddialog.h
         finddialog.cpp
         finddialog.ui
+        validator.h
+        validator.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -68,7 +70,6 @@ else()
 endif()
 
 target_link_libraries(JSON_Editor PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
 set_target_properties(JSON_Editor PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
