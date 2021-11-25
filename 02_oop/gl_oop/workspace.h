@@ -11,8 +11,14 @@
 #include "LogicGatesGraphics/norgategraphicselement.h"
 #include "LogicGatesGraphics/orgategraphicselement.h"
 #include "LogicGatesGraphics/xorgategraphicselement.h"
-#include "LogicGatesGraphics/orgategraphicselement.h"
 #include "LogicGatesGraphics/notgategraphicselement.h"
+#include "LogicGates/andgate.h"
+#include "LogicGates/nandgate.h"
+#include "LogicGates/norgate.h"
+#include "LogicGates/orgate.h"
+#include "LogicGates/xorgate.h"
+#include "LogicGates/notgate.h"
+
 #include <QGraphicsSceneMouseEvent>
 
 
@@ -35,12 +41,18 @@ private:
     void StartNewConnection(const QPointF& m_mousePos);
     void AttachConnection();
     void DetachConnection(const QPointF& m_mousePos);
-    //bool mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+    void MapElement(GraphicsElement * graphElem, LogicElement * logElem);
+    GraphicsElement* BuildGraphicElement(ElementType type);
+    LogicElement* BuildLogicElement(ElementType type);
+
+
 private:
+
     std::unique_ptr<QGraphicsView> m_view;
     std::unique_ptr<Scene> m_scene;
     Port* m_hoverPort = nullptr;
     Connection* m_editedConn = nullptr;
+    std::map<GraphicsElement *, LogicElement *> m_elementAsoc;
 
 };
 

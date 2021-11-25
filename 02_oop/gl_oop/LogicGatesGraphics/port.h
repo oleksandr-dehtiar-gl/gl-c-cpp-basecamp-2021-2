@@ -1,6 +1,7 @@
 #ifndef PORT_H
 #define PORT_H
 #include <QGraphicsPathItem>
+#include <set>
 #include "connection.h"
 
 
@@ -17,12 +18,12 @@ public:
     void hoverLeave();
     void updateConnection();
     virtual bool connect(Connection * con) = 0;
-    virtual void disconnect() = 0;
+    void disconnect(Connection * con);
     QVariant itemChange(GraphicsItemChange change, const QVariant& value) override;
     const bool isInput() const;
-    const std::vector<Connection *> & getConnections() const;
+    const std::set<Connection *> & getConnections() const;
 protected:
-    std::vector<Connection*> m_connections;
+    std::set<Connection*> m_connections;
     const bool m_inputFLag;
 
 };
@@ -33,7 +34,7 @@ class InPort : public Port
 public:
 
     bool connect(Connection * con) override;
-    void disconnect() override;
+
     InPort(QGraphicsItem * parent = nullptr);
 
 };
@@ -42,7 +43,7 @@ class OutPort : public Port
 {
 public:
     bool connect(Connection * con) override;
-    void disconnect() override;
+
     OutPort(QGraphicsItem * parent = nullptr);
 };
 

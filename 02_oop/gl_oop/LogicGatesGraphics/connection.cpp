@@ -62,7 +62,11 @@ Port* Connection::getEndPort()
 void Connection::updatePath()
 {
     QPainterPath path;
+    qreal topHalfX = (m_endPos.x() - m_startPos.x()) * 0.5;
+    qreal botHalfX =  topHalfX;
     path.moveTo(m_startPos);
+    path.lineTo(m_startPos.x() + topHalfX, m_startPos.y());
+    path.lineTo(m_startPos.x() + botHalfX, m_endPos.y());
     path.lineTo(m_endPos);
     setPath(path);
 

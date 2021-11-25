@@ -16,7 +16,6 @@ WorkSpace::WorkSpace(QTabWidget * tabWidget, QObject * parent) : QObject(nullptr
 
 }
 
-
 bool WorkSpace::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 {
     if(!event)
@@ -27,49 +26,51 @@ bool WorkSpace::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
     Port * port = dynamic_cast<Port *>(m_scene->itemAt(scenePos, QTransform()));
     if(port)
     {
-        m_hoverPort = port;
-        m_hoverPort->hoverEnter();
-        if(m_editedConn)
+        if(!m_hoverPort)
         {
-            m_scene->update();
-            m_editedConn->setEndPos(event->scenePos());
-            m_editedConn->updatePath();
-            return true;
+            m_hoverPort = port;
+            m_hoverPort->hoverEnter();
+
         }
-        return true;
-    }
-    else
-    {
-        if(m_hoverPort)
+        else if(m_hoverPort != port)
         {
             m_hoverPort->hoverLeave();
             m_hoverPort = nullptr;
-            return true;
-        }
-        if(m_editedConn)
-        {
-            m_scene->update();
-            m_editedConn->setEndPos(event->scenePos());
-            m_editedConn->updatePath();
-            return true;
         }
 
+
     }
+    else if(m_hoverPort)
+    {
+        m_hoverPort->hoverLeave();
+        m_hoverPort = nullptr;
+
+
+    }
+    if(m_editedConn)
+    {
+        m_scene->update();
+        m_editedConn->setEndPos(event->scenePos());
+        m_editedConn->updatePath();
+        return true;
+    }
+
     return false;
 }
 
 void WorkSpace::DetachConnection(const QPointF& m_mousePos)
 {
 
-    m_editedConn = m_hoverPort->getConnections().back();
+    m_editedConn = *m_hoverPort->getConnections().begin();
     if(m_editedConn->getEndPort() == m_hoverPort)
     {
-        m_editedConn->getEndPort()->disconnect();
+       m_hoverPort->disconnect(m_editedConn);
 
     }
     else
     {
-        m_editedConn->getStartPort()->disconnect();
+        Port * temp = m_editedConn->getStartPort();
+        temp->disconnect(m_editedConn);
         m_editedConn->setStartPort(m_editedConn->getEndPort());
         m_editedConn->setEndPort(nullptr);
 
@@ -108,7 +109,7 @@ void WorkSpace::AttachConnection()
     else
     {
 
-        m_editedConn->getStartPort()->disconnect();
+        m_editedConn->getStartPort()->disconnect(m_editedConn);
         m_scene->removeItem(m_editedConn);
         delete m_editedConn;
     }
@@ -151,11 +152,11 @@ bool WorkSpace::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
             if(m_editedConn->getStartPort())
             {
-                m_editedConn->getStartPort()->disconnect();
+                m_editedConn->getStartPort()->disconnect(m_editedConn);
             }
-            else if(m_editedConn->getStartPort())
+            if(m_editedConn->getEndPort())
             {
-                m_editedConn->getEndPort()->disconnect();
+                m_editedConn->getEndPort()->disconnect(m_editedConn);
             }
             m_scene->removeItem(m_editedConn);
             delete m_editedConn;
@@ -167,7 +168,39 @@ bool WorkSpace::mousePressEvent(QGraphicsSceneMouseEvent* event)
     return false;
 }
 
-void WorkSpace::AddElement(ElementType type)
+LogicElement * WorkSpace::BuildLogicElement(ElementType type)
+{
+    LogicElement * elem = nullptr;
+    switch (type)
+    {
+    case ElementType::AND:
+
+        elem = new AndGate();
+
+        break;
+    case ElementType::NAND:
+        elem = new NandGate();
+        break;
+    case ElementType::NOR:
+        elem = new NorGate();
+        break;
+    case ElementType::NOT:
+        elem = new NotGate();
+        break;
+    case ElementType::OR:
+        elem = new OrGate();
+        break;
+    case ElementType::XOR:
+        elem = new XorGate();
+        break;
+    case ElementType::DEFAULT:
+    default:
+        return nullptr;
+    }
+    return elem;
+}
+
+GraphicsElement * WorkSpace::BuildGraphicElement(ElementType type)
 {
     GraphicsElement * elem = nullptr;
     switch (type)
@@ -194,19 +227,25 @@ void WorkSpace::AddElement(ElementType type)
         break;
     case ElementType::DEFAULT:
     default:
-        return;
+        return nullptr;
     }
-    if(elem != nullptr)
-    {
-        Port * in1 = new InPort(elem);
-        Port * in2 = new InPort(elem);
-        Port * out1 = new OutPort(elem);
-        elem->addInputs(in1);
-        elem->addInputs(in2);
-        elem->addOutputs(out1);
-        m_scene->addItem(elem);
-    }
+    return elem;
+}
 
+void WorkSpace::MapElement(GraphicsElement *graphElem, LogicElement *logElem)
+{
+    m_elementAsoc[graphElem] = logElem;
+}
+
+void WorkSpace::AddElement(ElementType type)
+{
+   GraphicsElement * graphElem = BuildGraphicElement(type);
+   LogicElement * logicElem = BuildLogicElement(type);
+   if(graphElem && logicElem)
+   {
+       MapElement(graphElem, logicElem);
+       m_scene->addItem(graphElem);
+   }
 }
 
 
@@ -242,7 +281,11 @@ bool WorkSpace::eventFilter(QObject* target, QEvent* event)
 
 WorkSpace::~WorkSpace()
 {
-
+    for(auto it = m_elementAsoc.begin(); it != m_elementAsoc.end(); it++)
+    {
+        delete it->second;
+    }
+    m_elementAsoc.clear();
     for(int ind = 0; ind < m_scene->items().size(); ind++)
     {
         delete m_scene->items()[ind];

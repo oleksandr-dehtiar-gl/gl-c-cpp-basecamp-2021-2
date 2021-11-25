@@ -28,7 +28,7 @@ void Port::hoverLeave()
 }
 
 
-const std::vector<Connection *> & Port::getConnections() const
+const std::set<Connection *> & Port::getConnections() const
 {
     return m_connections;
 }
@@ -41,12 +41,33 @@ QVariant Port::itemChange(GraphicsItemChange change, const QVariant& value)
     return value;
 }
 
+void Port::disconnect(Connection *con)
+{
+    if(!m_connections.empty())
+    {
+        if(m_connections.find(con) != m_connections.end())
+        {
+            Port * startPort = con->getStartPort();
+            if(startPort == this)
+            {
+                con->setStartPort(nullptr);
+            }
+            else
+            {
+                con->setEndPort(nullptr);
+            }
+            m_connections.erase(con);
+        }
+
+    }
+}
+
 void Port::updateConnection()
 {
-    for(auto ind = 0; ind < m_connections.size(); ind++)
+    for(auto it = m_connections.begin(); it != m_connections.end(); it++)
     {
-        m_connections[ind]->updateConnectionPosFromPorts();
-        m_connections[ind]->updatePath();
+        (*it)->updateConnectionPosFromPorts();
+        (*it)->updatePath();
     }
 }
 
@@ -63,42 +84,26 @@ InPort::InPort(QGraphicsItem * parent) : Port(parent, true)
 
 bool OutPort::connect(Connection *con)
 {
-    if(con)
+    if(con && m_connections.find(con) == m_connections.end())
     {
         Port * start_port = con->getStartPort();
         Port * end_port = con->getEndPort();
         if(!start_port)
         {
             con->setStartPort(this);
-            m_connections.push_back(con);
+            m_connections.insert(con);
             return true;
         }
         else if(!end_port && start_port->isInput() && (start_port->parentItem() != this->parentItem()))
         {
             con->setEndPort(this);
-            m_connections.push_back(con);
+            m_connections.insert(con);
             return true;
         }
-
-
     }
     return false;
 }
 
-void OutPort::disconnect()
-{
-
-        if(m_connections.back()->getEndPort() == this)
-        {
-            m_connections.back()->setEndPort(nullptr);
-        }
-        else
-        {
-            m_connections.back()->setStartPort(nullptr);
-        }
-        m_connections.pop_back();
-
-}
 
 
 bool InPort::connect(Connection *con)
@@ -110,13 +115,13 @@ bool InPort::connect(Connection *con)
         if(!start_port)
         {
             con->setStartPort(this);
-            m_connections.push_back(con);
+            m_connections.insert(con);
             return true;
         }
         else if(!end_port && !start_port->isInput() && (start_port->parentItem() != this->parentItem()))
         {
             con->setEndPort(this);
-            m_connections.push_back(con);
+            m_connections.insert(con);
             return true;
         }
 
@@ -124,17 +129,4 @@ bool InPort::connect(Connection *con)
     return false;
 }
 
-void InPort::disconnect()
-{
 
-        if(m_connections[0]->getEndPort() == this)
-        {
-            m_connections[0]->setEndPort(nullptr);
-        }
-        else
-        {
-            m_connections[0]->setStartPort(nullptr);
-        }
-        m_connections.pop_back();
-
-}

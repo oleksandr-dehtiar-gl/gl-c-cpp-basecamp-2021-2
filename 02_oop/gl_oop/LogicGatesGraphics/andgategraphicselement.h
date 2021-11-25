@@ -7,6 +7,7 @@ class AndGateGraphicsElement : public GraphicsElement
 {
 public:
     AndGateGraphicsElement(QGraphicsItem* parent = nullptr);
+
 };
 
 #endif // ANDGATEGRAPHICSELEMENT_H

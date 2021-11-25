@@ -1,7 +1,7 @@
 #ifndef NOTGATE_H
 #define NOTGATE_H
 
-#include "logicelement.h"
+#include "../logicelement.h"
 
 class NotGate : public LogicElement
 {

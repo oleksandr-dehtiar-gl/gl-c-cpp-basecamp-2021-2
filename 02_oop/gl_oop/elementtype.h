@@ -1,9 +1,5 @@
 #ifndef ELEMENTTYPE_H
 #define ELEMENTTYPE_H
-
-#endif // ELEMENTTYPE_H
-
-
 enum ElementType
 {
     DEFAULT,
@@ -14,3 +10,8 @@ enum ElementType
     OR,
     XOR
 };
+
+#endif // ELEMENTTYPE_H
+
+
+

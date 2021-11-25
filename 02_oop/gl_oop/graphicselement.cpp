@@ -7,40 +7,48 @@ GraphicsElement::GraphicsElement(QGraphicsItem* parent) : QGraphicsObject(parent
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
     m_pixmap.reset(new QPixmap(64, 64));
 
+
 }
 GraphicsElement::~GraphicsElement()
 {}
 
-void GraphicsElement::addInputs(Port * input)
+void GraphicsElement::addInputs(int inputAmount)
 {
-    if(m_inputs.size() <= 8)
+    if(inputAmount > 0 && inputAmount <= 8)
     {
+        if(m_inputs.empty())
+        {
+            m_inputs.resize(inputAmount);
+        }
 
-        m_inputs.push_back(input);
-        int yPos = 0;
+        int yPos = 28;
         int step = 0;
         if(m_inputs.size() > 1)
         {
             step = ((64 - (m_inputs.size() * 8)) / (m_inputs.size() - 1)) + 8;
+            yPos = 0;
         }
 
-        for(auto ind = 0; ind < m_inputs.size(); ind++)
+        for(auto ind = 0; ind < inputAmount; ind++)
         {
+            Port * newPort = new InPort(this);
+            m_inputs[ind] = newPort;
             m_inputs[ind]->setPos(0, yPos);
             yPos += step;
-            input->update();
+            m_inputs[ind]->update();
         }
     }
 
 }
 
-void GraphicsElement::addOutputs(Port * output)
+void GraphicsElement::addOutput()
 {
-    if(m_outputs.empty())
+    if(!m_output)
     {
-        output->setPos(72, 28);
-        m_outputs.push_back(output);
-        output->update();
+        Port * newPort = new OutPort(this);
+        m_output = newPort;
+        m_output->setPos(72, 28);
+        m_output->update();
     }
 }
 

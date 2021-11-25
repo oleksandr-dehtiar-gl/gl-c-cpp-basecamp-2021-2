@@ -1,11 +1,12 @@
 #ifndef NANDGATE_H
 #define NANDGATE_H
-#include "logicelement.h"
+
+#include "../logicelement.h"
 
 class NandGate: public LogicElement
 {
 public:
-    NandGate(int input_amount);
+    NandGate(int input_amount = 2);
     void updateLogic() override;
 };
 

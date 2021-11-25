@@ -5,7 +5,7 @@
 class XorGate : public LogicElement
 {
 public:
-    XorGate(int input_amount);
+    XorGate(int input_amount = 2);
     void updateLogic() override;
 };
 
