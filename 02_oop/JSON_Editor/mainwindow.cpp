@@ -110,3 +110,10 @@ void MainWindow::on_actionValidate_json_file_triggered()
     bool temp=validator.exec(ui->textEdit->toPlainText());
     status_JSON_Validated->setText("JSON validator says the file is " + QString(temp?"right":"wrong"));
 }
+}
+
+
+void MainWindow::on_actionQuit_triggered()
+{
+    QApplication::quit();
+}
