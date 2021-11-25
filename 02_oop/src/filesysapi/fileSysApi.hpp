@@ -16,7 +16,6 @@ namespace filesysapi {
 
 	typedef std::pair<std::string, FileType> pairPath;
 	
-	// public method path manipulator
 	std::string getAbsolutePath(const pairPath& path);
 	std::string getAbsolutePath(const std::string& path);
 	

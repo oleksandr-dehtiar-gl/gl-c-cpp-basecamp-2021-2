@@ -31,26 +31,20 @@ add_executable(player)
 target_sources(player
 PRIVATE
 	${SRC_DIR}/main.cpp
-	${SRC_DIR}/id3reader.hpp
+	
 	${SRC_DIR}/id3reader.cpp
 	
-	${FILE_SYS_DIR}/fileSysApi.hpp
 	${FILE_SYS_DIR}/fileSysApi.cpp
-	${FILE_SYS_DIR}/fileWinSysApi.hpp
 	
-	${PLAYLIST_DIR}/playlistmodel.hpp
-	${PLAYLIST_DIR}/playlistmodel.cpp
-	${PLAYLIST_DIR}/playlistgui.hpp
-	${PLAYLIST_DIR}/playlistgui.cpp
-	
-	${PLAYER_DIR}/playergui.hpp
-	${PLAYER_DIR}/playergui.cpp
-	
-	${MEDIADATA_DIR}/mediadata.hpp
 	${MEDIADATA_DIR}/mediadata.cpp
 	
-	${LIBRARY_DIR}/librarygui.hpp
+	${PLAYLIST_DIR}/playlistmodel.cpp
+	${PLAYLIST_DIR}/playlistgui.cpp
+	
 	${LIBRARY_DIR}/librarygui.cpp
+	${LIBRARY_DIR}/librarymodel.cpp
+	
+	${PLAYER_DIR}/playergui.cpp
 )
 
 target_link_libraries(player 

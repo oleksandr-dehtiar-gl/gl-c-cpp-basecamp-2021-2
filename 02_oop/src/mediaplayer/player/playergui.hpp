@@ -4,10 +4,11 @@
 #include <QtWidgets>
 #include <QMediaPlayer>
 
-#include "../playlist/playlistgui.hpp"
-#include "../mediadata/mediadata.hpp"
-
 namespace mediaplayer {
+	
+	class PlaylistGui;
+	class LibraryGui;
+	class MediaFile;
 	
 	enum RepMode { NOREP, REPALL, REP1 };
 	
@@ -19,6 +20,7 @@ namespace mediaplayer {
 		std::shared_ptr<MediaFile> mCurrPlayFile;
 		QMediaPlayer *mpMediaPlayer = nullptr;
 		PlaylistGui *mpPlaylist = nullptr;
+		LibraryGui *mpLibrary = nullptr;
 		RepMode mRepMode = RepMode::NOREP;
 	private:
 		// Control play buttons
@@ -37,6 +39,8 @@ namespace mediaplayer {
 		QLabel *mTime;
 		QLabel *mRestTime;
 		QSlider *mProgress;
+		// show media file
+		QLabel *mpShowMedia;
 	private:
 		void connections();
 		QString msecsToString(qint64);
@@ -46,6 +50,7 @@ namespace mediaplayer {
 		void changePlaylistRepeat(bool);
 	private slots:
 		void openPlaylist();
+		void openLibrary();
 		void getFileForPlay(std::shared_ptr<MediaFile> file);
 		void getFile(std::shared_ptr<MediaFile> file);
 		void slotPlay();

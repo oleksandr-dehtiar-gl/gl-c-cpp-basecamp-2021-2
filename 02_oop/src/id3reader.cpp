@@ -10,8 +10,8 @@
 
 namespace mediaplayer {
 	
-	static const int genrecount = 192;
-	static const char* genreNames[genrecount] = {
+	constexpr int genrecount = 192;
+	constexpr char* genreNames[genrecount] = {
 		"Blues",
 		"Classic Rock",
 		"Country",
@@ -206,15 +206,15 @@ namespace mediaplayer {
 		"Psybient"
 	};
 	
-	static const int size_header = 3;
-	static const int size_title = 30;
-	static const int size_artist = 30;
-	static const int size_album = 30;
-	static const int size_year = 4;
-	static const int size_comment = 28;
-	static const int size_zerobyte = 1;
-	static const int size_track = 1;
-	static const int size_genre = 1;
+	constexpr int size_header = 3;
+	constexpr int size_title = 30;
+	constexpr int size_artist = 30;
+	constexpr int size_album = 30;
+	constexpr int size_year = 4;
+	constexpr int size_comment = 28;
+	constexpr int size_zerobyte = 1;
+	constexpr int size_track = 1;
+	constexpr int size_genre = 1;
 	
 	struct HeaderID3v1 {
 		char header[size_header];

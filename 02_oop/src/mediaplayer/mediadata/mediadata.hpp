@@ -6,11 +6,11 @@
 
 namespace mediaplayer {
 	
-	static constexpr char* MEDIA_FILE_FORMATS_NAME[] {"mp3", "mp4"}; 
-	static constexpr char FILTER_FILE_FORMAT[] {"*.mp3 *.mp4"};
-	static constexpr char FILTER_LIB_FORMAT[] {"*.mplist"};
-	static constexpr char SEARCH_DIRECTORY[] {"e:/BACKUP_FROM_OLD_DISC/MUSIC/CLUB"};
-	static constexpr char HOME_DIRECTORY[] {"..."};
+	constexpr char* MEDIA_FILE_FORMATS_NAME[] {"mp3", "mp4"}; 
+	constexpr char FILTER_FILE_FORMAT[] {"*.mp3 *.mp4"};
+	constexpr char FILTER_LIB_FORMAT[] {"*.mplist"};
+	constexpr char SEARCH_DIRECTORY[] {"e:/BACKUP_FROM_OLD_DISC/MUSIC/CLUB"};
+	constexpr char HOME_DIRECTORY[] {"..."};
 	
 	static const char* getFiltersFormat() { return FILTER_FILE_FORMAT; }
 	static const char* getFiltersFormatLibs() { return FILTER_LIB_FORMAT; }

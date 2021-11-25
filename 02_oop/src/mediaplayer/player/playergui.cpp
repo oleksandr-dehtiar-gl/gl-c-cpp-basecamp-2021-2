@@ -2,10 +2,15 @@
 #include <QVideoWidget>
 #include <iostream>
 
+#include "../mediadata/mediadata.hpp"
+#include "../playlist/playlistgui.hpp"
+#include "../library/librarygui.hpp"
+
 constexpr int widthPlayilist = 600;
 constexpr int heightPlayilist = 500;
+constexpr int widthLib = 500;
+constexpr int heightLib = 500;
 constexpr int defaultVolume = 50;
-
 
 namespace mediaplayer {
 	constexpr char* repNames[] {"NOREP", "REPALL", "REP1"};
@@ -22,7 +27,10 @@ namespace mediaplayer {
 		mpPlaylist->resize(widthPlayilist, heightPlayilist);
 		mpPlaylist->addDirToList(QString(SEARCH_DIRECTORY));
 		
-		// set video vidget
+		mpLibrary = new LibraryGui(this);
+		mpLibrary->resize(widthLib, heightLib);
+		
+		// video vidget
 		QVideoWidget *pVideoWdg = new QVideoWidget;
 		pVideoWdg->setMinimumSize(300, 300);
 		mpMediaPlayer->setVideoOutput(pVideoWdg);
@@ -100,9 +108,11 @@ namespace mediaplayer {
 		// Vertical layout
 		QVBoxLayout *vertLayout = new QVBoxLayout;
 		vertLayout->addWidget(pVideoWdg);
-		// vertLayout->addStretch(1);
+		vertLayout->addStretch(1);
 		vertLayout->addLayout(hProgressPanel);
 		vertLayout->addLayout(hControlPanel);
+		mpShowMedia = new QLabel("File path/name");
+		vertLayout->addWidget(mpShowMedia);
 		
 		// Main bounder box player
 		QFrame *playerBounder = new QFrame;
@@ -117,10 +127,10 @@ namespace mediaplayer {
 		connections();
 	}
 	
-	// Connection signal/slot for player
 	void PlayerGui::connections() {
 		// open new sub windows
 		connect(mPlaylistButton, SIGNAL(clicked()), SLOT(openPlaylist()));
+		connect(mLibraryButton, SIGNAL(clicked()), SLOT(openLibrary()));
 		// control play media
 		connect(mVolumeSlider, SIGNAL(valueChanged(int)), mpMediaPlayer, SLOT(setVolume(int)));
 		connect(mPlayButton, SIGNAL(clicked()), SLOT(slotPlay()));
@@ -148,7 +158,6 @@ namespace mediaplayer {
 		mCurrPlayFile = file;
 		if (!file)
 			return;
-		std::cout << "nextSong song: " << mCurrPlayFile->name() << std::endl;
 		auto status = mpMediaPlayer->state();
 		mpMediaPlayer->setMedia(QUrl::fromLocalFile(QString::fromStdString(mCurrPlayFile->path())));
 		if (status != QMediaPlayer::StoppedState)
@@ -159,12 +168,15 @@ namespace mediaplayer {
 		mCurrPlayFile = file;
 		if (!file)
 			return;
-		std::cout << "nextSong song: " << mCurrPlayFile->name() << std::endl;
 		play();
 	}
 	
 	void PlayerGui::openPlaylist() {
 		mpPlaylist->isVisible() ? mpPlaylist->hide() : mpPlaylist->show();
+	}
+	
+	void PlayerGui::openLibrary() {
+		mpLibrary->isVisible() ? mpLibrary->hide() : mpLibrary->show();
 	}
 	
 	bool PlayerGui::play() {
@@ -173,6 +185,7 @@ namespace mediaplayer {
 			mpMediaPlayer->play();
 			if (mpMediaPlayer->state() == QMediaPlayer::PlayingState) {
 				mPlayButton->setIcon(style()->standardIcon(QStyle::SP_MediaPause));
+				mpShowMedia->setText(QString::fromStdString(mCurrPlayFile->path()));
 				return true;
 			}
 		}

@@ -13,7 +13,6 @@ namespace mediaplayer {
 		mIndex = createIndex(0, 0);
 	}
 	
-	// Overload methods
 	int Playlistmodel::rowCount(const QModelIndex &parent) const {
 		return mList.size();
 	}
@@ -35,7 +34,6 @@ namespace mediaplayer {
 		return QVariant();
 	}
 	
-	// Service methods
 	void Playlistmodel::readFromDirRecursive(const std::string &path) {
 		filesysapi::pairPath pathpair;
 		#define pathname std::get<0>(pathpair)
@@ -59,7 +57,6 @@ namespace mediaplayer {
 		#undef pathname
 	}
 
-	// Slots
 	void Playlistmodel::deleteSelectFiles(QModelIndexList &indexList) {
 		if (indexList.empty())
 			return;

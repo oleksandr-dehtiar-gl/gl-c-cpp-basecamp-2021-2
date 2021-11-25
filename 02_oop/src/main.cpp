@@ -4,8 +4,9 @@ int main(int argc, char** argv) {
 
 	QApplication app(argc, argv);
 
-	mediaplayer::PlayerGui pl;
-	pl.show();
+	mediaplayer::PlayerGui palayer;
+	palayer.show();
 
 	return app.exec();
 }
+

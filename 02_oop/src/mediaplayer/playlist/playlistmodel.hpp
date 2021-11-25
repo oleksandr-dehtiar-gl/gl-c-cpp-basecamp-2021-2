@@ -5,7 +5,7 @@
 #include <list>
 #include <memory>
 
-#include "../mediadata/mediadata.hpp" // define default directory for search files and search filters for files and libraries
+#include "../mediadata/mediadata.hpp"
 
 namespace mediaplayer {
 	
@@ -23,13 +23,11 @@ namespace mediaplayer {
 	private:
 		void readFromDirRecursive(const std::string &path);
 	public slots:
-		// Good
 		void deleteSelectFiles(QModelIndexList &indexList);
 		void deleteAllFiles();
 		void addFiles(QStringList &files);
 		void addDir(QString &dirName);
 
-		// Not good
 		void savePlaylist(QString &filename);
 		void openPlaylist(QString &filename);
 		void loadPlaylist(QString &filename);

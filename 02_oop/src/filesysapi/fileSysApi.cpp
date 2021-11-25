@@ -5,7 +5,6 @@
 
 namespace filesysapi {
 	
-	// Non member function for manipulate path
 	std::string getAbsolutePath(const pairPath& path) {
 		return std::move(absolutePath(std::get<0>(path)));
 	}
@@ -72,13 +71,13 @@ namespace filesysapi {
 			}
 		}
 		catch(std::invalid_argument &exc) {
-			printf("Non correct Path :%s\n", path.c_str());
+			printf("Uncorrected path :%s\n", path.c_str());
 			return numberOfElement;
 		}
 		return numberOfElement;
 	}
 	
-	// Path Maneger methods
+
 	PathManager::PathManager(const std::string &path)
 		: mHandler(new FileHandler(path + "\\*"))
 	{
