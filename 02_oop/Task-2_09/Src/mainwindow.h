@@ -45,6 +45,6 @@ private:
     QLabel* cell[4][4];
 
 private slots:
-    void FieldGame();
+    void ResetGame();
 };
 #endif // MAINWINDOW_H

@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     Reset = new QPushButton();
     Reset->setText("New / Reset");
-    QObject::connect(Reset, SIGNAL(clicked()), this, SLOT(FieldGame()));
+    QObject::connect(Reset, SIGNAL(clicked()), this, SLOT(ResetGame()));
     map->addWidget(Reset, 0, 0);
 
     scoreText = 0;
@@ -43,7 +43,7 @@ MainWindow::~MainWindow()
             delete cell[i][j];
 }
 
-void MainWindow::FieldGame()
+void MainWindow::ResetGame()
 {
     for (int i = 0; i < 4; ++i)
         for (int j = 0; j < 4; ++j)
