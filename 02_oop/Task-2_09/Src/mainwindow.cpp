@@ -38,9 +38,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow()
 {
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 4; ++j)
-            delete cell[i][j];
+    delete ui;
 }
 
 void MainWindow::ResetGame()
@@ -166,6 +164,29 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
     }
 }
 
+void MainWindow::Turn()
+{
+    int a[4][4];
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+        {
+            a[4 - j - 1][i] = cell[i][j]->text().toInt();
+        }
+    for (int i = 0; i < 4; ++i)
+        for (int j = 0; j < 4; ++j)
+        {
+            if (a[i][j] == 0)
+            {
+                cell[i][j]->setText("");
+            }
+            else
+            {
+                cell[i][j]->setText(QString::number(a[i][j]));
+            }
+            Color(i, j);
+        }
+}
+
 void MainWindow::Down()
 {
     QString* a[4][4];
@@ -248,32 +269,3 @@ void MainWindow::Left()
     Down();
     Turn();
 }
-
-void MainWindow::Turn()
-{
-    int a[4][4];
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 4; ++j)
-        {
-            a[4 - j - 1][i] = cell[i][j]->text().toInt();
-        }
-    for (int i = 0; i < 4; ++i)
-        for (int j = 0; j < 4; ++j)
-        {
-            if (a[i][j] == 0)
-            {
-                cell[i][j]->setText("");
-            }
-            else
-            {
-                cell[i][j]->setText(QString::number(a[i][j]));
-            }
-            Color(i, j);
-        }
-}
-/*
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-*/
