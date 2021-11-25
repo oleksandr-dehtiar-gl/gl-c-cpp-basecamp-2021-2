@@ -26,8 +26,8 @@ Application should:
 ## The folder Doc
 
  * **[WBS](Doc/WBS.md)** WBS File
- * **[Use Case Diagram](Doc/Use Case Diagram.jpg)** Use Diagram File
- * **[Game Sequence diagrams](Doc/Game Sequence diagrams.png)** Sequence Diagrams File
+ * **[Use Case Diagram](Doc/UseCaseDiagram.jpg)** Use Diagram File
+ * **[Game Sequence diagrams](Doc/GameSequencediagrams.png)** Sequence Diagrams File
  * **[Class Diagram](Doc/ClassDiagram.png)** Class Diagram File
  
  ## The folder Src
