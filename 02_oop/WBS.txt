@@ -1,0 +1,20 @@
+Task: Text file compare tool. (like winmerge)
+1: Planning (26 hours)
+	1.1: Requirements analysis/elaboration (2 hours)
+	1.2: Research (APIs, libraries, etc.) (16 hours)
+	     Qt - gui 
+	1.3: Documentation prep (8 hours)
+	     WBS 
+
+2: Developing (54 hours)
+	2.1: Implementing outputting files to tables (11 hours)
+	2.2: Implementation of comparing two tables and highlighting rows with color (11 hours)
+	2.3: Implementation of deleting the selected line and adding a new one at the end (11 hours)
+	2.4: Implementing import of modified files (11 hours)
+	2.5: Implementing three interface themes (10 hours)
+
+3: Testing (10 hours)
+	3.1: Testing adding files (2 hours)
+	3.2: Testing file deletions and additions (2 hours)
+	3.3: Testing import files (2 hours)
+	3.4: Testing other mechanics of the application (4 hours)
