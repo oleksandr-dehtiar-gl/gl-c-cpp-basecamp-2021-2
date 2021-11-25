@@ -1,10 +1,12 @@
 #include "fileSysApi.hpp"
 #ifdef _WIN32
 	#include "fileWinSysApi.hpp"
+	constexpr char dirSlash[] {"\\*"};
 #endif // _WIN32
 
 #ifdef __linux__
 	#include "fileUnixSysApi.hpp"
+	constexpr char dirSlash[] {"/"};
 #endif // __linux__
 
 #include <cstdio>
@@ -85,7 +87,7 @@ namespace filesysapi {
 	
 
 	PathManager::PathManager(const std::string &path)
-		: mHandler(new FileHandler(path + "/"))
+		: mHandler(new FileHandler(path + dirSlash))
 	{
 	}
 	
@@ -98,7 +100,7 @@ namespace filesysapi {
 	}
 	
 	void PathManager::newPath(const std::string &path) {
-		mHandler->setNewPath(path + "/*");
+		mHandler->setNewPath(path + dirSlash);
 	}
 	
 	PathManager::operator bool() const {
