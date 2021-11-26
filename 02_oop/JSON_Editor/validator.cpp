@@ -3,9 +3,10 @@
 bool Validator::exec(QString str_) {
     try{
     i=0;
-    str_.erase(std::remove(str_.begin(), str_.end(), ' '), str_.end());
-    str_.erase(std::remove(str_.begin(), str_.end(), '\n'), str_.end());
-    str_.erase(std::remove(str_.begin(), str_.end(), '\t'), str_.end());
+    str_.remove(' ');
+    str_.remove('\n');
+    str_.remove('\t');
+    str_.squeeze();
     this->str = str_;
     return S();
     }
