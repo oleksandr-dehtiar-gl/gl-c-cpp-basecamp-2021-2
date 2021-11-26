@@ -19,6 +19,31 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        aboutdialog.h
+        aboutdialog.cpp
+        aboutdialog.ui
+        command.h
+        invoker.h
+        invoker.cpp
+        cquit.h
+        cquit.cpp
+        cabout.h
+        cabout.cpp
+        csave.h
+        csave.cpp
+        cnew.h
+        cnew.cpp
+        savechanges.h
+        savechanges.cpp
+        cclose.h
+        cclose.cpp
+        copen.h
+        copen.cpp
+        finddialog.h
+        finddialog.cpp
+        finddialog.ui
+        validator.h
+        validator.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

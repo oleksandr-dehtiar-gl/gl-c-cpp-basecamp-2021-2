@@ -1,0 +1,8 @@
+#TODO:
+Show line numbers.
+	- configurable -> user can enable/disable it.
+Also support with using regexps.
+Show formatted JSON text.
+Ability to shrink/expand the content of JSON nodes.
+Show keys/values with different colours.
+Improve validation for json files.
