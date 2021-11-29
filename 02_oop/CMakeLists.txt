@@ -31,7 +31,7 @@ find_package(Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt5 REQUIRED COMPONENTS Xml)
 
 # Tell CMake to create the helloworld executable
-add_executable(helloworld main.cpp mainwindow.cpp mainwindow.ui passwordwindow.cpp passwordwindow.ui encdec.cpp)
+add_executable(helloworld Secure_Storage_Applications/main.cpp Secure_Storage_Applications/mainwindow.cpp Secure_Storage_Applications/mainwindow.ui Secure_Storage_Applications/passwordwindow.cpp Secure_Storage_Applications/passwordwindow.ui Secure_Storage_Applications/encdec.cpp)
 
 # Add the Qt5 Widgets for linking
 target_link_libraries(helloworld Qt5::Widgets)
