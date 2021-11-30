@@ -7,6 +7,7 @@ Connection::Connection(QGraphicsItem * parent) : QGraphicsPathItem(parent)
     setFlag(QGraphicsItem::ItemIsSelectable);
     m_startPort = nullptr;
     m_endPort = nullptr;
+    setZValue(-1);
 
 }
 

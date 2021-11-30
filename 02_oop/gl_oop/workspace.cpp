@@ -30,14 +30,12 @@ bool WorkSpace::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
         {
             m_hoverPort = port;
             m_hoverPort->hoverEnter();
-
         }
         else if(m_hoverPort != port)
         {
             m_hoverPort->hoverLeave();
             m_hoverPort = nullptr;
         }
-
 
     }
     else if(m_hoverPort)
@@ -54,7 +52,6 @@ bool WorkSpace::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
         m_editedConn->updatePath();
         return true;
     }
-
     return false;
 }
 
@@ -65,15 +62,11 @@ void WorkSpace::DetachConnection(const QPointF& m_mousePos)
     if(m_editedConn->getEndPort() == m_hoverPort)
     {
        m_hoverPort->disconnect(m_editedConn);
-
     }
     else
     {
-        Port * temp = m_editedConn->getStartPort();
-        temp->disconnect(m_editedConn);
         m_editedConn->setStartPort(m_editedConn->getEndPort());
-        m_editedConn->setEndPort(nullptr);
-
+        m_hoverPort->disconnect(m_editedConn);
     }
     m_editedConn->setEndPos(m_mousePos);
     m_editedConn->updateConnectionPosFromPorts();
@@ -89,8 +82,6 @@ void WorkSpace::StartNewConnection(const QPointF& m_mousePos)
         m_editedConn->setEndPos(m_mousePos);
         m_hoverPort->updateConnection();
         m_scene->addItem(m_editedConn);
-
-
     }
     else
     {
@@ -123,18 +114,16 @@ bool WorkSpace::mousePressEvent(QGraphicsSceneMouseEvent* event)
     {
         return false;
     }
-
     if(m_hoverPort)
     {
         if(!m_editedConn)
         {
-            if(!m_hoverPort->getConnections().empty() && m_hoverPort->isInput())
+            if(!m_hoverPort->getConnections().empty() && m_hoverPort->getPortType() == PortType::input)
             {
                 DetachConnection(event->scenePos());
                 return true;
             }
             m_editedConn = new Connection();
-            m_editedConn->setZValue(-1);
             StartNewConnection(event->scenePos());
             return true;
         }
@@ -149,15 +138,8 @@ bool WorkSpace::mousePressEvent(QGraphicsSceneMouseEvent* event)
     {
         if(m_editedConn)
         {
-
-            if(m_editedConn->getStartPort())
-            {
-                m_editedConn->getStartPort()->disconnect(m_editedConn);
-            }
-            if(m_editedConn->getEndPort())
-            {
-                m_editedConn->getEndPort()->disconnect(m_editedConn);
-            }
+            Port * editedConnStartPort = m_editedConn->getStartPort();
+            editedConnStartPort->disconnect(m_editedConn);
             m_scene->removeItem(m_editedConn);
             delete m_editedConn;
             m_editedConn = nullptr;
