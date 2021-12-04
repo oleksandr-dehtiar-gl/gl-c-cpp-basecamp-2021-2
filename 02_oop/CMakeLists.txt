@@ -44,6 +44,8 @@ set(PROJECT_SOURCES
     gl_oop/LogicGates/norgate.cpp
     gl_oop/LogicGates/orgate.h
     gl_oop/LogicGates/orgate.cpp
+    gl_oop/LogicGates/logicinput.h
+    gl_oop/LogicGates/logicinput.cpp
 
     gl_oop/LogicGatesGraphics/andgategraphicselement.h
     gl_oop/LogicGatesGraphics/andgategraphicselement.cpp
@@ -61,6 +63,10 @@ set(PROJECT_SOURCES
     gl_oop/LogicGatesGraphics/port.cpp
     gl_oop/LogicGatesGraphics/connection.h
     gl_oop/LogicGatesGraphics/connection.cpp
+    gl_oop/LogicGatesGraphics/vccgraphicselement.h
+    gl_oop/LogicGatesGraphics/vccgraphicselement.cpp
+    gl_oop/LogicGatesGraphics/gndgraphicselement.h
+    gl_oop/LogicGatesGraphics/gndgraphicselement.cpp
 
 
 

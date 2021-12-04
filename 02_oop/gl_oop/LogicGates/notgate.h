@@ -6,7 +6,7 @@
 class NotGate : public LogicElement
 {
 public:
-    NotGate();
+    NotGate(int input_amount = 1);
     void updateLogic() override;
 };
 

@@ -1,26 +1,119 @@
 #include "logicelement.h"
 #include <assert.h>
+#include <algorithm>
 LogicElement::LogicElement(int input_amount)
 {
-    assert(input_amount > 0 && input_amount <= 8);
     m_inputs.resize(input_amount);
     std::fill(m_inputs.begin(), m_inputs.end(), false);
-
 }
 
 LogicElement::~LogicElement()
 {}
 
 
-bool LogicElement::getOutput() const
+int8_t LogicElement::getOutput() const
 {
-    return m_output;
+    if(isValid())
+    {
+        return static_cast<int8_t>(m_output);
+    }
+    return -1;
+
 }
 
 
+
+
+
+void LogicElement::removePredecessor(uint8_t portNum)
+{
+    auto predecessorIt = m_predecessors.find(portNum);
+    if(predecessorIt != m_predecessors.end())
+    {
+
+        auto successorIt = predecessorIt->second->m_successors.find(this);
+        if((--successorIt->second) == 0)
+        {
+            predecessorIt->second->removeSuccessor(this);
+        }
+        m_predecessors.erase(portNum);
+
+    }
+
+}
+
+void LogicElement::removeSuccessor(LogicElement *elm)
+{
+    m_successors.erase(elm);
+}
+void LogicElement::setSuccessor(LogicElement *elm)
+{
+    m_successors[elm]++;
+}
+void LogicElement::connectPredeccessor(LogicElement *elm, uint8_t portNum)
+{
+    m_predecessors[portNum] = elm;
+    elm->setSuccessor(this);
+}
+
+int LogicElement::calculatePriority()
+{
+    if(m_beingVisited)
+    {
+        return 0;
+    }
+    if(m_priority != -1)
+    {
+        return m_priority;
+    }
+    m_beingVisited = true;
+    int current_p = 0;
+    for(auto it = m_successors.begin(); it != m_successors.end(); it++)
+    {
+        current_p = std::max(it->first->calculatePriority(), current_p);
+    }
+    m_priority = current_p + 1;
+    m_beingVisited = false;
+    return m_priority;
+}
+void LogicElement::resetPriority()
+{
+    m_priority = -1;
+}
+const int LogicElement::getPriority() const
+{
+    return m_priority;
+}
+
+bool LogicElement::isValid() const
+{
+    if(m_inputs.size() == m_predecessors.size())
+    {
+        for(auto predecessorsIt = m_predecessors.begin(); predecessorsIt != m_predecessors.end(); predecessorsIt++)
+        {
+            if(!predecessorsIt->second->isValid())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+
+
+void LogicElement::setInputValues()
+{
+    for(auto it = m_predecessors.begin(); it != m_predecessors.end(); it++)
+    {
+        m_inputs[it->first] = it->second->getOutput();
+    }
+}
+
 void LogicElement::updateLogicHelper(bool inp, ElementType type, int offset)
 {
-    if(offset >= m_inputs.size())
+    if(offset >= m_inputs.size() || !isValid())
     {
         return;
     }
@@ -43,7 +136,7 @@ void LogicElement::updateLogicHelper(bool inp, ElementType type, int offset)
         break;
 
     case ElementType::NOR:
-        updateLogicHelper(inp, ElementType::AND, offset);
+        updateLogicHelper(inp, ElementType::OR, offset);
         m_output = !m_output;
         break;
 

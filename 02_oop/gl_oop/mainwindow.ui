@@ -54,7 +54,7 @@
       <x>10</x>
       <y>40</y>
       <width>141</width>
-      <height>189</height>
+      <height>228</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -97,6 +97,20 @@
       <widget class="QPushButton" name="norButton">
        <property name="text">
         <string>NOR</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="vccButton">
+       <property name="text">
+        <string>VCC</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="gndButton">
+       <property name="text">
+        <string>GND</string>
        </property>
       </widget>
      </item>

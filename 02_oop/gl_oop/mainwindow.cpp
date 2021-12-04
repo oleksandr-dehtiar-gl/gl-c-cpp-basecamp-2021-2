@@ -10,8 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
     m_workspace.reset(new WorkSpace(ui->workingSpaceTab));
-
-
 }
 
 MainWindow::~MainWindow()
@@ -22,35 +20,48 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_notButton_clicked()
 {
-    m_workspace->AddElement(ElementType::NOT);
+    m_workspace->addElement(ElementType::NOT);
 }
 
 
 void MainWindow::on_andButton_clicked()
 {
-    m_workspace->AddElement(ElementType::AND);
+    m_workspace->addElement(ElementType::AND);
 }
 
 void MainWindow::on_nandButton_clicked()
 {
-    m_workspace->AddElement(ElementType::NAND);
+    m_workspace->addElement(ElementType::NAND);
 }
 
 
 void MainWindow::on_orButton_clicked()
 {
-    m_workspace->AddElement(ElementType::OR);
+    m_workspace->addElement(ElementType::OR);
 }
 
 
 void MainWindow::on_xorButton_clicked()
 {
-    m_workspace->AddElement(ElementType::XOR);
+    m_workspace->addElement(ElementType::XOR);
 }
 
 
 void MainWindow::on_norButton_clicked()
 {
-    m_workspace->AddElement(ElementType::NOR);
+    m_workspace->addElement(ElementType::NOR);
+}
+
+
+void MainWindow::on_vccButton_clicked()
+{
+    m_workspace->addElement(ElementType::VCC);
+}
+
+
+
+void MainWindow::on_gndButton_clicked()
+{
+    m_workspace->addElement(ElementType::GND);
 }
 

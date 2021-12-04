@@ -2,17 +2,19 @@
 #include "scene.h"
 #include <QApplication>
 #include <QtMath>
+#include <QStyleOptionGraphicsItem>
 GraphicsElement::GraphicsElement(QGraphicsItem* parent) : QGraphicsObject(parent)
 {
     setFlags(QGraphicsItem::ItemIsMovable | QGraphicsItem::ItemIsSelectable | QGraphicsItem::ItemSendsGeometryChanges);
     m_pixmap.reset(new QPixmap(64, 64));
+    setPos(32, 32);
 
 
 }
 GraphicsElement::~GraphicsElement()
 {}
 
-void GraphicsElement::addInputs(int inputAmount)
+void GraphicsElement::addInputs(const int& inputAmount)
 {
     if(inputAmount > 0 && inputAmount <= 8)
     {
@@ -21,36 +23,48 @@ void GraphicsElement::addInputs(int inputAmount)
             m_inputs.resize(inputAmount);
         }
 
-        int yPos = 28;
+        int yPos = -4;
         int step = 0;
         if(m_inputs.size() > 1)
         {
-            step = ((64 - (m_inputs.size() * 8)) / (m_inputs.size() - 1)) + 8;
-            yPos = 0;
+            step = ((m_pixmap->height() - (m_inputs.size() * 8)) / (m_inputs.size() - 1)) + 8;
+            yPos = -32;
         }
 
         for(auto ind = 0; ind < inputAmount; ind++)
         {
-            Port * newPort = new InPort(this);
+            InPort * newPort = new InPort(this);
             m_inputs[ind] = newPort;
-            m_inputs[ind]->setPos(0, yPos);
-            yPos += step;
+            m_inputs[ind]->setPos(-32, yPos);
             m_inputs[ind]->update();
+            m_inputs[ind]->setIndex(ind);
+            yPos += step;
         }
     }
 
 }
 
-void GraphicsElement::addOutput()
+void GraphicsElement::addOutput(const int8_t& initial_state)
 {
     if(!m_output)
     {
-        Port * newPort = new OutPort(this);
+        OutPort * newPort = new OutPort(this, initial_state);
         m_output = newPort;
-        m_output->setPos(72, 28);
+        m_output->setPos(m_pixmap->width() / 2  + 8, -4);
         m_output->update();
     }
 }
+
+std::vector<InPort *>& GraphicsElement::getInputs()
+{
+    return m_inputs;
+}
+
+OutPort* GraphicsElement::getOutputPort()
+{
+    return m_output;
+}
+
 
 QVariant GraphicsElement::itemChange(GraphicsItemChange change, const QVariant &value)
 {
@@ -78,7 +92,7 @@ QVariant GraphicsElement::itemChange(GraphicsItemChange change, const QVariant &
 
 QRectF GraphicsElement::boundingRect() const
 {
-    return m_pixmap->rect();
+    return QRectF(-40,-40,80,80);
 }
 
 ElementType GraphicsElement::getType() const
@@ -93,18 +107,17 @@ void GraphicsElement::setType(ElementType type)
 
 
 
-
 void GraphicsElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(widget)
-    QPainter tempPainter;
-    tempPainter.begin(m_pixmap.get());
-    tempPainter.setPen(QPen(Qt::black, 2));
-    tempPainter.setBrush(Qt::black);
-    tempPainter.drawRect(0, 0, m_pixmap->rect().width(), m_pixmap->height());
-    tempPainter.setPen(QPen(Qt::white, 2));
-    tempPainter.drawText(QRect(m_pixmap->rect()), Qt::AlignCenter, QString(m_type_strs[static_cast<int>(m_type)].c_str()));
-    tempPainter.end();
-    painter->drawPixmap(QPoint(0,0), *m_pixmap.get());
-
+    painter->setClipRect(option->exposedRect);
+    if (isSelected()) {
+        painter->setBrush(QColor(0,0,255,127));
+        painter->setPen(QPen(Qt::red, 0.5, Qt::SolidLine));
+        painter->drawRoundedRect(QRectF(-40,-40,80,80), 5, 5);
+    }
+    painter->setPen(QPen(Qt::black, 1));
+    painter->setBrush(QBrush(Qt::white));
+    painter->drawRect(-32,-32, 64,64);
+    painter->drawText(QRect(-32, -32 ,64,64), Qt::AlignCenter, QString(m_type_strs[static_cast<int>(m_type)].c_str()));
 }

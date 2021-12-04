@@ -29,6 +29,10 @@ private slots:
 
     void on_norButton_clicked();
 
+    void on_vccButton_clicked();
+
+    void on_gndButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     std::unique_ptr<WorkSpace> m_workspace;

@@ -8,7 +8,9 @@ enum ElementType
     NOR,
     NOT,
     OR,
-    XOR
+    XOR,
+    GND,
+    VCC
 };
 
 #endif // ELEMENTTYPE_H
