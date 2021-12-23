@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>833</width>
+    <height>547</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>GL_TASK_1</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../photo_new_wind/cute-panda-head-kawaii_no_davn.png</normaloff>../../../photo_new_wind/cute-panda-head-kawaii_no_davn.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="add_file_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Add file 1</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="compare_files">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>10</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Compare files</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_file_2">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>10</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="text">
+     <string>Add file 2</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget_1">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>401</width>
+      <height>451</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>50</y>
+      <width>401</width>
+      <height>451</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_row">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>20</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Del row</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_row">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add row</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="del_row_2">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>20</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Del row</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="add_row_2">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>20</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add row</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>833</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menufile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuTheme">
+     <property name="title">
+      <string>Theme</string>
+     </property>
+     <addaction name="action1"/>
+     <addaction name="action2"/>
+     <addaction name="action3"/>
+     <addaction name="actiondef"/>
+    </widget>
+    <addaction name="menuTheme"/>
+    <addaction name="separator"/>
+    <addaction name="actionExport_files"/>
+   </widget>
+   <addaction name="menufile"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="action1">
+   <property name="text">
+    <string>Ocean Blue</string>
+   </property>
+  </action>
+  <action name="action2">
+   <property name="text">
+    <string>Valera</string>
+   </property>
+  </action>
+  <action name="action3">
+   <property name="text">
+    <string>Tea with milk</string>
+   </property>
+  </action>
+  <action name="actiondef">
+   <property name="text">
+    <string>def</string>
+   </property>
+  </action>
+  <action name="actionExport_files">
+   <property name="text">
+    <string>Export files</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
