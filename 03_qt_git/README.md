@@ -1,5 +1,7 @@
 # GUI Git client
 
+// Andrii Baryshnychenko. Task 3. GitGui Clien Application
+
 Design and implement GUI Git client application.
 The following approaches are required:
 - C++;
