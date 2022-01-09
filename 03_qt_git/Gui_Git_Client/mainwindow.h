@@ -28,11 +28,17 @@ private slots:
 
     void on_checkoutToBranch_clicked();
 
+    void on_ShowCommitList_clicked();
+
+    void on_checkoutToCommit_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString repositoryPath;
 
     void printList(const QString&);
+    void printCommitList(const QString&);
+    QString getCommitHash(QString commitInfo);
     QString castPath(QString);
 };
 #endif // MAINWINDOW_H

@@ -32,7 +32,56 @@ void MainWindow::printList(const QString& path)
     else
     {
         std::string line;
-        while(getline(in, line)) {results.push_back(line);}
+        while(getline(in, line))
+        {
+            if (line.empty())
+            {
+                continue;
+            }
+            results.push_back(line);
+        }
+    }
+    ui->listWidget->clear();
+    for (auto i : results)
+    {
+        ui->listWidget->addItem(QString::fromStdString(i));
+    }
+}
+
+void MainWindow::printCommitList(const QString& path)
+{
+    std::vector<std::string> results;
+    std::ifstream in(path.toUtf8() + "/temp.txt");
+    if(!in.is_open())
+    {
+        QMessageBox::warning(this,"Error", "Error open temp file!");
+    }
+    else
+    {
+        std::string line, commitInfo;
+        int counter = 0;
+        while(getline(in, line))
+        {
+            if (line.empty())
+            {
+                continue;
+            }
+
+            if(counter == 3)
+            {
+                commitInfo += line;
+                results.push_back(commitInfo);
+                commitInfo = "";
+                counter = -1;
+            }
+            else
+            {
+                line+='\n';
+                commitInfo += line;
+            }
+               counter++;
+        }
+
     }
     ui->listWidget->clear();
     for (auto i : results)
@@ -52,6 +101,20 @@ QString MainWindow::castPath(QString path)
         }
     }
     return path;
+}
+
+QString MainWindow::getCommitHash(QString commitInfo)
+{
+    QString commitHash = "";
+
+    for (auto i : commitInfo)
+    {
+        if(i == '\n') break;
+        commitHash += i;
+    }
+    commitHash.remove(0,7);
+
+    return commitHash;
 }
 
 void MainWindow::on_moveToRep_clicked()
@@ -184,6 +247,58 @@ void MainWindow::on_checkoutToBranch_clicked()
         else
         {
             on_showBranchList_clicked();
+        }
+    }
+    //Enter code to delete tempfile
+}
+
+void MainWindow::on_ShowCommitList_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git log > temp.txt");
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+        else
+        {
+            QString repositoryPathCopy = castPath(repositoryPath);
+            printCommitList(repositoryPathCopy);
+        }
+    }
+   //Enter code to delete temp file
+}
+
+void MainWindow::on_checkoutToCommit_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        if(ui->listWidget->selectedItems().isEmpty())
+        {
+            QMessageBox::warning(this,"Error", "Select the branch!");
+            return;
+        }
+
+        QString selectedCommit = getCommitHash(ui->listWidget->currentItem()->text());
+
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedCommit.toUtf8());
+
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+        else
+        {
+            on_ShowCommitList_clicked();
         }
     }
 }
