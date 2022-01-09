@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->commitedChangesLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+
 }
 
 MainWindow::~MainWindow()
@@ -20,6 +21,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::printList(const QString& path)
+{
+    std::vector<std::string> results;
+    std::ifstream in(path.toUtf8() + "/temp.txt");
+    if(!in.is_open())
+    {
+        QMessageBox::warning(this,"Error", "Error open temp file!");
+    }
+    else
+    {
+        std::string line;
+        while(getline(in, line)) {results.push_back(line);}
+    }
+    ui->listWidget->clear();
+    for (auto i : results)
+    {
+        ui->listWidget->addItem(QString::fromStdString(i));
+    }
+}
+
+QString MainWindow::castPath(QString path)
+{
+    for (int i = 0; i < path.size(); i++)
+    {
+        if (path[i] == '/')
+        {
+            path[i] = '\\';
+            path.insert(i, '\\');
+        }
+    }
+    return path;
+}
 
 void MainWindow::on_moveToRep_clicked()
 {
@@ -94,8 +127,65 @@ void MainWindow::on_addNewChangesToIndex_clicked()
     {
         QMessageBox::warning(this,"Error", "Something went wrong!");
     }
+    else if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
     else
     {
         QMessageBox::information(this,"Info", "Files added to index!");
     }
 }
+
+void MainWindow::on_showBranchList_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git branch > temp.txt");
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+        else
+        {
+            QString repositoryPathCopy = castPath(repositoryPath);
+            ui->commitedChangesLabel->setText(repositoryPathCopy);
+            printList(repositoryPath);
+        }
+    }
+   //Enter code to delete temp file
+}
+
+void MainWindow::on_checkoutToBranch_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        if(ui->listWidget->selectedItems().isEmpty())
+        {
+            QMessageBox::warning(this,"Error", "Select the branch!");
+            return;
+        }
+
+        QString selectedBranch = ui->listWidget->currentItem()->text();
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedBranch.toUtf8());
+
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+        else
+        {
+            on_showBranchList_clicked();
+        }
+    }
+}
+
+

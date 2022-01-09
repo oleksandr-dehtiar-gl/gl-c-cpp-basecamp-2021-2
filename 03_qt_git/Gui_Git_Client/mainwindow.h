@@ -24,8 +24,15 @@ private slots:
 
     void on_addNewChangesToIndex_clicked();
 
+    void on_showBranchList_clicked();
+
+    void on_checkoutToBranch_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString repositoryPath;
+
+    void printList(const QString&);
+    QString castPath(QString);
 };
 #endif // MAINWINDOW_H
