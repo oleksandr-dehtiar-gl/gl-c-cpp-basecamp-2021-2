@@ -20,6 +20,10 @@ private slots:
 
     void on_cloneNewRep_clicked();
 
+    void on_commitChanges_clicked();
+
+    void on_addNewChangesToIndex_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString repositoryPath;

@@ -61,3 +61,41 @@ void MainWindow::on_cloneNewRep_clicked()
         }
     }
 }
+
+void MainWindow::on_commitChanges_clicked()
+{
+    if(ui->commitNameLine->text().isEmpty())
+    {
+        //ui->commitedChangesLabel->setText("Enter the path to rep");
+        QMessageBox::warning(this,"Error", "Enter the commit name");
+    }
+    else if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git commit -m " + ui->commitNameLine->text().toUtf8());
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+        else
+        {
+            ui->commitNameLine->setText(" ");
+        }
+    }
+}
+
+void MainWindow::on_addNewChangesToIndex_clicked()
+{
+    int i = system("cd /d " + repositoryPath.toUtf8() + " && git add .");
+    if (i != 0)
+    {
+        QMessageBox::warning(this,"Error", "Something went wrong!");
+    }
+    else
+    {
+        QMessageBox::information(this,"Info", "Files added to index!");
+    }
+}
