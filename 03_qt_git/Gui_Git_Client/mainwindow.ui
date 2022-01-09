@@ -53,7 +53,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="commitedCangesLabel">
+       <widget class="QLabel" name="commitedChangesLabel">
         <property name="text">
          <string/>
         </property>
@@ -91,7 +91,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLineEdit" name="pathToClone"/>
+       <widget class="QLineEdit" name="pathToCloneLine"/>
       </item>
       <item>
        <widget class="QPushButton" name="cloneNewRep">
@@ -101,7 +101,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="commitName"/>
+       <widget class="QLineEdit" name="commitNameLine"/>
       </item>
       <item>
        <widget class="QPushButton" name="commitChanges">

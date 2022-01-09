@@ -15,7 +15,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_moveToRep_clicked();
+
+    void on_cloneNewRep_clicked();
+
 private:
     Ui::MainWindow *ui;
+    QString repositoryPath;
 };
 #endif // MAINWINDOW_H
