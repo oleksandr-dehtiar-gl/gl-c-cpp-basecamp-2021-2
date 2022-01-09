@@ -234,6 +234,7 @@ void MainWindow::on_checkoutToBranch_clicked()
         if(ui->listWidget->selectedItems().isEmpty())
         {
             QMessageBox::warning(this,"Error", "Select the branch!");
+            on_showBranchList_clicked();
             return;
         }
 
@@ -304,3 +305,55 @@ void MainWindow::on_checkoutToCommit_clicked()
 }
 
 
+
+void MainWindow::on_PushChanges_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        if(ui->listWidget->selectedItems().isEmpty())
+        {
+            QMessageBox::warning(this,"Error", "Select the branch!");
+            on_showBranchList_clicked();
+            return;
+        }
+
+        QString selectedBranch = ui->listWidget->currentItem()->text();
+        if(selectedBranch[0] == '*') selectedBranch.remove(0,2);
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git push origin " + selectedBranch.toUtf8());
+
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+    }
+}
+
+void MainWindow::on_pullChanges_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+    }
+    else
+    {
+        if(ui->listWidget->selectedItems().isEmpty())
+        {
+            QMessageBox::warning(this,"Error", "Select the branch!");
+            on_showBranchList_clicked();
+            return;
+        }
+
+        QString selectedBranch = ui->listWidget->currentItem()->text();
+        if(selectedBranch[0] == '*') selectedBranch.remove(0,2);
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git pull origin " + selectedBranch.toUtf8());
+
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+        }
+    }
+}

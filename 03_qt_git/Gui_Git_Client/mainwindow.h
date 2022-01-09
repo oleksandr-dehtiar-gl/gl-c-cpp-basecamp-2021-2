@@ -32,6 +32,10 @@ private slots:
 
     void on_checkoutToCommit_clicked();
 
+    void on_PushChanges_clicked();
+
+    void on_pullChanges_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString repositoryPath;
