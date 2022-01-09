@@ -72,7 +72,8 @@ namespace gitgui {
 		connect(mGitRepo.get(), &GitRepository::setModelBranch, mptrViewWindow, &ViewGitWindow::setModelBranch);
 		connect(mGitRepo.get(), &GitRepository::showCommitChanges, mptrViewWindow, &ViewGitWindow::showCommitChanges);
 		connect(mptrViewWindow, &ViewGitWindow::commitForShowChanges, mGitRepo.get(), &GitRepository::commitForShowChanges);
-		connect(mptrViewWindow, &ViewGitWindow::makeCheckout, mGitRepo.get(), &GitRepository::makeCheckout);
+		connect(mptrViewWindow, &ViewGitWindow::makeCheckoutCommit, mGitRepo.get(), &GitRepository::makeCheckoutCommit);
+		connect(mptrViewWindow, &ViewGitWindow::makeCheckoutBranch, mGitRepo.get(), &GitRepository::makeCheckoutBranch);
 		connect(mGitRepo.get(), &GitRepository::showActiveCommit, mptrViewWindow, &ViewGitWindow::showActiveCommit);
 		connect(mGitRepo.get(), &GitRepository::showActiveBranch, mptrViewWindow, &ViewGitWindow::showActiveBranch);
 	}
@@ -87,8 +88,8 @@ namespace gitgui {
 	}
 	
 	void MainWindow::fixedCentralWgt(const QSize& size) {
-		if (size.isValid())
-			this->setFixedSize(mptrStartWindow->size());
+		// if (size.isValid())
+			// this->setFixedSize(mptrStartWindow->size());
 	}
 	
 	void MainWindow::relaxCentralWgt() {

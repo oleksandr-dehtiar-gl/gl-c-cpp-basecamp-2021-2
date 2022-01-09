@@ -21,7 +21,8 @@ namespace gitgui {
 		static QString cloneRepository(const QString& url, const QString& path);
 	public slots:
 		void commitForShowChanges(const SHA& sha);
-		void makeCheckout(const SHA& sha);
+		void makeCheckoutCommit(const SHA& sha);
+		void makeCheckoutBranch(Branch branch);
 	signals:
 		void setModelCommit(std::shared_ptr<ModelCommitTree> model);
 		void setModelBranch(std::shared_ptr<ModelBranchList> model);

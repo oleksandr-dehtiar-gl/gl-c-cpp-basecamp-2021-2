@@ -17,16 +17,45 @@ namespace gitgui {
 		return gitApiOutString.contains(QRegExp("^fatal"));
 	}
 	
+	QString GitApi::regExpression(const QRegExp& regex, const QString& str) {
+		int pos = regex.indexIn(str);
+		if (pos == -1)
+			return QString{};
+		return regex.cap(0);
+	}
+	
+	QString GitApi::getPathFromURL(const QString& url) {
+		return regExpression(QRegExp("([^/]+)(?=.git)"), url);
+	}
+	
+	QString GitApi::findStarsActiveBranch(const QString& str) {
+		return regExpression(QRegExp("(^\\*)"), str);
+	}
+	
+	QString GitApi::findSHABranch(const QString& str) {
+		return regExpression(QRegExp("([\\d\\w]{40})"), str);
+	}
+	
+	QString GitApi::findHEADdetachedBranch(const QString& str) {
+		return regExpression(QRegExp("(\\(HEAD.*\\))"), str);
+	}
+	
+	QString GitApi::findNameBranch(const QString& str) {
+		return regExpression(QRegExp("(?![\\s+\\*])\\S+"), str);
+	}
+	
 	QString GitApi::cloneRepository(QString url, QString path) {
 		if (url.isEmpty())
 			return QString{};
+		
+		// If path empty get path from git url
 		if (path.isEmpty()) {
-			QRegExp rx("([^/]+)(?=.git)");
-			int pos = rx.indexIn(url);
-			path = rx.cap();
+			path = getPathFromURL(url);
 			if (path.isEmpty())
 				return QString{};
 		}
+		
+		// Clone repo and check if repository exist in clone direcory "path"
 		QDir dirRepo(path);
 		Process(programm, QStringList() << "clone" << url << path).run();
 		return dirRepo.exists() ? path = dirRepo.absolutePath() : QString{};
@@ -40,37 +69,40 @@ namespace gitgui {
 		args << "--source";
 		args << "--all";
 		QString resultCommits{mProcess.run(programm, args)};
-		
 		return std::list<Commit>();
 	}
 	
 	Branch GitApi::getActiveBranch() {
-		QStringList args;
-		args << "rev-parse";
-		args << "--symbolic-full-name";
-		args << "--abbrev-ref";
-		args << "HEAD";
-		QString branchName{mProcess.run(programm, args)};
-		branchName = branchName.mid(0, branchName.indexOf("\n"));
+		// Get working branch
+		QString branchName{mProcess.run(programm, QStringList() << "branch" << "--show-current")};
+		branchName = branchName.mid(0, branchName.indexOf("\n"));	
 		QString branchSHA{mProcess.run(programm, QStringList() << "rev-parse" << branchName)};
 		branchSHA = branchSHA.mid(0, branchSHA.indexOf("\n"));
-		
 		return Branch{branchSHA, branchName};
 	}
 	
 	Commit GitApi::getActiveCommit() {
+		// Define current working commit 
 		QStringList args;
 		args << "rev-parse";
 		args << "HEAD";
-		QStringList actSHA{mProcess.run(programm, args).split('\n')};
-		return Commit{QString{actSHA[0]}};
+		// QStringList actSHA{mProcess.run(programm, args).split('\n')};
+		return Commit{findSHABranch(mProcess.run(programm, args))};
 	}
 	
 	void GitApi::checkout(const SHA& sha) {
 		QStringList args;
 		args << "checkout";
 		args << sha.sha();
-		QTextStream(stdout) << "make checkout: " << sha.sha() << endl;
+		QTextStream(stdout) << "make checkout commit: " << sha.sha() << endl;
+		mProcess.run(programm, args);
+	}
+	
+	void GitApi::checkout(Branch branch) {
+		QStringList args;
+		args << "checkout";
+		args << branch.name();
+		QTextStream(stdout) << "make checkout branch: " << branch.name() << endl;
 		mProcess.run(programm, args);
 	}
 	
@@ -93,52 +125,22 @@ namespace gitgui {
 		arg << "branch";
 		arg << "-v";
 		arg << "--no-abbrev";
-		// arg << "--all";
-		
-		enum TypeBranchTitles {
-			POINT_TO_BRANCH,
-			SHA_BRANCH,
-			NAME_BRANCH,
-			END_TYPE
-		};
-		
+
 		// Get list of branch
 		QStringList listBranch{mProcess.run(programm, arg).split('\n')};
 		if (listBranch.isEmpty())
 			return std::list<Branch>{};
 		
-		// Split line to branch titles
-		QList<QStringList> allBranches(gitutility::splitStringToListStringList(listBranch, QString(" ")));
-		
-		// Parse each branch line and save name and sha for create branch object
 		std::list<Branch> branches;
-		for (int i = 0; i < allBranches.size(); ++i) {
-			TypeBranchTitles branchTytliType = TypeBranchTitles::POINT_TO_BRANCH;
-			QString branchName, branchSha;
-			for (int j = 0; j < allBranches[i].size(); ++j) {
-				switch(branchTytliType) {
-					case TypeBranchTitles::POINT_TO_BRANCH:
-						if (allBranches[i][j] == "*")
-							branchTytliType = TypeBranchTitles::NAME_BRANCH;
-						else {
-							branchName = allBranches[i][j];
-							branchTytliType = TypeBranchTitles::SHA_BRANCH;
-						}
-						break;
-					case TypeBranchTitles::NAME_BRANCH:
-						branchName = allBranches[i][j];
-						branchTytliType = TypeBranchTitles::SHA_BRANCH;
-						break;
-					case TypeBranchTitles::SHA_BRANCH:
-						branchSha = allBranches[i][j];
-						branchTytliType = TypeBranchTitles::END_TYPE;
-						break;
-				}
-				if (branchTytliType == TypeBranchTitles::END_TYPE)
-					break;
+		for(auto &line : listBranch) {
+			if (line.isEmpty())
+				continue;
+			QString nameBranch{findHEADdetachedBranch(line)};
+			if (nameBranch.isEmpty()) {
+				nameBranch = findNameBranch(line);
 			}
-			// Create branch and add to banch list
-			branches.push_back(Branch{branchSha, branchName});
+			QString shaBranch{findSHABranch(line)};
+			branches.push_back(Branch{shaBranch, nameBranch});
 		}
 		return branches;
 	}
@@ -170,7 +172,7 @@ namespace gitgui {
 		for (int i = 0; i < splitCommits.size(); ++i)
 			allCommits->addChild(Commit{splitCommits[i][0]});
 		
-		// Create hierarchical branch of commits
+		// Create branch whith structure like a tree
 		auto treeCommits = rootCommitNode->addChild(Commit{treeCommit});
 		buildCommitTree(splitCommits, splitCommits[0][0], treeCommits);
 		return rootCommitNode;

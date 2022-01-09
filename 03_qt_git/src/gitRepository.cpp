@@ -28,11 +28,22 @@ namespace gitgui {
 		emit showCommitChanges(mGitApi.commitChanges(sha));
 	}
 	
-	void GitRepository::makeCheckout(const SHA& sha) {
+	void GitRepository::makeCheckoutCommit(const SHA& sha) {
 		mGitApi.checkout(sha);
+		Branch activeBranch{mGitApi.getActiveBranch()};
 		
-		emit showActiveCommit(sha);
+		emit showActiveCommit(mGitApi.getActiveCommit());
+		emit showActiveBranch(activeBranch);
+		// ...
+		emit setModelBranch(getBranchModelList());
+	}
+	
+	void GitRepository::makeCheckoutBranch(Branch branch) {
+		mGitApi.checkout(branch);
+		emit showActiveCommit(mGitApi.getActiveCommit());
 		emit showActiveBranch(mGitApi.getActiveBranch());
+		// ...
+		emit setModelBranch(getBranchModelList());
 	}
 	
 	QString GitRepository::cloneRepository(const QString& url, const QString& path) {

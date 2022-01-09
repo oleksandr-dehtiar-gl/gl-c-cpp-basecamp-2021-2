@@ -42,7 +42,13 @@ namespace gitgui {
 		ptrVBRepo->addWidget(mptrActiveCommit);
 		ptrVBRepo->addLayout(ptrHBoxSearchChanges);
 		
+		connect(mptrViewCommits, SIGNAL(customContextMenuRequested(const QPoint&)),
+				this, SLOT(checkoutCommit(const QPoint&)));
+		connect(mptrViewBranches, SIGNAL(customContextMenuRequested(const QPoint&)),
+				this, SLOT(checkoutBranch(const QPoint&)));
 		setLayout(ptrVBRepo);
+		connect(mptrViewCommits, &QTreeView::doubleClicked, this, &ViewGitWindow::getSHACommit);
+		connect(mptrViewBranches, &QListView::doubleClicked, this, &ViewGitWindow::getSHABranch);
 	}
 	
 	void ViewGitWindow::setModelCommit(std::shared_ptr<ModelCommitTree> model) {
@@ -52,11 +58,8 @@ namespace gitgui {
 		
 		// Set evant for context menu
 		mptrViewCommits->setContextMenuPolicy(Qt::CustomContextMenu);
-		connect(mptrViewCommits, SIGNAL(customContextMenuRequested(const QPoint&)),
-				this, SLOT(checkoutCommit(const QPoint&)));
 		
 		// Check commit
-		connect(mptrViewCommits, &QTreeView::doubleClicked, this, &ViewGitWindow::getSHACommit);
 	}
 	
 	void ViewGitWindow::setModelBranch(std::shared_ptr<ModelBranchList> model) {
@@ -66,11 +69,8 @@ namespace gitgui {
 		
 		// Set evant for context menu
 		mptrViewBranches->setContextMenuPolicy(Qt::CustomContextMenu);
-		connect(mptrViewBranches, SIGNAL(customContextMenuRequested(const QPoint&)),
-				this, SLOT(checkoutBranch(const QPoint&)));
 				
 		// Check branch
-		connect(mptrViewBranches, &QListView::doubleClicked, this, &ViewGitWindow::getSHABranch);
 	}
 	
 	void ViewGitWindow::showCommitChanges(const QString& changes) {
@@ -122,7 +122,7 @@ namespace gitgui {
 		auto item = mptrViewCommits->indexAt(pos);
 		if (item.isValid()) {
 			if (showContextMenu(globalPos, QString{"Checkout Commit"})) {
-				emit makeCheckout(mModelCommit->getCommit(item));
+				emit makeCheckoutCommit(mModelCommit->getCommit(item));
 				commitForShowChanges(mModelCommit->getCommit(item));
 			}
 		}
@@ -133,7 +133,7 @@ namespace gitgui {
 		auto item = mptrViewBranches->indexAt(pos);
 		if (item.isValid()) {
 			if (showContextMenu(globalPos, QString{"Checkout Branche"})) {
-				emit makeCheckout(mBranchModel->getBranch(item));
+				emit makeCheckoutBranch(mBranchModel->getBranch(item));
 				commitForShowChanges(mBranchModel->getBranch(item));
 			}
 		}
@@ -147,12 +147,12 @@ namespace gitgui {
 	}
 	
 	void ViewGitWindow::showActiveCommit(const SHA& sha) {
-		mptrActiveCommit->setText(QString{"Commit HEAD: "} + sha.sha());
+		mptrActiveCommit->setText(QString{"Commit: "} + sha.sha());
 		mptrActiveCommit->setStyleSheet("QLabel { color : darkBlue; }");
 	}
 	
 	void ViewGitWindow::showActiveBranch(const Branch& branch) {
-		mptrActiveBranch->setText(QString{"Branch of commit HEAD: "} + branch.name());
+		mptrActiveBranch->setText(QString{"Branch: "} + branch.name());
 		mptrActiveBranch->setStyleSheet("QLabel { color : darkBlue; }");
 	}
 	

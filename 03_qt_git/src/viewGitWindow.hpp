@@ -26,7 +26,8 @@ namespace gitgui {
 		void showActiveBranch(const Branch& branch);
 	signals:
 		void commitForShowChanges(const SHA& sha);
-		void makeCheckout(const SHA& sha);
+		void makeCheckoutCommit(const SHA& sha);
+		void makeCheckoutBranch(Branch branch);
 	private:
 		void createChekoutMenu();
 		bool showContextMenu(const QPoint& pos, const QString& menuName);
