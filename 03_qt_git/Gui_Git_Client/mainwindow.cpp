@@ -32,6 +32,11 @@ void MainWindow::on_cloneNewRep_clicked()
     if(ui->pathToCloneLine->text().isEmpty())
     {
         ui->commitedChangesLabel->setText("Enter the path to rep");
+        QMessageBox::warning(this,"Error", "Enter the link to the repository you want to copy");
+    }
+    else if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
     }
     else
     {
@@ -44,22 +49,15 @@ void MainWindow::on_cloneNewRep_clicked()
          // std::ifstream in(ui->commitedChangesLabel->text().toUtf8() + "/tempFile.txt");
 
           //system("dir > pingresult.txt");
-
-        std::vector<std::string> results;
-        int i = system("cd /d " + ui->commitedChangesLabel->text().toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
+        int i = system("cd /d " + repositoryPath.toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
 
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
         }
-//        std::ifstream in("tempFile.txt");
-//        std::string line;
-//            while(getline(in, line))
-//            results.push_back(line);
-
-//        for (auto i: results)
-//        {
-//            ui->commitedChangesLabel->setText(ui->commitedChangesLabel->text() + QString::fromStdString(i));
-//        }
+        else
+        {
+            ui->pathToCloneLine->setText("");
+        }
     }
 }
