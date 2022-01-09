@@ -145,7 +145,13 @@ void MainWindow::on_cloneNewRep_clicked()
          // std::ifstream in(ui->commitedChangesLabel->text().toUtf8() + "/tempFile.txt");
 
           //system("dir > pingresult.txt");
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
+
+
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
+        #endif
 
         if (i != 0)
         {
@@ -171,7 +177,12 @@ void MainWindow::on_commitChanges_clicked()
     }
     else
     {
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git commit -m " + ui->commitNameLine->text().toUtf8());
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git commit -m " + ui->commitNameLine->text().toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git commit -m " + ui->commitNameLine->text().toUtf8());
+        #endif
+
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
@@ -185,7 +196,11 @@ void MainWindow::on_commitChanges_clicked()
 
 void MainWindow::on_addNewChangesToIndex_clicked()
 {
-    int i = system("cd /d " + repositoryPath.toUtf8() + " && git add .");
+    #ifdef _WIN32
+     int i = system("cd /d " + repositoryPath.toUtf8() + " && git add .");
+    #else
+     int i = system("cd " + repositoryPath.toUtf8() + " && git add .");
+    #endif
     if (i != 0)
     {
         QMessageBox::warning(this,"Error", "Something went wrong!");
@@ -208,7 +223,12 @@ void MainWindow::on_showBranchList_clicked()
     }
     else
     {
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git branch > temp.txt");
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git branch > temp.txt");
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git branch > temp.txt");
+        #endif
+
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
@@ -239,7 +259,12 @@ void MainWindow::on_checkoutToBranch_clicked()
         }
 
         QString selectedBranch = ui->listWidget->currentItem()->text();
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedBranch.toUtf8());
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedBranch.toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git checkout " + selectedBranch.toUtf8());
+        #endif
+
 
         if (i != 0)
         {
@@ -261,7 +286,12 @@ void MainWindow::on_ShowCommitList_clicked()
     }
     else
     {
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git log > temp.txt");
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git log > temp.txt");
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git log > temp.txt");
+        #endif
+
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
@@ -291,7 +321,11 @@ void MainWindow::on_checkoutToCommit_clicked()
 
         QString selectedCommit = getCommitHash(ui->listWidget->currentItem()->text());
 
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedCommit.toUtf8());
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedCommit.toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git checkout " + selectedCommit.toUtf8());
+        #endif
 
         if (i != 0)
         {
@@ -323,7 +357,11 @@ void MainWindow::on_PushChanges_clicked()
 
         QString selectedBranch = ui->listWidget->currentItem()->text();
         if(selectedBranch[0] == '*') selectedBranch.remove(0,2);
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git push origin " + selectedBranch.toUtf8());
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git push origin " + selectedBranch.toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git push origin " + selectedBranch.toUtf8());
+        #endif
 
         if (i != 0)
         {
@@ -349,7 +387,12 @@ void MainWindow::on_pullChanges_clicked()
 
         QString selectedBranch = ui->listWidget->currentItem()->text();
         if(selectedBranch[0] == '*') selectedBranch.remove(0,2);
-        int i = system("cd /d " + repositoryPath.toUtf8() + " && git pull origin " + selectedBranch.toUtf8());
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git pull origin " + selectedBranch.toUtf8());
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git pull origin " + selectedBranch.toUtf8());
+        #endif
+
 
         if (i != 0)
         {
