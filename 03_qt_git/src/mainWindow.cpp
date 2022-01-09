@@ -80,9 +80,9 @@ namespace gitgui {
 	void MainWindow::cloneNewRepository() {
 		std::unique_ptr<CloneRepoDialog> cloneRepoDlg(new CloneRepoDialog);
 		if (cloneRepoDlg->exec() == QDialog::Accepted) {
-			QTextStream out(stdout);
-			out << "URL: " << cloneRepoDlg->getURL() << endl;
-			out << "Directory: " << cloneRepoDlg->getDir() << endl;
+			QString pathCloneRepo{GitRepository::cloneRepository(cloneRepoDlg->getURL(), cloneRepoDlg->getDir())};
+			if (!pathCloneRepo.isEmpty())
+				createRepository(pathCloneRepo);
 		}
 	}
 	

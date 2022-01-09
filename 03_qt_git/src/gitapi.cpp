@@ -13,6 +13,37 @@ namespace gitgui {
 		setRootPathRepository(workdir);
 	}
 	
+	bool GitApi::fatalErrorExist(const QString& gitApiOutString) {
+		return gitApiOutString.contains(QRegExp("^fatal"));
+	}
+	
+	QString GitApi::cloneRepository(QString url, QString path) {
+		if (url.isEmpty())
+			return QString{};
+		if (path.isEmpty()) {
+			QRegExp rx("([^/]+)(?=.git)");
+			int pos = rx.indexIn(url);
+			path = rx.cap();
+			if (path.isEmpty())
+				return QString{};
+		}
+		QDir dirRepo(path);
+		Process(programm, QStringList() << "clone" << url << path).run();
+		return dirRepo.exists() ? path = dirRepo.absolutePath() : QString{};
+	}
+	
+	std::list<Commit> GitApi::getCommitsWhenTextChanged(const QString& text) {
+		QStringList args;
+		args << "log";
+		args << "-S";
+		args << text;
+		args << "--source";
+		args << "--all";
+		QString resultCommits{mProcess.run(programm, args)};
+		
+		return std::list<Commit>();
+	}
+	
 	Branch GitApi::getActiveBranch() {
 		QStringList args;
 		args << "rev-parse";
@@ -23,8 +54,6 @@ namespace gitgui {
 		branchName = branchName.mid(0, branchName.indexOf("\n"));
 		QString branchSHA{mProcess.run(programm, QStringList() << "rev-parse" << branchName)};
 		branchSHA = branchSHA.mid(0, branchSHA.indexOf("\n"));
-		
-		QTextStream(stdout) << "branche name: " << branchName << " sha: " << branchSHA << endl;
 		
 		return Branch{branchSHA, branchName};
 	}
@@ -42,7 +71,7 @@ namespace gitgui {
 		args << "checkout";
 		args << sha.sha();
 		QTextStream(stdout) << "make checkout: " << sha.sha() << endl;
-		// mProcess.run(programm, args);
+		mProcess.run(programm, args);
 	}
 	
 	void GitApi::setRootPathRepository(const QString &workdir) {
@@ -50,12 +79,13 @@ namespace gitgui {
 			mProcess.setWorkDirectory(QString("."));
 		else
 			mProcess.setWorkDirectory(workdir);
-		mRootGitPath = mProcess.run(programm, QStringList() << "rev-parse" << "--show-toplevel");
-		mRootGitPath = mRootGitPath.mid(0, mRootGitPath.indexOf("\n"));
-		if (mRootGitPath.contains(QRegExp("^fatal")) || mRootGitPath.isEmpty()) {
+		QString rootPathRepo;
+		rootPathRepo = mProcess.run(programm, QStringList() << "rev-parse" << "--show-toplevel");
+		rootPathRepo = rootPathRepo.mid(0, rootPathRepo.indexOf("\n"));
+		if (fatalErrorExist(rootPathRepo) || rootPathRepo.isEmpty()) {
 			throw std::invalid_argument(("GitApi::GitApi(const QString&) => No git repo in path: " + workdir).toStdString());
 		}
-		mProcess.setWorkDirectory(mRootGitPath);
+		mRootGitPath = workdir;
 	}
 
 	std::list<Branch> GitApi::branchList() {
@@ -63,7 +93,7 @@ namespace gitgui {
 		arg << "branch";
 		arg << "-v";
 		arg << "--no-abbrev";
-		arg << "--all";
+		// arg << "--all";
 		
 		enum TypeBranchTitles {
 			POINT_TO_BRANCH,

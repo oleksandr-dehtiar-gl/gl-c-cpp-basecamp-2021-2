@@ -35,5 +35,8 @@ namespace gitgui {
 		emit showActiveBranch(mGitApi.getActiveBranch());
 	}
 	
+	QString GitRepository::cloneRepository(const QString& url, const QString& path) {
+		return GitApi::cloneRepository(url, path);
+	}
 	
 }

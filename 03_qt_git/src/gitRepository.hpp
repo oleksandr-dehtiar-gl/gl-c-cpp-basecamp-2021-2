@@ -18,6 +18,7 @@ namespace gitgui {
 		GitRepository& operator=(const GitRepository&) = delete;
 	public:
 		void startInitVeiwWindow();
+		static QString cloneRepository(const QString& url, const QString& path);
 	public slots:
 		void commitForShowChanges(const SHA& sha);
 		void makeCheckout(const SHA& sha);

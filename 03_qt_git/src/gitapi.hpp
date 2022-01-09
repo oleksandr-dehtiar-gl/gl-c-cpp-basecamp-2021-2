@@ -16,6 +16,7 @@ namespace gitgui {
 		GitApi& operator=(const GitApi&) = delete;
 	private:
 		void setRootPathRepository(const QString &workdir);
+		static bool fatalErrorExist(const QString& gitApiOutString);
 	public:
 		const QString& getWorkDirectory() { return mRootGitPath; }
 		std::list<Branch> branchList();
@@ -24,6 +25,9 @@ namespace gitgui {
 		void checkout(const SHA& sha);
 		Commit getActiveCommit();
 		Branch getActiveBranch();
+		std::list<Commit> getCommitsWhenTextChanged(const QString& text);
+	public:
+		static QString cloneRepository(QString url, QString path);
 	private:
 		Process mProcess;
 		QString mRootGitPath;
