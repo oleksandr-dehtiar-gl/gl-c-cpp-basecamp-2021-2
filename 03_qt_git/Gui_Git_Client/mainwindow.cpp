@@ -133,7 +133,7 @@ void MainWindow::delTempFile()//================
 {
     if(repositoryPath.isEmpty()) return;
     #ifdef _WIN32
-     int i = system("cd /d " + repositoryPath.toUtf8() + " && rm temp.txt ");
+     system("cd /d " + repositoryPath.toUtf8() + " && del temp.txt ");
     #else
      system("cd " + repositoryPath.toUtf8() + " && rm temp.txt");
     #endif
