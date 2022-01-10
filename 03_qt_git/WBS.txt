@@ -1,0 +1,38 @@
+# Git GUI application _(est. 108 hours)_
+
+1.	**Planning** 				 		_(49 hours)_
+    1. Requirements analysis/elaboration 				_(6 hours)_
+    2. Research (APIs, libraries, etc.)     			_(30 hours)_
+        1.  Find information about git filesystem structure             _(7 hours)_
+        2.  Find git commands that can be useful in this task			_(4 hours)_
+        3.  Lerning how does Model/View/Control system work in QT  		_(6 hours)_
+		4.  Lerning view tree model in QT 								_(5 hours) 
+		5.  Lerning how multithreading works in QT 						_(4 hours) 
+		6.  Read about how to execute other process in QT application and 
+			how use pipe for communication between process 				_(4 hours) 
+    3. Documentation prep	                			_(13 hours)_
+        1.  WBS                                     					_(1 hours)_
+        2.  Use-case diagram                        					_(3 hours)_
+        3.  Sequence diagram                        					_(4 hours)_
+        4.  Class diagram                           					_(5 hours)_
+2.	**Developing**						 _(48 hours)_
+    1. Base functionality			       				 _(46 hours)_
+        1. GUI git implamentation													_(6 hours)_ 
+        2. Programming signal/slot and GUI event 									_(3 hours)_
+		3. Implement search .git directory	in select folder						_(3 hours)_
+		4. Implement git model (it is part of MVC)									_(6 hours)_
+        5. Implement view model for git data (commit, branch, index, changes ... )  _(6 hours)_
+		6. Implement methods for execute git api 									_(4 hours)_
+		7. Parse data from methods that execute git api 							_(6 hours)_
+		8. Implement search for some changes 										_(3 hours)_
+		9. Add functionality gui for manage content data 
+			from repository (commit, branch, etc)									_(5 hours)_
+		10. Provide non blocking user interface 									_(4 hours)_
+    2. CMake file                           			_(2 hours)_
+3.	**Testing**					 		_(8 hours)_
+    1.	Windows testing, bug fixing						_(4 hours)_
+    2.	Linux testing, bug fixing						_(4 hours)_
+4.  **Deployment**             	 		_(3 hours)_
+    1.  Readme file                             
+    2.  Commit and merge
+    
