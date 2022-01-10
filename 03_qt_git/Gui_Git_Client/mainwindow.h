@@ -36,12 +36,15 @@ private slots:
 
     void on_pullChanges_clicked();
 
+    void on_showCommitedChanges_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString repositoryPath;
 
     void printList(const QString&);
     void printCommitList(const QString&);
+    void printCommitedChanges(const QString&);
     void delTempFile();
     QString getCommitHash(QString commitInfo);
     QString castPath(QString);

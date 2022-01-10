@@ -102,6 +102,35 @@ void MainWindow::printCommitList(const QString& path)
     }
 }
 
+void MainWindow::printCommitedChanges(const QString& path)
+{
+    std::vector<std::string> results;
+    #ifdef _WIN32
+     std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+    #else
+     std::ifstream in(path.toUtf8() + "/temp.txt");
+    #endif
+    if(!in.is_open())
+    {
+        QMessageBox::warning(this,"Error", "Error open temp file!");
+        return;
+    }
+    else
+    {
+        std::string line, commitedChanges = "";
+        while(getline(in, line))
+        {
+            results.push_back(line);
+        }
+
+        for (auto i : results)
+        {
+           commitedChanges += (i + '\n');
+        }
+        ui->commitedChangesLabel->setText(QString::fromStdString(commitedChanges));
+     }
+}
+
 QString MainWindow::castPath(QString path)
 {
     for (int i = 0; i < path.size(); i++)
@@ -129,7 +158,7 @@ QString MainWindow::getCommitHash(QString commitInfo)
     return commitHash;
 }
 
-void MainWindow::delTempFile()//================
+void MainWindow::delTempFile()
 {
     if(repositoryPath.isEmpty()) return;
     #ifdef _WIN32
@@ -148,7 +177,6 @@ void MainWindow::on_cloneNewRep_clicked()
 {
     if(ui->pathToCloneLine->text().isEmpty())
     {
-        ui->commitedChangesLabel->setText("Enter the path to rep");
         QMessageBox::warning(this,"Error", "Enter the link to the repository you want to copy");
         return;
     }
@@ -349,7 +377,7 @@ void MainWindow::on_checkoutToCommit_clicked()
     {
         if(ui->listWidget->selectedItems().isEmpty())
         {
-            QMessageBox::warning(this,"Error", "Select the branch!");
+            QMessageBox::warning(this,"Error", "Select the commit!");
             return;
         }
 
@@ -434,6 +462,48 @@ void MainWindow::on_pullChanges_clicked()
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
             return;
+        }
+    }
+}
+
+void MainWindow::on_showCommitedChanges_clicked()
+{
+    if(repositoryPath.isEmpty())
+    {
+        QMessageBox::warning(this,"Error", "Select a repository");
+        return;
+    }
+    else
+    {
+        if(ui->listWidget->selectedItems().isEmpty())
+        {
+            QMessageBox::warning(this,"Error", "Select the commit!");
+            return;
+        }
+
+        QString selectedCommit = getCommitHash(ui->listWidget->currentItem()->text());
+
+        #ifdef _WIN32
+         int i = system("cd /d " + repositoryPath.toUtf8() + " && git show " + selectedCommit.toUtf8() + " > temp.txt");
+        #else
+         int i = system("cd " + repositoryPath.toUtf8() + " && git show " + selectedCommit.toUtf8() + " > temp.txt");
+        #endif
+
+        if (i != 0)
+        {
+            QMessageBox::warning(this,"Error", "Something went wrong!");
+            delTempFile();
+            return;
+        }
+        else
+        {
+            QString repositoryPathCopy = castPath(repositoryPath);
+            #ifdef _WIN32
+             printCommitedChanges(repositoryPathCopy);
+            #else
+             printCommitedChanges(repositoryPath);
+            #endif
+            delTempFile();
         }
     }
 }
