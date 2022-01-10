@@ -24,10 +24,16 @@ MainWindow::~MainWindow()
 void MainWindow::printList(const QString& path)
 {
     std::vector<std::string> results;
-    std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+
+    #ifdef _WIN32
+     std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+    #else
+     std::ifstream in(path.toUtf8() + "/temp.txt");
+    #endif
     if(!in.is_open())
     {
         QMessageBox::warning(this,"Error", "Error open temp file!");
+        return;
     }
     else
     {
@@ -51,11 +57,16 @@ void MainWindow::printList(const QString& path)
 void MainWindow::printCommitList(const QString& path)
 {
     std::vector<std::string> results;
-    std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+    #ifdef _WIN32
+     std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+    #else
+     std::ifstream in(path.toUtf8() + "/temp.txt");
+    #endif
     //ui->commitedChangesLabel->setText(path.toUtf8() + "\\\\temp.txt");
     if(!in.is_open())
     {
         QMessageBox::warning(this,"Error", "Error open temp file!");
+        return;
     }
     else
     {
@@ -123,8 +134,6 @@ void MainWindow::delTempFile()//================
     if(repositoryPath.isEmpty()) return;
     #ifdef _WIN32
      int i = system("cd /d " + repositoryPath.toUtf8() + " && rm temp.txt ");
-     ui->commitedChangesLabel->setText(repositoryPath);
-     if(i != 0) QMessageBox::warning(this,"Error", "Error to delete file");
     #else
      system("cd " + repositoryPath.toUtf8() + " && rm temp.txt");
     #endif
@@ -133,7 +142,6 @@ void MainWindow::delTempFile()//================
 void MainWindow::on_moveToRep_clicked()
 {
     repositoryPath = QFileDialog::getExistingDirectory(this, "Please enter path");
-    ui->commitedChangesLabel->setText(repositoryPath);
 }
 
 void MainWindow::on_cloneNewRep_clicked()
@@ -142,24 +150,15 @@ void MainWindow::on_cloneNewRep_clicked()
     {
         ui->commitedChangesLabel->setText("Enter the path to rep");
         QMessageBox::warning(this,"Error", "Enter the link to the repository you want to copy");
+        return;
     }
     else if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
-
-//        QString gitCommand = "git clone " + ui->pathToCloneLine->text();
-//        ui->commitedChangesLabel->setText(gitCommand);
-
-          //system("cd /d C:/Users && dir > pingresult.txt");
-          //system("cd /d " + ui->commitedChangesLabel->text().toUtf8() + " && git --version > tempFile.txt");
-         // std::ifstream in(ui->commitedChangesLabel->text().toUtf8() + "/tempFile.txt");
-
-          //system("dir > pingresult.txt");
-
-
         #ifdef _WIN32
          int i = system("cd /d " + repositoryPath.toUtf8() + " && git clone " + ui->pathToCloneLine->text().toUtf8());
         #else
@@ -169,6 +168,7 @@ void MainWindow::on_cloneNewRep_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
         else
         {
@@ -181,12 +181,13 @@ void MainWindow::on_commitChanges_clicked()
 {
     if(ui->commitNameLine->text().isEmpty())
     {
-        //ui->commitedChangesLabel->setText("Enter the path to rep");
         QMessageBox::warning(this,"Error", "Enter the commit name");
+        return;
     }
     else if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -199,6 +200,7 @@ void MainWindow::on_commitChanges_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
         else
         {
@@ -214,17 +216,20 @@ void MainWindow::on_addNewChangesToIndex_clicked()
     #else
      int i = system("cd " + repositoryPath.toUtf8() + " && git add .");
     #endif
-    if (i != 0)
+     if(repositoryPath.isEmpty())
+     {
+         QMessageBox::warning(this,"Error", "Select a repository");
+         return;
+     }
+    else if (i != 0)
     {
-        QMessageBox::warning(this,"Error", "Something went wrong!");
-    }
-    else if(repositoryPath.isEmpty())
-    {
-        QMessageBox::warning(this,"Error", "Select a repository");
+         QMessageBox::warning(this,"Error", "Something went wrong!");
+         return;
     }
     else
     {
         QMessageBox::information(this,"Info", "Files added to index!");
+        return;
     }
 }
 
@@ -252,8 +257,11 @@ void MainWindow::on_showBranchList_clicked()
         else
         {
             QString repositoryPathCopy = castPath(repositoryPath);
-            ui->commitedChangesLabel->setText(repositoryPathCopy);
-            printList(repositoryPath);
+            #ifdef _WIN32
+             printList(repositoryPathCopy);
+            #else
+             printList(repositoryPath);
+            #endif
             delTempFile();
         }
     }
@@ -320,7 +328,11 @@ void MainWindow::on_ShowCommitList_clicked()
         else
         {
             QString repositoryPathCopy = castPath(repositoryPath);
-            printCommitList(repositoryPathCopy);
+            #ifdef _WIN32
+             printCommitList(repositoryPathCopy);
+            #else
+             printCommitList(repositoryPath);
+            #endif
             delTempFile();
         }
     }
