@@ -38,6 +38,16 @@ namespace gitgui {
 	}
 	
 	// ........................................................
+	QString GitApi::makeCommit(const QString& msg) {
+		QStringList args;
+		args << "commit";
+		args << "-s";
+		args << "-m";
+		if (!msg.isEmpty())
+			args << QString{"\"" + msg + "\""};
+		return mProcess.run(programm, args);
+	}
+	
 	void GitApi::removeFromIndexStage(const std::list<IndexFile> &fileList) {
 		if (fileList.empty())
 			return;
@@ -55,7 +65,6 @@ namespace gitgui {
 		QStringList files;
 		files << "add";
 		for (auto &file : fileList) {
-			QTextStream(stdout) << file.name() << endl;
 			files << file.name();
 		}
 		mProcess.run(programm, files);

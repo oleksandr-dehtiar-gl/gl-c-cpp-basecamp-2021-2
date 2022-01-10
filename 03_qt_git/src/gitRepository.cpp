@@ -76,4 +76,12 @@ namespace gitgui {
 		emit setIndexFiles(mGitApi.getIndexFilesList());
 	}
 	
+	void GitRepository::makeCommit(const QString &msg) {
+		auto statusResult{mGitApi.makeCommit(msg)};
+		if (statusResult.isEmpty())
+			return;
+		startInitVeiwWindow();
+		emit setStatusMakeCommit(statusResult);
+	}
+	
 }

@@ -69,12 +69,13 @@ namespace gitgui {
 		}
 	}
 	
-	// ..............................................................
 	void MainWindow::gitEditRepoConnections() {
 		connect(mGitRepo.get(), &GitRepository::setIndexFiles, mptrEditWindow, &EditGitWindow::setIndexFiles);
 		connect(mptrEditWindow, &EditGitWindow::addToIndexingStage, mGitRepo.get(), &GitRepository::addToIndexingStage);
 		connect(mptrEditWindow, &EditGitWindow::removeFromIndexingStage, mGitRepo.get(), &GitRepository::removeFromIndexingStage);
 		connect(mptrEditWindow, &EditGitWindow::refreshEditWindow, mGitRepo.get(), &GitRepository::refreshEditWindow);
+		connect(mptrEditWindow, &EditGitWindow::makeCommit, mGitRepo.get(), &GitRepository::makeCommit);
+		connect(mGitRepo.get(), &GitRepository::setStatusMakeCommit, mptrEditWindow, &EditGitWindow::setStatusMakeCommit);
 	}
 	
 	void MainWindow::gitViewRepoConnections() {

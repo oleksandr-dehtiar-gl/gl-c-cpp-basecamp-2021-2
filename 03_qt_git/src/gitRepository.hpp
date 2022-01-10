@@ -30,6 +30,7 @@ namespace gitgui {
 		void addToIndexingStage(const std::list<IndexFile> &list);
 		void removeFromIndexingStage(const std::list<IndexFile> &list);
 		void refreshEditWindow();
+		void makeCommit(const QString &msg);
 	signals:
 		// For view window
 		void setModelCommit(std::shared_ptr<ModelCommitTree> model);
@@ -41,6 +42,7 @@ namespace gitgui {
 		void showCommitWithFindText(const QString& contain);
 		// For edit window
 		void setIndexFiles(const std::list<IndexFile> &indexFiles);
+		void setStatusMakeCommit(const QString &status);
 	private:
 		std::shared_ptr<ModelCommitTree> getCommitModelPtr();
 		std::shared_ptr<ModelBranchList> getBranchModelList();

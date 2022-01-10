@@ -38,6 +38,7 @@ namespace gitgui {
 		std::list<IndexFile> getIndexFilesList();
 		void addToIndexStage(const std::list<IndexFile> &fileList);
 		void removeFromIndexStage(const std::list<IndexFile> &fileList);
+		QString makeCommit(const QString& msg);
 	private:
 		Process mProcess;
 		QString mRootGitPath;

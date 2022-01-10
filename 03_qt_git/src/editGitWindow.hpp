@@ -17,22 +17,29 @@ namespace gitgui {
 		void clickedIndexAll();
 		void clickedRestoreAll();
 		void clickedRefresh();
+		void clickedCommit();
+		void clickedClearCommit();
+		void clickedPush();
+		void clickedPull();
 	public slots:
 		void setIndexFiles(const std::list<IndexFile>& listFile);
+		void setStatusMakeCommit(const QString &status);
 	signals:
 		void addToIndexingStage(const std::list<IndexFile> &list);
 		void removeFromIndexingStage(const std::list<IndexFile> &list);
 		void refreshEditWindow();
+		void makeCommit(const QString &msg);
 	private:
-		void setConnections();
-	public:
+		void setConnectionsForIndex();
+		void setConnectionsForCommit();
+	private:
 		QStringListModel *mpModelIndexedFiles;
 		QStringListModel *mpModelNotIndexedFiles;
 		QListView *mpViewIndexedFiles;
 		QListView *mpViewNotIndexedFiles;
-		QPushButton *mpButtonAddAll;
-		QPushButton *mpButtonRestoreAll;
-		QPushButton *mpButtonRefresh;
+	private:
+		QTextEdit *mpCommitStatus;
+		QTextEdit *mpCommitMsg;
 	};
 	
 }
