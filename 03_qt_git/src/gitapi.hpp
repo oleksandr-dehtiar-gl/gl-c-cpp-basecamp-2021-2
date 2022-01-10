@@ -35,6 +35,9 @@ namespace gitgui {
 		Commit getActiveCommit();
 		Branch getActiveBranch();
 		std::list<Commit> getCommitsWhenTextChanged(const QString& text);
+		std::list<IndexFile> getIndexFilesList();
+		void addToIndexStage(const std::list<IndexFile> &fileList);
+		void removeFromIndexStage(const std::list<IndexFile> &fileList);
 	private:
 		Process mProcess;
 		QString mRootGitPath;

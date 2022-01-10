@@ -22,6 +22,7 @@ namespace gitgui {
 		emit setModelBranch(getBranchModelList());
 		emit showActiveCommit(mGitApi.getActiveCommit());
 		emit showActiveBranch(mGitApi.getActiveBranch());
+		emit setIndexFiles(mGitApi.getIndexFilesList());
 	}
 	
 	void GitRepository::commitForShowChanges(const SHA& sha) {
@@ -30,11 +31,8 @@ namespace gitgui {
 	
 	void GitRepository::makeCheckoutCommit(const SHA& sha) {
 		mGitApi.checkout(sha);
-		Branch activeBranch{mGitApi.getActiveBranch()};
-		
 		emit showActiveCommit(mGitApi.getActiveCommit());
-		emit showActiveBranch(activeBranch);
-		// ...
+		emit showActiveBranch(mGitApi.getActiveBranch());
 		emit setModelBranch(getBranchModelList());
 	}
 	
@@ -42,7 +40,6 @@ namespace gitgui {
 		mGitApi.checkout(branch);
 		emit showActiveCommit(mGitApi.getActiveCommit());
 		emit showActiveBranch(mGitApi.getActiveBranch());
-		// ...
 		emit setModelBranch(getBranchModelList());
 	}
 	
@@ -59,6 +56,24 @@ namespace gitgui {
 
 	void GitRepository::showCommitWhereFindText(const SHA& sha) {
 		emit showCommitWithFindText(mGitApi.commitChanges(sha));
+	}
+	
+	void GitRepository::addToIndexingStage(const std::list<IndexFile> &list) {
+		if (list.empty()) 
+			return;
+		mGitApi.addToIndexStage(list);
+		emit setIndexFiles(mGitApi.getIndexFilesList());
+	}
+	
+	void GitRepository::removeFromIndexingStage(const std::list<IndexFile> &list) {
+		if (list.empty())
+			return;
+		mGitApi.removeFromIndexStage(list);
+		emit setIndexFiles(mGitApi.getIndexFilesList());
+	}
+	
+	void GitRepository::refreshEditWindow() {
+		emit setIndexFiles(mGitApi.getIndexFilesList());
 	}
 	
 }

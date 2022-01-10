@@ -46,8 +46,9 @@ namespace gitgui {
 	void MainWindow::createMainRepoWindow() {
 		mptrTab = new QTabWidget;
 		mptrViewWindow = new ViewGitWindow();
+		mptrEditWindow = new EditGitWindow();
 		mptrTab->addTab(mptrViewWindow, QString(tabViewName));
-		mptrTab->addTab(new QLabel(), QString(tabEditName));
+		mptrTab->addTab(mptrEditWindow, QString(tabEditName));
 		this->setCentralWidget(mptrTab);
 		relaxCentralWgt();
 	}
@@ -59,12 +60,21 @@ namespace gitgui {
 			mGitRepo = std::shared_ptr<GitRepository>(new GitRepository(path));
 			createMainRepoWindow();
 			gitViewRepoConnections();
+			gitEditRepoConnections();
 			mGitRepo->startInitVeiwWindow();
 		} catch(std::invalid_argument &except) {
 			QMessageBox::warning(0, "Error!", errorPathRepositoryMsg, QMessageBox::Ok);
 			if (mGitRepo)
 				mGitRepo.reset();
 		}
+	}
+	
+	// ..............................................................
+	void MainWindow::gitEditRepoConnections() {
+		connect(mGitRepo.get(), &GitRepository::setIndexFiles, mptrEditWindow, &EditGitWindow::setIndexFiles);
+		connect(mptrEditWindow, &EditGitWindow::addToIndexingStage, mGitRepo.get(), &GitRepository::addToIndexingStage);
+		connect(mptrEditWindow, &EditGitWindow::removeFromIndexingStage, mGitRepo.get(), &GitRepository::removeFromIndexingStage);
+		connect(mptrEditWindow, &EditGitWindow::refreshEditWindow, mGitRepo.get(), &GitRepository::refreshEditWindow);
 	}
 	
 	void MainWindow::gitViewRepoConnections() {

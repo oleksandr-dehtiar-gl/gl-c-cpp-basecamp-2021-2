@@ -76,8 +76,6 @@ namespace gitgui {
 		
 		// Set evant for context menu
 		mptrViewCommits->setContextMenuPolicy(Qt::CustomContextMenu);
-		
-		// Check commit
 	}
 	
 	void ViewGitWindow::setModelBranch(std::shared_ptr<ModelBranchList> model) {
@@ -87,8 +85,6 @@ namespace gitgui {
 		
 		// Set evant for context menu
 		mptrViewBranches->setContextMenuPolicy(Qt::CustomContextMenu);
-				
-		// Check branch
 	}
 	
 	void ViewGitWindow::setColorLine(const QString& line) {
@@ -215,7 +211,6 @@ namespace gitgui {
 	}
 	
 	void ViewGitWindow::showCommitWithFindText(const QString& contain) {
-		QTextStream(stdout) << "YEEEEES MUTHER FUCKER!!!!" << endl;
 		// showCommitChanges(contain);
 		QStringList commitChanges(contain.split("\n"));
 		mptrCommitChanges->clear();

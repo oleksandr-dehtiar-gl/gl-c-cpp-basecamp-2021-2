@@ -37,6 +37,48 @@ namespace gitgui {
 		return gitutility::getStringMatchRegex(QRegExp("(?![\\s+\\*])\\S+"), str);
 	}
 	
+	// ........................................................
+	void GitApi::removeFromIndexStage(const std::list<IndexFile> &fileList) {
+		if (fileList.empty())
+			return;
+		QStringList files;
+		files << "restore";
+		files << "--staged";
+		for (auto &file : fileList)
+			files << file.name();
+		mProcess.run(programm, files);
+	}
+	
+	void GitApi::addToIndexStage(const std::list<IndexFile> &fileList) {
+		if (fileList.empty())
+			return;
+		QStringList files;
+		files << "add";
+		for (auto &file : fileList) {
+			QTextStream(stdout) << file.name() << endl;
+			files << file.name();
+		}
+		mProcess.run(programm, files);
+	}
+	
+	std::list<IndexFile> GitApi::getIndexFilesList() {
+		QStringList result{mProcess.run(programm, QStringList() << "status" << "-s").split("\n")};
+		std::list<IndexFile> list;
+		for (auto &line : result) {
+			if (line.isEmpty())
+				continue;
+			if (line.size() <= 3)
+				return list;
+			IndexFile file{line.mid(3)};
+			if (line[0] == " " || line[0] == "?")
+				file.setNotIndexed();
+			else
+				file.setIndexed();
+			list.push_back(std::move(file));
+		}
+		return list;
+	}
+	
 	QString GitApi::cloneRepository(QString url, QString path) {
 		if (url.isEmpty())
 			return QString{};
@@ -94,7 +136,7 @@ namespace gitgui {
 		QStringList args;
 		args << "checkout";
 		args << sha.sha();
-		QTextStream(stdout) << "make checkout commit: " << sha.sha() << endl;
+		// QTextStream(stdout) << "make checkout commit: " << sha.sha() << endl;
 		mProcess.run(programm, args);
 	}
 	
@@ -102,7 +144,7 @@ namespace gitgui {
 		QStringList args;
 		args << "checkout";
 		args << branch.name();
-		QTextStream(stdout) << "make checkout branch: " << branch.name() << endl;
+		// QTextStream(stdout) << "make checkout branch: " << branch.name() << endl;
 		mProcess.run(programm, args);
 	}
 	
@@ -117,7 +159,8 @@ namespace gitgui {
 		if (fatalErrorExist(rootPathRepo) || rootPathRepo.isEmpty()) {
 			throw std::invalid_argument(("GitApi::GitApi(const QString&) => No git repo in path: " + workdir).toStdString());
 		}
-		mRootGitPath = workdir;
+		mProcess.setWorkDirectory(rootPathRepo);
+		mRootGitPath = rootPathRepo;
 	}
 
 	std::list<Branch> GitApi::branchList() {

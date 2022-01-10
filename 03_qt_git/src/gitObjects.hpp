@@ -43,6 +43,27 @@ namespace gitgui {
 		QString mBranchName;
 	};
 	
+	enum IndexType {
+		INDEX = 0,
+		NO_INDEX
+	};
+	
+	class IndexFile {
+	public:
+		IndexFile() : mType(IndexType::NO_INDEX) {}
+		explicit IndexFile(const QString& name, IndexType type = IndexType::NO_INDEX) : mName(name), mType(type) {}
+		IndexFile(IndexFile&& file) { mName.swap(file.mName); mType = file.mType; }
+		IndexFile(const IndexFile& file) : mName(file.mName), mType(file.mType) { }
+	public:
+		bool isIndexed() const { return mType == IndexType::INDEX; }
+		void setIndexed() { mType = IndexType::INDEX; }
+		void setNotIndexed() { mType = IndexType::NO_INDEX; }
+		const QString& name() const { return mName; }
+	private:
+		QString mName;
+		IndexType mType;
+	};
+	
 }
 
 #endif // GITOBJECTS_HPP

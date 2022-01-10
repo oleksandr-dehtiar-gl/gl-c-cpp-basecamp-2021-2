@@ -6,6 +6,7 @@
 
 #include "startWindow.hpp"
 #include "viewGitWindow.hpp"
+#include "editGitWindow.hpp"
 #include "gitRepository.hpp"
 
 namespace gitgui {
@@ -28,11 +29,13 @@ namespace gitgui {
 		void createRepository(const QString& path);
 		void cloneNewRepository();
 		void gitViewRepoConnections();
+		void gitEditRepoConnections();
 	private slots:
 		void handleStartMenuSelectItem(int menuType);
 	private:
 		StartWindow *mptrStartWindow = nullptr;
 		ViewGitWindow *mptrViewWindow = nullptr;
+		EditGitWindow *mptrEditWindow = nullptr;
 		QTabWidget *mptrTab = nullptr;
 		std::shared_ptr<GitRepository> mGitRepo;
 	};
