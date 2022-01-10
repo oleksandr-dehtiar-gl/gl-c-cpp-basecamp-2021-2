@@ -13,6 +13,14 @@ int main(int argc, char **argv) {
 #ifdef MAIN_PROG
 	QApplication app(argc, argv);
 
+	//////////////////
+	// QStringList list;
+	// list << "one" << "two" << "thre";
+	// QComboBox box;
+	// box.addItems(list);
+	// box.show();
+	//////////////////
+	
 	gitgui::MainWindow mwin;
 	mwin.show();
 

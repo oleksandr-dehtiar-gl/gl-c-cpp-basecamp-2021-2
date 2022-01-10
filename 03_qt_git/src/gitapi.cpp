@@ -16,32 +16,25 @@ namespace gitgui {
 	bool GitApi::fatalErrorExist(const QString& gitApiOutString) {
 		return gitApiOutString.contains(QRegExp("^fatal"));
 	}
-	
-	QString GitApi::regExpression(const QRegExp& regex, const QString& str) {
-		int pos = regex.indexIn(str);
-		if (pos == -1)
-			return QString{};
-		return regex.cap(0);
-	}
-	
+
 	QString GitApi::getPathFromURL(const QString& url) {
-		return regExpression(QRegExp("([^/]+)(?=.git)"), url);
+		return gitutility::getStringMatchRegex(QRegExp("([^/]+)(?=.git)"), url);
 	}
 	
 	QString GitApi::findStarsActiveBranch(const QString& str) {
-		return regExpression(QRegExp("(^\\*)"), str);
+		return gitutility::getStringMatchRegex(QRegExp("(^\\*)"), str);
 	}
 	
-	QString GitApi::findSHABranch(const QString& str) {
-		return regExpression(QRegExp("([\\d\\w]{40})"), str);
+	QString GitApi::findSHAFromString(const QString& str) {
+		return gitutility::getStringMatchRegex(QRegExp("([\\d\\w]{40})"), str);
 	}
 	
 	QString GitApi::findHEADdetachedBranch(const QString& str) {
-		return regExpression(QRegExp("(\\(HEAD.*\\))"), str);
+		return gitutility::getStringMatchRegex(QRegExp("(\\(HEAD.*\\))"), str);
 	}
 	
 	QString GitApi::findNameBranch(const QString& str) {
-		return regExpression(QRegExp("(?![\\s+\\*])\\S+"), str);
+		return gitutility::getStringMatchRegex(QRegExp("(?![\\s+\\*])\\S+"), str);
 	}
 	
 	QString GitApi::cloneRepository(QString url, QString path) {
@@ -68,8 +61,15 @@ namespace gitgui {
 		args << text;
 		args << "--source";
 		args << "--all";
-		QString resultCommits{mProcess.run(programm, args)};
-		return std::list<Commit>();
+		QStringList resultCommits{mProcess.run(programm, args).split("\n")};
+		std::list<Commit> listCommits;
+		for(auto &line : resultCommits) {
+			if (line.isEmpty())
+				continue;
+			if (line.contains(QRegExp("^\\s*commit")))
+				listCommits.push_back(Commit{findSHAFromString(line)});
+		}
+		return std::move(listCommits);
 	}
 	
 	Branch GitApi::getActiveBranch() {
@@ -87,7 +87,7 @@ namespace gitgui {
 		args << "rev-parse";
 		args << "HEAD";
 		// QStringList actSHA{mProcess.run(programm, args).split('\n')};
-		return Commit{findSHABranch(mProcess.run(programm, args))};
+		return Commit{findSHAFromString(mProcess.run(programm, args))};
 	}
 	
 	void GitApi::checkout(const SHA& sha) {
@@ -139,10 +139,10 @@ namespace gitgui {
 			if (nameBranch.isEmpty()) {
 				nameBranch = findNameBranch(line);
 			}
-			QString shaBranch{findSHABranch(line)};
+			QString shaBranch{findSHAFromString(line)};
 			branches.push_back(Branch{shaBranch, nameBranch});
 		}
-		return branches;
+		return std::move(branches);
 	}
 	
 	QString GitApi::commitChanges(const SHA &sha) {

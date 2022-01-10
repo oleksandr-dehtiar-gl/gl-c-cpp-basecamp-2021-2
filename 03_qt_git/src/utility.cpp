@@ -14,4 +14,11 @@ namespace gitutility {
 		return splitCommits;
 	}
 	
+	QString getStringMatchRegex(const QRegExp& regex, const QString& str) {
+		int pos = regex.indexIn(str);
+		if (pos == -1)
+			return QString{};
+		return regex.cap(0);
+	}
+
 }

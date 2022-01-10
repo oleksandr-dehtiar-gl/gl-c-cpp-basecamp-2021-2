@@ -23,12 +23,16 @@ namespace gitgui {
 		void commitForShowChanges(const SHA& sha);
 		void makeCheckoutCommit(const SHA& sha);
 		void makeCheckoutBranch(Branch branch);
+		void findCommitsThatContainText(const QString& text);
+		void showCommitWhereFindText(const SHA& sha);
 	signals:
 		void setModelCommit(std::shared_ptr<ModelCommitTree> model);
 		void setModelBranch(std::shared_ptr<ModelBranchList> model);
 		void showCommitChanges(const QString& changes);
 		void showActiveCommit(const SHA& sha);
 		void showActiveBranch(const Branch& branch);
+		void commitsThatHaveTextChanges(const std::list<Commit>& commits);
+		void showCommitWithFindText(const QString& contain);
 	private:
 		std::shared_ptr<ModelCommitTree> getCommitModelPtr();
 		std::shared_ptr<ModelBranchList> getBranchModelList();

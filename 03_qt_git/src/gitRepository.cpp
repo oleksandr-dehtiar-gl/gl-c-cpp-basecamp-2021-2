@@ -50,4 +50,15 @@ namespace gitgui {
 		return GitApi::cloneRepository(url, path);
 	}
 	
+	void GitRepository::findCommitsThatContainText(const QString& text) {
+		auto listCommit{mGitApi.getCommitsWhenTextChanged(text)};
+		if (listCommit.empty())
+			return;
+		emit commitsThatHaveTextChanges(listCommit);
+	}
+
+	void GitRepository::showCommitWhereFindText(const SHA& sha) {
+		emit showCommitWithFindText(mGitApi.commitChanges(sha));
+	}
+	
 }

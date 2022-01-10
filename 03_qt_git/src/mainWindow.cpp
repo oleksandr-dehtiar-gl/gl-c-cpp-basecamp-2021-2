@@ -68,14 +68,23 @@ namespace gitgui {
 	}
 	
 	void MainWindow::gitViewRepoConnections() {
+		// Set models
 		connect(mGitRepo.get(), &GitRepository::setModelCommit, mptrViewWindow, &ViewGitWindow::setModelCommit);
 		connect(mGitRepo.get(), &GitRepository::setModelBranch, mptrViewWindow, &ViewGitWindow::setModelBranch);
+		// Show commit changes
 		connect(mGitRepo.get(), &GitRepository::showCommitChanges, mptrViewWindow, &ViewGitWindow::showCommitChanges);
 		connect(mptrViewWindow, &ViewGitWindow::commitForShowChanges, mGitRepo.get(), &GitRepository::commitForShowChanges);
+		// Make checkout
 		connect(mptrViewWindow, &ViewGitWindow::makeCheckoutCommit, mGitRepo.get(), &GitRepository::makeCheckoutCommit);
 		connect(mptrViewWindow, &ViewGitWindow::makeCheckoutBranch, mGitRepo.get(), &GitRepository::makeCheckoutBranch);
+		// Show current working commit and branch
 		connect(mGitRepo.get(), &GitRepository::showActiveCommit, mptrViewWindow, &ViewGitWindow::showActiveCommit);
 		connect(mGitRepo.get(), &GitRepository::showActiveBranch, mptrViewWindow, &ViewGitWindow::showActiveBranch);
+		// Send commits contein text that was changed
+		connect(mptrViewWindow, &ViewGitWindow::findCommitsThatContainText, mGitRepo.get(), &GitRepository::findCommitsThatContainText);
+		connect(mGitRepo.get(), &GitRepository::commitsThatHaveTextChanges, mptrViewWindow, &ViewGitWindow::commitsThatHaveTextChanges);
+		connect(mptrViewWindow, &ViewGitWindow::showCommitWhereFindText, mGitRepo.get(), &GitRepository::showCommitWhereFindText);
+		connect(mGitRepo.get(), &GitRepository::showCommitWithFindText, mptrViewWindow, &ViewGitWindow::showCommitWithFindText);
 	}
 	
 	void MainWindow::cloneNewRepository() {
@@ -96,7 +105,5 @@ namespace gitgui {
 		this->setMinimumSize(600, 400);
 		this->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
 	}
-	
-	
-	
+
 }

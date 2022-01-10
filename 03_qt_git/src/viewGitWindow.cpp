@@ -13,8 +13,9 @@ namespace gitgui {
 		// Search Changes
 		QLabel *ptrSearchLbl = new QLabel("Enter find text changes");
 		mptrSearchField = new QLineEdit;
-		mptrSearchResult = new QLineEdit;
-		mptrSearchResult->setReadOnly(true);
+		mptrSearchResult = new QComboBox;
+		mptrSearchResult->showPopup();
+		mptrFindTextInCommitsButton = new QPushButton("Find Commits");
 		// Status active commit and branch
 		mptrActiveCommit = new QLabel;
 		mptrActiveBranch = new QLabel;
@@ -31,10 +32,14 @@ namespace gitgui {
 		ptrVSplitComChanges->addWidget(ptrHSplitRepo);
 		ptrVSplitComChanges->addWidget(mptrCommitChanges);
 
+		QSplitter *ptrHSplitSerchText = new QSplitter(Qt::Horizontal);
+		ptrHSplitSerchText->addWidget(mptrSearchField);
+		ptrHSplitSerchText->addWidget(mptrSearchResult);
+		
 		QHBoxLayout *ptrHBoxSearchChanges = new QHBoxLayout;
 		ptrHBoxSearchChanges->addWidget(ptrSearchLbl);
-		ptrHBoxSearchChanges->addWidget(mptrSearchField);
-		ptrHBoxSearchChanges->addWidget(mptrSearchResult);
+		ptrHBoxSearchChanges->addWidget(mptrFindTextInCommitsButton);
+		ptrHBoxSearchChanges->addWidget(ptrHSplitSerchText);
 
 		QVBoxLayout *ptrVBRepo = new QVBoxLayout;
 		ptrVBRepo->addWidget(ptrVSplitComChanges);
@@ -42,11 +47,24 @@ namespace gitgui {
 		ptrVBRepo->addWidget(mptrActiveCommit);
 		ptrVBRepo->addLayout(ptrHBoxSearchChanges);
 		
+		setConnections();
+		
+		setLayout(ptrVBRepo);
+	}
+	
+	void ViewGitWindow::setConnections() {
+		connect(mptrSearchResult, SIGNAL(activated(int)), SLOT(selectSearchResultCommit(int)));
+		
+		// Connections for find commits where text was changed
+		connect(mptrFindTextInCommitsButton, SIGNAL(clicked()), SLOT(searchCommitsForSomeText()));
+		
+		// Connections for open context menu and make checkout to select commit or branch
 		connect(mptrViewCommits, SIGNAL(customContextMenuRequested(const QPoint&)),
 				this, SLOT(checkoutCommit(const QPoint&)));
 		connect(mptrViewBranches, SIGNAL(customContextMenuRequested(const QPoint&)),
 				this, SLOT(checkoutBranch(const QPoint&)));
-		setLayout(ptrVBRepo);
+		
+		// Connections for check commits of branches for show changes
 		connect(mptrViewCommits, &QTreeView::doubleClicked, this, &ViewGitWindow::getSHACommit);
 		connect(mptrViewBranches, &QListView::doubleClicked, this, &ViewGitWindow::getSHABranch);
 	}
@@ -73,40 +91,54 @@ namespace gitgui {
 		// Check branch
 	}
 	
+	void ViewGitWindow::setColorLine(const QString& line) {
+		if (line.contains(QRegExp("^---"))) 
+			mptrCommitChanges->setTextColor(Qt::blue);
+		else if (line.contains(QRegExp("^-"))) 
+			mptrCommitChanges->setTextColor(Qt::red);
+		else if (line.contains(QRegExp("^\\+\\+\\+"))) 
+			mptrCommitChanges->setTextColor(Qt::blue);
+		else if (line.contains(QRegExp("^\\+"))) 
+			mptrCommitChanges->setTextColor(Qt::darkGreen);
+	}
+	
+	bool ViewGitWindow::skipLine(const QString& line) {
+		bool ret = false;
+		if (line.contains(QRegExp("\\b(^new|^index)\\b")))
+			ret = true;
+		else if (line.contains(QRegExp("^@@"))) 
+			ret = true;
+		return ret;
+	}
+	
+	int ViewGitWindow::addseparatorLines(const QString& line) {
+		if (line.contains(QRegExp("^diff"))) {
+			mptrCommitChanges->setTextColor(Qt::darkGray);
+			mptrCommitChanges->append(QString());
+			mptrCommitChanges->append(QString("========================================================="));
+			mptrCommitChanges->append(QString());
+			mptrCommitChanges->setTextColor(Qt::blue);
+			return 3; // 3 line add to widget
+		}
+		return 0; // 0 line add to widget
+	}
+	
 	void ViewGitWindow::showCommitChanges(const QString& changes) {
 		QStringList commitChanges(changes.split("\n"));
+		mptrCommitChanges->setTextBackgroundColor(Qt::white);
 		mptrCommitChanges->clear();
 		for(auto &line : commitChanges) {
 			mptrCommitChanges->setTextColor(Qt::black);
-			// Separate between files that has been changed
-			if (line.contains(QRegExp("^diff"))) {
-				mptrCommitChanges->setTextColor(Qt::darkGray);
-				mptrCommitChanges->append(QString());
-				mptrCommitChanges->append(QString("========================================================="));
-				mptrCommitChanges->append(QString());
-				mptrCommitChanges->setTextColor(Qt::blue);
+			// Separate between files
+			addseparatorLines(line);
+			if (skipLine(line)) 
 				continue;
-			}
-			// Set color for each line type
-			if (line.contains(QRegExp("\\b(^new|^index)\\b"))) {
-				continue;
-				mptrCommitChanges->setTextColor(Qt::blue);
-			}
-			else if (line.contains(QRegExp("^---"))) 
-				mptrCommitChanges->setTextColor(Qt::blue);
-			else if (line.contains(QRegExp("^-"))) 
-				mptrCommitChanges->setTextColor(Qt::red);
-			else if (line.contains(QRegExp("^\\+\\+\\+"))) 
-				mptrCommitChanges->setTextColor(Qt::blue);
-			else if (line.contains(QRegExp("^\\+"))) 
-				mptrCommitChanges->setTextColor(Qt::darkGreen);
-			else if (line.contains(QRegExp("^@@"))) 
-				continue;
+			setColorLine(line);
 			mptrCommitChanges->append(line);
 		}
 		QTextCursor textCursor = mptrCommitChanges->textCursor();
 		textCursor.movePosition(QTextCursor::Start, QTextCursor::MoveAnchor,1);
-		mptrCommitChanges->setTextCursor(textCursor);	
+		mptrCommitChanges->setTextCursor(textCursor);
 	}
 	
 	void ViewGitWindow::getSHACommit(const QModelIndex &index) {
@@ -154,6 +186,61 @@ namespace gitgui {
 	void ViewGitWindow::showActiveBranch(const Branch& branch) {
 		mptrActiveBranch->setText(QString{"Branch: "} + branch.name());
 		mptrActiveBranch->setStyleSheet("QLabel { color : darkBlue; }");
+	}
+	
+	void ViewGitWindow::searchCommitsForSomeText() {
+		QString text{mptrSearchField->displayText()};
+		
+		// Clear previos data from combobox and search text
+		QString{}.swap(mLastSearchText);
+		mptrSearchResult->clear();
+		if (text.isEmpty())
+			return;
+		
+		mLastSearchText = text;
+		emit findCommitsThatContainText(text);
+	}
+	
+	void ViewGitWindow::commitsThatHaveTextChanges(const std::list<Commit>& commits) {
+		QStringList resultCommits;
+		for (auto &commit : commits) {
+			resultCommits << commit.sha();
+		}
+		mptrSearchResult->clear();
+		mptrSearchResult->addItems(resultCommits);
+	}
+	
+	void ViewGitWindow::selectSearchResultCommit(int index) {
+		emit showCommitWhereFindText(Commit{mptrSearchResult->itemText(index)});
+	}
+	
+	void ViewGitWindow::showCommitWithFindText(const QString& contain) {
+		QTextStream(stdout) << "YEEEEES MUTHER FUCKER!!!!" << endl;
+		// showCommitChanges(contain);
+		QStringList commitChanges(contain.split("\n"));
+		mptrCommitChanges->clear();
+		int firstMatchLineNumber = 0;
+		int linenum = 1;
+		for(auto &line : commitChanges) {
+			mptrCommitChanges->setTextBackgroundColor(Qt::white);
+			mptrCommitChanges->setTextColor(Qt::black);
+			// Separate between files
+			linenum += addseparatorLines(line);
+			if (skipLine(line)) 
+				continue;
+			setColorLine(line);
+			
+			if (line.contains(QRegExp(mLastSearchText))) {
+				mptrCommitChanges->setTextBackgroundColor(Qt::cyan);
+				if (firstMatchLineNumber == 0)
+					firstMatchLineNumber = linenum;
+			}
+		
+			mptrCommitChanges->append(line);
+			++linenum;
+		}
+		QTextCursor cursor(mptrCommitChanges->document()->findBlockByLineNumber(firstMatchLineNumber - 10));
+		mptrCommitChanges->setTextCursor(cursor);
 	}
 	
 }

@@ -16,12 +16,11 @@ namespace gitgui {
 		GitApi& operator=(const GitApi&) = delete;
 	private:
 		void setRootPathRepository(const QString &workdir);
-		QString findSHABranch(const QString& str);
+		QString findSHAFromString(const QString& str);
 		QString findStarsActiveBranch(const QString& str);
 		QString findHEADdetachedBranch(const QString& str);
 		QString findNameBranch(const QString& str);
 	private: // Static methods
-		static QString regExpression(const QRegExp& regex, const QString& str);
 		static bool fatalErrorExist(const QString& gitApiOutString);
 		static QString getPathFromURL(const QString& url);
 	public:
