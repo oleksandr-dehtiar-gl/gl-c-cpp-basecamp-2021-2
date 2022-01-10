@@ -42,6 +42,7 @@ private:
 
     void printList(const QString&);
     void printCommitList(const QString&);
+    void delTempFile();
     QString getCommitHash(QString commitInfo);
     QString castPath(QString);
 };

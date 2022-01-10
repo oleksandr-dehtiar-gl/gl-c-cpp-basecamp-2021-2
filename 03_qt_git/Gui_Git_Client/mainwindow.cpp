@@ -24,7 +24,7 @@ MainWindow::~MainWindow()
 void MainWindow::printList(const QString& path)
 {
     std::vector<std::string> results;
-    std::ifstream in(path.toUtf8() + "/temp.txt");
+    std::ifstream in(path.toUtf8() + "\\\\temp.txt");
     if(!in.is_open())
     {
         QMessageBox::warning(this,"Error", "Error open temp file!");
@@ -51,7 +51,8 @@ void MainWindow::printList(const QString& path)
 void MainWindow::printCommitList(const QString& path)
 {
     std::vector<std::string> results;
-    std::ifstream in(path.toUtf8() + "/temp.txt");
+    std::ifstream in(path.toUtf8() + "\\\\temp.txt");
+    //ui->commitedChangesLabel->setText(path.toUtf8() + "\\\\temp.txt");
     if(!in.is_open())
     {
         QMessageBox::warning(this,"Error", "Error open temp file!");
@@ -115,6 +116,18 @@ QString MainWindow::getCommitHash(QString commitInfo)
     commitHash.remove(0,7);
 
     return commitHash;
+}
+
+void MainWindow::delTempFile()//================
+{
+    if(repositoryPath.isEmpty()) return;
+    #ifdef _WIN32
+     int i = system("cd /d " + repositoryPath.toUtf8() + " && rm temp.txt ");
+     ui->commitedChangesLabel->setText(repositoryPath);
+     if(i != 0) QMessageBox::warning(this,"Error", "Error to delete file");
+    #else
+     system("cd " + repositoryPath.toUtf8() + " && rm temp.txt");
+    #endif
 }
 
 void MainWindow::on_moveToRep_clicked()
@@ -220,6 +233,7 @@ void MainWindow::on_showBranchList_clicked()
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -232,15 +246,17 @@ void MainWindow::on_showBranchList_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            delTempFile();
+            return;
         }
         else
         {
             QString repositoryPathCopy = castPath(repositoryPath);
             ui->commitedChangesLabel->setText(repositoryPathCopy);
             printList(repositoryPath);
+            delTempFile();
         }
     }
-   //Enter code to delete temp file
 }
 
 void MainWindow::on_checkoutToBranch_clicked()
@@ -248,6 +264,7 @@ void MainWindow::on_checkoutToBranch_clicked()
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -259,6 +276,7 @@ void MainWindow::on_checkoutToBranch_clicked()
         }
 
         QString selectedBranch = ui->listWidget->currentItem()->text();
+
         #ifdef _WIN32
          int i = system("cd /d " + repositoryPath.toUtf8() + " && git checkout " + selectedBranch.toUtf8());
         #else
@@ -269,13 +287,13 @@ void MainWindow::on_checkoutToBranch_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
         else
         {
             on_showBranchList_clicked();
         }
     }
-    //Enter code to delete tempfile
 }
 
 void MainWindow::on_ShowCommitList_clicked()
@@ -283,6 +301,7 @@ void MainWindow::on_ShowCommitList_clicked()
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -295,14 +314,16 @@ void MainWindow::on_ShowCommitList_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            delTempFile();
+            return;
         }
         else
         {
             QString repositoryPathCopy = castPath(repositoryPath);
             printCommitList(repositoryPathCopy);
+            delTempFile();
         }
     }
-   //Enter code to delete temp file
 }
 
 void MainWindow::on_checkoutToCommit_clicked()
@@ -310,6 +331,7 @@ void MainWindow::on_checkoutToCommit_clicked()
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -330,6 +352,7 @@ void MainWindow::on_checkoutToCommit_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
         else
         {
@@ -338,13 +361,12 @@ void MainWindow::on_checkoutToCommit_clicked()
     }
 }
 
-
-
 void MainWindow::on_PushChanges_clicked()
 {
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -366,6 +388,7 @@ void MainWindow::on_PushChanges_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
     }
 }
@@ -375,6 +398,7 @@ void MainWindow::on_pullChanges_clicked()
     if(repositoryPath.isEmpty())
     {
         QMessageBox::warning(this,"Error", "Select a repository");
+        return;
     }
     else
     {
@@ -397,6 +421,7 @@ void MainWindow::on_pullChanges_clicked()
         if (i != 0)
         {
             QMessageBox::warning(this,"Error", "Something went wrong!");
+            return;
         }
     }
 }
