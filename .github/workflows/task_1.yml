@@ -1,0 +1,34 @@
+name: Task 1
+
+on:
+  push:
+    paths:
+      - '01_network_sysapi/**'
+  pull_request:
+    paths:
+      - '01_network_sysapi/**'
+  workflow_dispatch:
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+  PROJECT_DIR: ${{github.workspace}}/01_network_sysapi/
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure CMake
+      run: cmake -B ${{env.PROJECT_DIR}}/build -S ${{env.PROJECT_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Build
+      run: cmake --build ${{env.PROJECT_DIR}}/build --config ${{env.BUILD_TYPE}}
+      
+  build-windows:
+    runs-on: windows-2019
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure CMake
+      run: cmake -B ${{env.PROJECT_DIR}}/build -S ${{env.PROJECT_DIR}} -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    - name: Build
+      run: cmake --build ${{env.PROJECT_DIR}}/build --config ${{env.BUILD_TYPE}}
